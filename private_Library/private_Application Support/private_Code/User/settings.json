@@ -251,10 +251,7 @@
   ],
   "liveshare.languages.allowGuestCommandControl": true,
   "pylint.args": [
-    // missing-module-docstring
-    // missing-class-docstring
-    // missing-function-docstring
-    "--disable=C0114,C0115,C0116"
+    "--disable=missing-module-docstring,missing-class-docstring,missing-function-docstring"
   ],
   "python.analysis.inlayHints.functionReturnTypes": true,
   "python.analysis.inlayHints.variableTypes": true,
