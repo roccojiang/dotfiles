@@ -1,5 +1,5 @@
 {
-  "kitty-scrollback.nvim": { "branch": "main", "commit": "a65c5e38669895f88dbab9b8fb1fede2a6646b45" },
+  "kitty-scrollback.nvim": { "branch": "main", "commit": "5a5edb20885e67ae63b1f0744034f69cc6061c56" },
   "lazy.nvim": { "branch": "main", "commit": "2a9354c7d2368d78cbd5575a51a2af5bd8a6ad01" },
   "tokyonight.nvim": { "branch": "main", "commit": "9a01eada39558dc3243278e6805d90e8dff45dc0" }
 }
