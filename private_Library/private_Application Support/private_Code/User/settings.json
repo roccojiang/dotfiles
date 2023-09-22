@@ -1,0 +1,290 @@
+{
+  "[c]": {
+    "editor.semanticHighlighting.enabled": true,
+    "editor.suggest.insertMode": "replace",
+    "editor.tabSize": 2,
+    "editor.wordBasedSuggestions": false
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[haskell]": {
+    "editor.defaultFormatter": "haskell.haskell",
+    "editor.rulers": [80]
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[makefile]": {
+    "editor.insertSpaces": false
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.tabSize": 4,
+    "editor.rulers": [100]
+  },
+  "[scala]": {
+    "editor.defaultFormatter": "scalameta.metals"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.fontFamily": "Iosevka, MesloLGS NF", // MesloLGS NF for p10k symbols
+  "editor.fontLigatures": true,
+  "editor.fontSize": 14,
+  "editor.inlineSuggest.enabled": true,
+  "editor.lineNumbers": "relative",
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.side": "left",
+  "editor.rulers": [120],
+  "editor.suggestSelection": "first",
+  "editor.tabSize": 2,
+  "errorLens.enabledDiagnosticLevels": ["error", "warning"],
+  "errorLens.replaceLinebreaksSymbol": " ⏎",
+  "files.associations": {
+    "*.hs": "haskell",
+    "*.pacc": "wacc"
+  },
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.factorypath": true,
+    "**/.project": true,
+    "**/.settings": true
+  },
+  "files.watcherExclude": {
+    "**/.ammonite": true,
+    "**/.bloop": true,
+    "**/.metals": true
+  },
+  "git.autofetch": true,
+  "github.copilot.enable": {
+    "*": true,
+    "markdown": true,
+    "plaintext": false,
+    "yaml": false
+  },
+  "gitlens.plusFeatures.enabled": false,
+  "haskell.manageHLS": "GHCup",
+  "koka.languageServer.command": "stack exec -- koka --language-server",
+  "koka.languageServer.cwd": "/Users/roccojiang/Desktop/Programming/Koka/koka",
+  "koka.languageServer.enabled": true,
+  "latex-workshop.latex.build.forceRecipeUsage": false,
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk",
+      "tools": ["latexmk"]
+    },
+    {
+      "name": "latexmk (-shell-escape)",
+      "tools": ["latexmk_shell_escape"]
+    },
+    {
+      "name": "latexmk (latexmkrc)",
+      "tools": ["latexmk_rconly"]
+    },
+    {
+      "name": "latexmk (lualatex)",
+      "tools": ["lualatexmk"]
+    },
+    {
+      "name": "latexmk (xelatex)",
+      "tools": ["xelatexmk"]
+    },
+    {
+      "name": "pdflatex -> bibtex -> pdflatex * 2",
+      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+    },
+    {
+      "name": "Compile Rnw files",
+      "tools": ["rnw2tex", "latexmk"]
+    },
+    {
+      "name": "Compile Jnw files",
+      "tools": ["jnw2tex", "latexmk"]
+    },
+    {
+      "name": "Compile Pnw files",
+      "tools": ["pnw2tex", "latexmk"]
+    },
+    {
+      "name": "tectonic",
+      "tools": ["tectonic"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "latexmk_shell_escape",
+      "command": "latexmk",
+      "args": [
+        "-shell-escape",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "lualatexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-lualatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "xelatexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-xelatex",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "latexmk_rconly",
+      "command": "latexmk",
+      "args": ["%DOC%"],
+      "env": {}
+    },
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": ["%DOCFILE%"],
+      "env": {}
+    },
+    {
+      "name": "rnw2tex",
+      "command": "Rscript",
+      "args": [
+        "-e",
+        "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
+      ],
+      "env": {}
+    },
+    {
+      "name": "jnw2tex",
+      "command": "julia",
+      "args": ["-e", "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"],
+      "env": {}
+    },
+    {
+      "name": "jnw2texminted",
+      "command": "julia",
+      "args": [
+        "-e",
+        "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
+      ],
+      "env": {}
+    },
+    {
+      "name": "pnw2tex",
+      "command": "pweave",
+      "args": ["-f", "tex", "%DOC_EXT%"],
+      "env": {}
+    },
+    {
+      "name": "pnw2texminted",
+      "command": "pweave",
+      "args": ["-f", "texminted", "%DOC_EXT%"],
+      "env": {}
+    },
+    {
+      "name": "tectonic",
+      "command": "tectonic",
+      "args": ["--synctex", "--keep-logs", "%DOC%.tex"],
+      "env": {}
+    }
+  ],
+  "liveshare.languages.allowGuestCommandControl": true,
+  "pylint.args": [
+    // missing-module-docstring
+    // missing-class-docstring
+    // missing-function-docstring
+    "--disable=C0114,C0115,C0116"
+  ],
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.defaultInterpreterPath": "/usr/local/bin/python3",
+  "redhat.telemetry.enabled": false,
+  "remote.SSH.connectTimeout": 30,
+  "remote.SSH.remotePlatform": {
+    "146.169.133.141": "linux",
+    "146.169.141.10": "linux",
+    "lab-machine": "linux",
+    "vertex49.doc.ic.ac.uk": "linux"
+  },
+  "remote.SSH.useLocalServer": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "tlaplus.tlc.modelChecker.options": "-cleanup -dump dot,colorize,actionlabels ${modelName}.dot",
+  "vim.easymotion": true,
+  "vim.highlightedyank.enable": true,
+  "vim.hlsearch": true,
+  "vim.leader": " ",
+  "vim.sneak": true,
+  "vim.useSystemClipboard": true,
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "workbench.colorCustomizations": {
+    // Python typehints
+    "editorInlayHint.foreground": "#444b6a"
+  },
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.sideBar.location": "right",
+  "terminal.external.osxExec": "kitty.app",
+  "terminal.integrated.fontSize": 14,
+  "workbench.colorTheme": "Tokyo Night"
+}
