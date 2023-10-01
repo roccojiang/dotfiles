@@ -91,6 +91,9 @@ export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 export PATH="$PATH:/Users/roccojiang/Library/Application Support/Coursier/bin"
 export PATH="$PATH:/usr/local/sicstus4.6.0/bin"
 
+# Homebrew
+export PATH="/usr/local/sbin:$PATH"
+
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 

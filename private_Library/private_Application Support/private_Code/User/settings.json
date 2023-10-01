@@ -283,5 +283,5 @@
   "workbench.sideBar.location": "right",
   "terminal.external.osxExec": "kitty.app",
   "terminal.integrated.fontSize": 14,
-  "workbench.colorTheme": "Tokyo Night"
+  "workbench.colorTheme": "One Dark"
 }
