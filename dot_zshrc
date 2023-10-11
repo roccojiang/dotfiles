@@ -122,7 +122,7 @@ ZSH_THEME_TERM_TITLE_IDLE="zsh %~"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Default cd search paths
-CDPATH=".:Desktop:Desktop/Programming/Code:Desktop/Imperial/Computing Year 4"
+CDPATH=".:Desktop:Desktop/Programming/Code:Desktop/Imperial"
 
 # Java
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/temurin-17.jdk/Contents/Home"
