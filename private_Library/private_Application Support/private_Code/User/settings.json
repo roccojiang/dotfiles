@@ -283,5 +283,8 @@
   "workbench.sideBar.location": "right",
   "terminal.external.osxExec": "kitty.app",
   "terminal.integrated.fontSize": 14,
-  "workbench.colorTheme": "One Dark"
+  "workbench.colorTheme": "One Dark",
+  "c4.diagram.structurizr.enabled": true,
+  "c4.diagram.plantuml.enabled": true,
+  "editor.minimap.enabled": false
 }
