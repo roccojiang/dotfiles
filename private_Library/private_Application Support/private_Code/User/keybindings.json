@@ -733,6 +733,12 @@
     "command": "dance.selections.clear.secondary",
     "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'"
   },
+  // Non-default keybinding: also use escape to remove multiple cursors
+  {
+    "key": "escape",
+    "command": "dance.selections.clear.secondary",
+    "when": "editorTextFocus && dance.mode == 'normal' || editorTextFocus && dance.mode == 'select'"
+  },
   {
     "key": "alt+,",
     "command": "dance.selections.clear.main",

@@ -187,13 +187,13 @@
           "command": "workbench.action.debug.continue",
           "text": "Continue program execution"
         },
-        "e": {
-          "command": "???",
-          "text": "Enable exception breakpoints"
-        },
         "E": {
           "command": "???",
           "text": "Disable exception breakpoints"
+        },
+        "e": {
+          "command": "???",
+          "text": "Enable exception breakpoints"
         },
         "h": {
           "command": "workbench.action.debug.pause",
@@ -456,21 +456,21 @@
           "command": "workbench.action.showAllEditors",
           "text": "Open buffer picker"
         },
-        "d": {
-          "command": "workbench.actions.view.problems",
-          "text": "Open diagnostic picker"
-        },
         "D": {
           "command": "???",
           "text": "Open workspace diagnostic picker"
         },
-        "f": {
-          "command": "workbench.action.quickOpen",
-          "text": "Open file picker"
+        "d": {
+          "command": "workbench.actions.view.problems",
+          "text": "Open diagnostic picker"
         },
         "F": {
           "command": "???",
           "text": "Open file picker at current working directory"
+        },
+        "f": {
+          "command": "workbench.action.quickOpen",
+          "text": "Open file picker"
         },
         "g": {
           "args": [
@@ -507,16 +507,6 @@
           "command": "editor.action.showHover",
           "text": "Show docs for item under cursor"
         },
-        "p": {
-          "args": [
-            {
-              "handleNewLine": true,
-              "where": "end"
-            }
-          ],
-          "command": "dance.edit.insert",
-          "text": "Paste clipboard after selections"
-        },
         "P": {
           "args": [
             {
@@ -527,6 +517,20 @@
           "command": "dance.edit.insert",
           "text": "Paste clipboard before selections"
         },
+        "p": {
+          "args": [
+            {
+              "handleNewLine": true,
+              "where": "end"
+            }
+          ],
+          "command": "dance.edit.insert",
+          "text": "Paste clipboard after selections"
+        },
+        "r": {
+          "command": "editor.action.rename",
+          "text": "Rename symbol"
+        },
         "R": {
           "args": [
             {
@@ -536,17 +540,13 @@
           "command": "dance.edit.insert",
           "text": "Replace selections by clipboard content"
         },
-        "r": {
-          "command": "editor.action.rename",
-          "text": "Rename symbol"
+        "S": {
+          "command": "workbench.action.showAllSymbols",
+          "text": "Open workspace symbol picker"
         },
         "s": {
           "command": "workbench.action.gotoSymbol",
           "text": "Open symbol picker"
-        },
-        "S": {
-          "command": "workbench.action.showAllSymbols",
-          "text": "Open workspace symbol picker"
         },
         "w": {
           "args": [
@@ -556,23 +556,6 @@
           ],
           "command": "dance.openMenu",
           "text": "Window"
-        },
-        "y": {
-          "args": [
-            {
-              "commands": [
-                [
-                  "dance.selections.saveText",
-                  {
-                    "register": "dquote"
-                  }
-                ],
-                ".modes.set.normal"
-              ]
-            }
-          ],
-          "command": "dance.run",
-          "text": "Join and yank selections to clipboard"
         },
         "Y": {
           "args": [
@@ -590,6 +573,23 @@
           ],
           "command": "dance.run",
           "text": "Yank main selection to clipboard"
+        },
+        "y": {
+          "args": [
+            {
+              "commands": [
+                [
+                  "dance.selections.saveText",
+                  {
+                    "register": "dquote"
+                  }
+                ],
+                ".modes.set.normal"
+              ]
+            }
+          ],
+          "command": "dance.run",
+          "text": "Join and yank selections to clipboard"
         }
       },
       "title": "Space"
@@ -619,13 +619,13 @@
           "command": "???",
           "text": "Goto previous comment"
         },
-        "d": {
-          "command": "editor.action.marker.prevInFiles",
-          "text": "Goto previous diagnostic"
-        },
         "D": {
           "command": "???",
           "text": "Goto first diagnostic"
+        },
+        "d": {
+          "command": "editor.action.marker.prevInFiles",
+          "text": "Goto previous diagnostic"
         },
         "f": {
           "args": [
@@ -640,13 +640,13 @@
           "command": "dance.run",
           "text": "Goto previous function"
         },
-        "g": {
-          "command": "workbench.action.editor.previousChange",
-          "text": "Goto previous change"
-        },
         "G": {
           "command": "???",
           "text": "Goto first change"
+        },
+        "g": {
+          "command": "workbench.action.editor.previousChange",
+          "text": "Goto previous change"
         },
         "p": {
           "args": [
@@ -663,13 +663,13 @@
           "command": "dance.run",
           "text": "Goto previous paragraph"
         },
-        "t": {
-          "command": "???",
-          "text": "Goto previous type definition"
-        },
         "T": {
           "command": "???",
           "text": "Goto previous test"
+        },
+        "t": {
+          "command": "???",
+          "text": "Goto previous type definition"
         }
       },
       "title": "Left bracket"
@@ -955,15 +955,6 @@
           "command": "dance.seek.object",
           "text": "Paragraph"
         },
-        "t": {
-          "args": [
-            {
-              "input": "???"
-            }
-          ],
-          "command": "dance.seek.object",
-          "text": "Type definition"
-        },
         "T": {
           "args": [
             {
@@ -973,14 +964,14 @@
           "command": "dance.seek.object",
           "text": "Test"
         },
-        "w": {
+        "t": {
           "args": [
             {
-              "input": "[\\p{L}_\\d]+(?<after>[^\\S\\n]+)"
+              "input": "???"
             }
           ],
           "command": "dance.seek.object",
-          "text": "Word"
+          "text": "Type definition"
         },
         "W": {
           "args": [
@@ -990,6 +981,15 @@
           ],
           "command": "dance.seek.object",
           "text": "WORD"
+        },
+        "w": {
+          "args": [
+            {
+              "input": "[\\p{L}_\\d]+(?<after>[^\\S\\n]+)"
+            }
+          ],
+          "command": "dance.seek.object",
+          "text": "Word"
         },
         "{}": {
           "args": [
@@ -1027,13 +1027,13 @@
           "command": "???",
           "text": "Goto next comment"
         },
-        "d": {
-          "command": "editor.action.marker.nextInFiles",
-          "text": "Goto next diagnostic"
-        },
         "D": {
           "command": "???",
           "text": "Goto last diagnostic"
+        },
+        "d": {
+          "command": "editor.action.marker.nextInFiles",
+          "text": "Goto next diagnostic"
         },
         "f": {
           "args": [
@@ -1048,13 +1048,13 @@
           "command": "dance.run",
           "text": "Goto next function"
         },
-        "g": {
-          "command": "workbench.action.editor.nextChange",
-          "text": "Goto next change"
-        },
         "G": {
           "command": "???",
           "text": "Goto last change"
+        },
+        "g": {
+          "command": "workbench.action.editor.nextChange",
+          "text": "Goto next change"
         },
         "p": {
           "args": [
@@ -1071,13 +1071,13 @@
           "command": "dance.run",
           "text": "Goto next paragraph"
         },
-        "t": {
-          "command": "???",
-          "text": "Goto next type definition"
-        },
         "T": {
           "command": "???",
           "text": "Goto next test"
+        },
+        "t": {
+          "command": "???",
+          "text": "Goto next type definition"
         }
       },
       "title": "Right bracket"
@@ -1142,13 +1142,13 @@
           "command": "???",
           "text": "Align view middle"
         },
-        "n": {
-          "command": "dance.search.next",
-          "text": "Select next search match"
-        },
         "N": {
           "command": "dance.search.previous",
           "text": "Select previous search match"
+        },
+        "n": {
+          "command": "dance.search.next",
+          "text": "Select next search match"
         },
         "t": {
           "args": [
@@ -1164,45 +1164,45 @@
     },
     "window-hx": {
       "items": {
-        "f": {
-          "command": "???",
-          "text": "Goto files in selection (hsplit)"
-        },
         "F": {
           "command": "???",
           "text": "Goto files in selection (vsplit)"
         },
-        "h": {
-          "command": "workbench.action.focusLeftGroup",
-          "text": "Jump to the split on the left"
+        "f": {
+          "command": "???",
+          "text": "Goto files in selection (hsplit)"
         },
         "H": {
           "command": "workbench.action.moveActiveEditorGroupLeft",
           "text": "Swap with the split to the left"
         },
-        "j": {
-          "command": "workbench.action.focusBelowGroup",
-          "text": "Jump to the split below"
+        "h": {
+          "command": "workbench.action.focusLeftGroup",
+          "text": "Jump to the split on the left"
         },
         "J": {
           "command": "workbench.action.moveActiveEditorGroupDown",
           "text": "Swap with the split below"
         },
-        "k": {
-          "command": "workbench.action.focusAboveGroup",
-          "text": "Jump to the split above"
+        "j": {
+          "command": "workbench.action.focusBelowGroup",
+          "text": "Jump to the split below"
         },
         "K": {
           "command": "workbench.action.moveActiveEditorGroupUp",
           "text": "Swap with the split above"
         },
-        "l": {
-          "command": "workbench.action.focusRightGroup",
-          "text": "Jump to the split to the right"
+        "k": {
+          "command": "workbench.action.focusAboveGroup",
+          "text": "Jump to the split above"
         },
         "L": {
           "command": "workbench.action.moveActiveEditorGroupRight",
           "text": "Swap with the split to the right"
+        },
+        "l": {
+          "command": "workbench.action.focusRightGroup",
+          "text": "Jump to the split to the right"
         },
         "n": {
           "args": [
@@ -1534,6 +1534,7 @@
   "workbench.iconTheme": "material-icon-theme",
   "workbench.sideBar.location": "right",
   "zenMode.fullScreen": false,
-  "zenMode.hideLineNumbers": false
+  "zenMode.hideLineNumbers": false,
+  "editor.autoClosingBrackets": "beforeWhitespace"
   // "rust-analyzer.check.extraArgs": ["--", "-W", "clippy::pedantic"],
 }
