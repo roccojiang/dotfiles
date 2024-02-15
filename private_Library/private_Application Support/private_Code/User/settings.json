@@ -1535,6 +1535,7 @@
   "workbench.sideBar.location": "right",
   "zenMode.fullScreen": false,
   "zenMode.hideLineNumbers": false,
-  "editor.autoClosingBrackets": "beforeWhitespace"
+  "editor.autoClosingBrackets": "beforeWhitespace",
+  "editor.autoClosingQuotes": "beforeWhitespace"
   // "rust-analyzer.check.extraArgs": ["--", "-W", "clippy::pedantic"],
 }
