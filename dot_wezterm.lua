@@ -25,6 +25,8 @@ config.font = wezterm.font_with_fallback {
 config.default_cursor_style = 'SteadyBar'
 config.cursor_thickness = '200%'
 
+config.enable_scroll_bar = true
+
 -- Keybindings
 local openPaneMods = 'SUPER|CTRL'
 
@@ -93,6 +95,17 @@ config.keys = {
     key = 'w',
     mods = 'SUPER|SHIFT',
     action = act.CloseCurrentTab { confirm = true },
+  },
+  -- Jumping to prompts
+  {
+    key = 'UpArrow',
+    mods = 'SUPER',
+    action = act.ScrollToPrompt(-1),
+  },
+  {
+    key = 'DownArrow',
+    mods = 'SUPER',
+    action = act.ScrollToPrompt(1),
   },
 }
 

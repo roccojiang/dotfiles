@@ -1507,7 +1507,9 @@
     "146.169.133.141": "linux",
     "146.169.141.10": "linux",
     "lab-machine": "linux",
-    "vertex49.doc.ic.ac.uk": "linux"
+    "vertex49.doc.ic.ac.uk": "linux",
+    "gpu33.doc.ic.ac.uk": "linux",
+    "lab-gpu-machine": "linux"
   },
   "remote.SSH.useLocalServer": false,
   "rust-analyzer.check.command": "clippy",
@@ -1536,6 +1538,7 @@
   "zenMode.fullScreen": false,
   "zenMode.hideLineNumbers": false,
   "editor.autoClosingBrackets": "beforeWhitespace",
-  "editor.autoClosingQuotes": "beforeWhitespace"
+  "editor.autoClosingQuotes": "beforeWhitespace",
+  "editor.renderWhitespace": "none"
   // "rust-analyzer.check.extraArgs": ["--", "-W", "clippy::pedantic"],
 }
