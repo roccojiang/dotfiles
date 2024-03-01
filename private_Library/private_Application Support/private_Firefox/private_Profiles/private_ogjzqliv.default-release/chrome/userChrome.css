@@ -1,0 +1,24 @@
+/** 
+ * If the firefox-csshacks/ directory does not exist,
+ * clone https://github.com/MrOtherGuy/firefox-csshacks/ in order to import the firefox-csshacks/ stylesheets
+ **/
+
+/* Hide native tabs strip */
+@import url(firefox-csshacks/chrome/window_control_placeholder_support.css);
+@import url(firefox-csshacks/chrome/hide_tabs_toolbar_osx.css);
+
+/* Find bar on top, instead of bottom */
+@import url(firefox-csshacks/chrome/floating_findbar_on_top.css);
+
+/* Sidebery */
+@import url(hacks/sidebery_mods.css);
+
+#sidebar-header {
+  display: none;
+}
+
+/* General */
+#urlbar, #searchbar .searchbar-textbox {
+  font-family: Iosevka !important;
+  font-size: 1rem;
+}

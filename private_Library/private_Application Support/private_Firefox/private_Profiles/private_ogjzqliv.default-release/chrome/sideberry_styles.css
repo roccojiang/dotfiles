@@ -1,0 +1,34 @@
+/* ---------- Copy this into Sidebery styles editor settings ---------- */
+
+/* ----- Some content adapted from https://github.com/Redundakitties/colorful-minimalist ----- */
+
+#root.root {--tabs-font: 1rem Iosevka;}
+#root.root {--frame-bg: #222128;}
+#root.root {--tabs-activated-bg: #403f46;}
+
+/* --- Remove Sidebery navigation bar --- */
+
+.NavigationBar {
+	display: none;
+}
+
+/* --- Tab styles --- */
+
+.Tab[data-discarded="true"] .title { 
+    opacity: 90%;
+}
+
+.Tab[data-unread="true"] .title {
+	font-style: italic;
+}
+
+/* --- Styles for collapsed sidebar (complements behaviour enabled in sidebery_mods.css) --- */
+
+/* Collapse tab indentation when Sidebery is collapsed */
+.ScrollBox:not(:hover) {--tabs-indent: 0px;}
+
+/* Remove tree level marks when Sidebery is collapsed */
+#root[data-tabs-tree-lvl-marks=true] .ScrollBox:not(:hover) .Tab[data-pin=false]:not([data-lvl="0"]) .body:after { display:none; }
+
+/* Don't let pinned tabs flow when Sidebery is collapsed */
+.PinnedTabsBar { flex-wrap: nowrap !important; }
