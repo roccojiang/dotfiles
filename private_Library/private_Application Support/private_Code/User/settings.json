@@ -1509,7 +1509,8 @@
     "lab-machine": "linux",
     "vertex49.doc.ic.ac.uk": "linux",
     "gpu33.doc.ic.ac.uk": "linux",
-    "lab-gpu-machine": "linux"
+    "lab-gpu-machine": "linux",
+    "lab-alt-gpu-machine": "linux"
   },
   "remote.SSH.useLocalServer": false,
   "rust-analyzer.check.command": "clippy",

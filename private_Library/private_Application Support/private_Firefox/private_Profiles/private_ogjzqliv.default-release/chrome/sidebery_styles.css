@@ -14,8 +14,8 @@
 
 /* --- Tab styles --- */
 
-.Tab[data-discarded="true"] .title { 
-    opacity: 90%;
+.Tab[data-discarded="true"] .title {
+    opacity: 100%;  /* not sure what other setting is making this not actually 100% opaque */
 }
 
 .Tab[data-unread="true"] .title {
