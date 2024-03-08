@@ -4,13 +4,8 @@
 
 #root.root {--tabs-font: 1rem Iosevka;}
 #root.root {--frame-bg: #222128;}
+#root.root {--toolbar-bg: #1e1d24;}
 #root.root {--tabs-activated-bg: #403f46;}
-
-/* --- Remove Sidebery navigation bar --- */
-
-.NavigationBar {
-	display: none;
-}
 
 /* --- Tab styles --- */
 
@@ -26,6 +21,8 @@
 
 /* Collapse tab indentation when Sidebery is collapsed */
 .ScrollBox:not(:hover) {--tabs-indent: 0px;}
+
+/* .ScrollBox:not(:hover) {display: none;} */
 
 /* Remove tree level marks when Sidebery is collapsed */
 #root[data-tabs-tree-lvl-marks=true] .ScrollBox:not(:hover) .Tab[data-pin=false]:not([data-lvl="0"]) .body:after { display:none; }
