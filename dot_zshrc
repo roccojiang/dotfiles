@@ -168,10 +168,13 @@ source ~/.config/wezterm/wezterm.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ls='lsd'
+alias l='ls -l'
+alias la='ls -lA'
+alias lt='ls --tree --depth=2 --long'
+alias ltt='ls --tree --depth=3 --long'
+
 alias gcc='gcc-11'
-alias ls='eza'
-alias lt='eza --tree --level=2 --long'
-alias ltt='eza --tree --long' # dangerous, unlimited recursion depth
 alias vi='nvim'
 alias vim='nvim'
 
