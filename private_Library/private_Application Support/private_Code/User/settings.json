@@ -1,8 +1,6 @@
 {
   "[c]": {
-    "editor.semanticHighlighting.enabled": true,
     "editor.suggest.insertMode": "replace",
-    "editor.tabSize": 2,
     "editor.wordBasedSuggestions": "off"
   },
   "[css]": {
@@ -10,7 +8,9 @@
   },
   "[haskell]": {
     "editor.defaultFormatter": "haskell.haskell",
-    "editor.rulers": [80]
+    "editor.rulers": [
+      80
+    ]
   },
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
@@ -46,7 +46,9 @@
   },
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.rulers": [100],
+    "editor.rulers": [
+      100
+    ],
     "editor.tabSize": 4
   },
   "[scala]": {
@@ -59,6 +61,15 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "cSpell.language": "en-GB",
+  // Dance ...............................................................
+  // Adapted from https://github.com/imawizard/dotfiles/tree/windows/scoop/persist/vscode/data/user-data/User
+  // Also see https://github.com/71/dance/issues/299
+  // NOTE: Setting the selectionBehavior to `character` renders selections
+  // being off for some commands. There are keybindings that try to mitigate
+  // that and thus probably won't work with `caret`, examples are:
+  // - w, b, e in select-mode with a reversed selection
+  // - l in normal-mode with a reversed selection
+  // - m m/s/r/d
   "dance.menus": {
     "command-f-hx": {
       "items": {
@@ -187,13 +198,13 @@
           "command": "workbench.action.debug.continue",
           "text": "Continue program execution"
         },
-        "E": {
-          "command": "???",
-          "text": "Disable exception breakpoints"
-        },
         "e": {
           "command": "???",
           "text": "Enable exception breakpoints"
+        },
+        "E": {
+          "command": "???",
+          "text": "Disable exception breakpoints"
         },
         "h": {
           "command": "workbench.action.debug.pause",
@@ -456,21 +467,21 @@
           "command": "workbench.action.showAllEditors",
           "text": "Open buffer picker"
         },
-        "D": {
-          "command": "???",
-          "text": "Open workspace diagnostic picker"
-        },
         "d": {
           "command": "workbench.actions.view.problems",
           "text": "Open diagnostic picker"
         },
-        "F": {
+        "D": {
           "command": "???",
-          "text": "Open file picker at current working directory"
+          "text": "Open workspace diagnostic picker"
         },
         "f": {
           "command": "workbench.action.quickOpen",
           "text": "Open file picker"
+        },
+        "F": {
+          "command": "???",
+          "text": "Open file picker at current working directory"
         },
         "g": {
           "args": [
@@ -507,16 +518,6 @@
           "command": "editor.action.showHover",
           "text": "Show docs for item under cursor"
         },
-        "P": {
-          "args": [
-            {
-              "handleNewLine": true,
-              "where": "start"
-            }
-          ],
-          "command": "dance.edit.insert",
-          "text": "Paste clipboard before selections"
-        },
         "p": {
           "args": [
             {
@@ -527,9 +528,15 @@
           "command": "dance.edit.insert",
           "text": "Paste clipboard after selections"
         },
-        "r": {
-          "command": "editor.action.rename",
-          "text": "Rename symbol"
+        "P": {
+          "args": [
+            {
+              "handleNewLine": true,
+              "where": "start"
+            }
+          ],
+          "command": "dance.edit.insert",
+          "text": "Paste clipboard before selections"
         },
         "R": {
           "args": [
@@ -540,13 +547,17 @@
           "command": "dance.edit.insert",
           "text": "Replace selections by clipboard content"
         },
-        "S": {
-          "command": "workbench.action.showAllSymbols",
-          "text": "Open workspace symbol picker"
+        "r": {
+          "command": "editor.action.rename",
+          "text": "Rename symbol"
         },
         "s": {
           "command": "workbench.action.gotoSymbol",
           "text": "Open symbol picker"
+        },
+        "S": {
+          "command": "workbench.action.showAllSymbols",
+          "text": "Open workspace symbol picker"
         },
         "w": {
           "args": [
@@ -556,23 +567,6 @@
           ],
           "command": "dance.openMenu",
           "text": "Window"
-        },
-        "Y": {
-          "args": [
-            {
-              "commands": [
-                [
-                  "dance.selections.saveText",
-                  {
-                    "register": "dquote"
-                  }
-                ],
-                ".modes.set.normal"
-              ]
-            }
-          ],
-          "command": "dance.run",
-          "text": "Yank main selection to clipboard"
         },
         "y": {
           "args": [
@@ -590,6 +584,23 @@
           ],
           "command": "dance.run",
           "text": "Join and yank selections to clipboard"
+        },
+        "Y": {
+          "args": [
+            {
+              "commands": [
+                [
+                  "dance.selections.saveText",
+                  {
+                    "register": "dquote"
+                  }
+                ],
+                ".modes.set.normal"
+              ]
+            }
+          ],
+          "command": "dance.run",
+          "text": "Yank main selection to clipboard"
         }
       },
       "title": "Space"
@@ -619,13 +630,13 @@
           "command": "???",
           "text": "Goto previous comment"
         },
-        "D": {
-          "command": "???",
-          "text": "Goto first diagnostic"
-        },
         "d": {
           "command": "editor.action.marker.prevInFiles",
           "text": "Goto previous diagnostic"
+        },
+        "D": {
+          "command": "???",
+          "text": "Goto first diagnostic"
         },
         "f": {
           "args": [
@@ -640,13 +651,13 @@
           "command": "dance.run",
           "text": "Goto previous function"
         },
-        "G": {
-          "command": "???",
-          "text": "Goto first change"
-        },
         "g": {
           "command": "workbench.action.editor.previousChange",
           "text": "Goto previous change"
+        },
+        "G": {
+          "command": "???",
+          "text": "Goto first change"
         },
         "p": {
           "args": [
@@ -663,13 +674,13 @@
           "command": "dance.run",
           "text": "Goto previous paragraph"
         },
-        "T": {
-          "command": "???",
-          "text": "Goto previous test"
-        },
         "t": {
           "command": "???",
           "text": "Goto previous type definition"
+        },
+        "T": {
+          "command": "???",
+          "text": "Goto previous test"
         }
       },
       "title": "Left bracket"
@@ -955,15 +966,6 @@
           "command": "dance.seek.object",
           "text": "Paragraph"
         },
-        "T": {
-          "args": [
-            {
-              "input": "???"
-            }
-          ],
-          "command": "dance.seek.object",
-          "text": "Test"
-        },
         "t": {
           "args": [
             {
@@ -973,14 +975,14 @@
           "command": "dance.seek.object",
           "text": "Type definition"
         },
-        "W": {
+        "T": {
           "args": [
             {
-              "input": "[\\S]+(?<after>[^\\S\\n]+)"
+              "input": "???"
             }
           ],
           "command": "dance.seek.object",
-          "text": "WORD"
+          "text": "Test"
         },
         "w": {
           "args": [
@@ -990,6 +992,15 @@
           ],
           "command": "dance.seek.object",
           "text": "Word"
+        },
+        "W": {
+          "args": [
+            {
+              "input": "[\\S]+(?<after>[^\\S\\n]+)"
+            }
+          ],
+          "command": "dance.seek.object",
+          "text": "WORD"
         },
         "{}": {
           "args": [
@@ -1027,13 +1038,13 @@
           "command": "???",
           "text": "Goto next comment"
         },
-        "D": {
-          "command": "???",
-          "text": "Goto last diagnostic"
-        },
         "d": {
           "command": "editor.action.marker.nextInFiles",
           "text": "Goto next diagnostic"
+        },
+        "D": {
+          "command": "???",
+          "text": "Goto last diagnostic"
         },
         "f": {
           "args": [
@@ -1048,13 +1059,13 @@
           "command": "dance.run",
           "text": "Goto next function"
         },
-        "G": {
-          "command": "???",
-          "text": "Goto last change"
-        },
         "g": {
           "command": "workbench.action.editor.nextChange",
           "text": "Goto next change"
+        },
+        "G": {
+          "command": "???",
+          "text": "Goto last change"
         },
         "p": {
           "args": [
@@ -1071,13 +1082,13 @@
           "command": "dance.run",
           "text": "Goto next paragraph"
         },
-        "T": {
-          "command": "???",
-          "text": "Goto next test"
-        },
         "t": {
           "command": "???",
           "text": "Goto next type definition"
+        },
+        "T": {
+          "command": "???",
+          "text": "Goto next test"
         }
       },
       "title": "Right bracket"
@@ -1142,13 +1153,13 @@
           "command": "???",
           "text": "Align view middle"
         },
-        "N": {
-          "command": "dance.search.previous",
-          "text": "Select previous search match"
-        },
         "n": {
           "command": "dance.search.next",
           "text": "Select next search match"
+        },
+        "N": {
+          "command": "dance.search.previous",
+          "text": "Select previous search match"
         },
         "t": {
           "args": [
@@ -1164,45 +1175,45 @@
     },
     "window-hx": {
       "items": {
-        "F": {
-          "command": "???",
-          "text": "Goto files in selection (vsplit)"
-        },
         "f": {
           "command": "???",
           "text": "Goto files in selection (hsplit)"
         },
-        "H": {
-          "command": "workbench.action.moveActiveEditorGroupLeft",
-          "text": "Swap with the split to the left"
+        "F": {
+          "command": "???",
+          "text": "Goto files in selection (vsplit)"
         },
         "h": {
           "command": "workbench.action.focusLeftGroup",
           "text": "Jump to the split on the left"
         },
-        "J": {
-          "command": "workbench.action.moveActiveEditorGroupDown",
-          "text": "Swap with the split below"
+        "H": {
+          "command": "workbench.action.moveActiveEditorGroupLeft",
+          "text": "Swap with the split to the left"
         },
         "j": {
           "command": "workbench.action.focusBelowGroup",
           "text": "Jump to the split below"
         },
-        "K": {
-          "command": "workbench.action.moveActiveEditorGroupUp",
-          "text": "Swap with the split above"
+        "J": {
+          "command": "workbench.action.moveActiveEditorGroupDown",
+          "text": "Swap with the split below"
         },
         "k": {
           "command": "workbench.action.focusAboveGroup",
           "text": "Jump to the split above"
         },
-        "L": {
-          "command": "workbench.action.moveActiveEditorGroupRight",
-          "text": "Swap with the split to the right"
+        "K": {
+          "command": "workbench.action.moveActiveEditorGroupUp",
+          "text": "Swap with the split above"
         },
         "l": {
           "command": "workbench.action.focusRightGroup",
           "text": "Jump to the split to the right"
+        },
+        "L": {
+          "command": "workbench.action.moveActiveEditorGroupRight",
+          "text": "Swap with the split to the right"
         },
         "n": {
           "args": [
@@ -1249,15 +1260,6 @@
       "title": "View"
     }
   },
-  // Dance ...............................................................
-  // Adapted from https://github.com/imawizard/dotfiles/tree/windows/scoop/persist/vscode/data/user-data/User
-  // Also see https://github.com/71/dance/issues/299
-  // NOTE: Setting the selectionBehavior to `character` renders selections
-  // being off for some commands. There are keybindings that try to mitigate
-  // that and thus probably won't work with `caret`, examples are:
-  // - w, b, e in select-mode with a reversed selection
-  // - l in normal-mode with a reversed selection
-  // - m m/s/r/d
   "dance.modes": {
     "input": {
       "inheritFrom": "insert"
@@ -1290,16 +1292,23 @@
               [
                 "mode-did-change",
                 {
-                  "include": ["normal", "select"]
+                  "include": [
+                    "normal",
+                    "select"
+                  ]
                 }
               ],
-              ["selections-did-change"]
+              [
+                "selections-did-change"
+              ]
             ]
           }
         ]
       ]
     }
   },
+  "editor.autoClosingBrackets": "beforeWhitespace",
+  "editor.autoClosingQuotes": "beforeWhitespace",
   "editor.fontFamily": "Iosevka, MesloLGS NF", // MesloLGS NF for p10k symbols
   "editor.fontLigatures": true,
   "editor.fontSize": 14,
@@ -1308,10 +1317,60 @@
   "editor.minimap.enabled": false,
   "editor.minimap.renderCharacters": false,
   "editor.minimap.side": "left",
-  "editor.rulers": [120],
+  "editor.renderWhitespace": "none",
+  "editor.rulers": [
+    120
+  ],
+  "editor.semanticTokenColorCustomizations": {
+    // Extra semantic highlighting configuration, similar to the version used in Helix editor:
+    // https://github.com/helix-editor/helix/blob/master/runtime/themes/tokyonight.toml
+    "[Tokyo Night]": {
+      "enabled": true,
+      "rules": {
+        "class": {
+          "foreground": "#2ac3de"
+        },
+        "class.abstract": {
+          "foreground": "#7dcfff"
+        },
+        "enum": {
+          "foreground": "#2ac3de"
+        },
+        "enum.abstract": {
+          "foreground": "#7dcfff"
+        },
+        "interface": {
+          "foreground": "#2ac3de"
+        },
+        "interface.abstract": {
+          "foreground": "#7dcfff"
+        },
+        "parameter": {
+          "fontStyle": "italic",
+          "foreground": "#e0af68"
+        },
+        "struct": {
+          "foreground": "#2ac3de"
+        },
+        "struct.abstract": {
+          "foreground": "#7dcfff"
+        },
+        "type": {
+          "foreground": "#2ac3de"
+        },
+        "type.abstract": {
+          "foreground": "#7dcfff"
+        }
+      }
+    }
+  },
+  // "rust-analyzer.check.extraArgs": ["--", "-W", "clippy::pedantic"],
   "editor.suggestSelection": "first",
   "editor.tabSize": 2,
-  "errorLens.enabledDiagnosticLevels": ["error", "warning"],
+  "errorLens.enabledDiagnosticLevels": [
+    "error",
+    "warning"
+  ],
   "errorLens.replaceLinebreaksSymbol": " ⏎",
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
@@ -1344,46 +1403,67 @@
   "grammarly.config.suggestionCategories.informalPronounsAcademic": "on",
   "grammarly.config.suggestionCategories.oxfordComma": "on",
   "haskell.manageHLS": "GHCup",
-  "koka.languageServer.command": "stack exec -- koka --language-server",
-  "koka.languageServer.cwd": "/Users/roccojiang/Desktop/Programming/Koka/koka",
-  "koka.languageServer.enabled": true,
   "latex-workshop.latex.build.forceRecipeUsage": false,
   "latex-workshop.latex.recipes": [
     {
       "name": "latexmk",
-      "tools": ["latexmk"]
+      "tools": [
+        "latexmk"
+      ]
     },
     {
       "name": "latexmk (latexmkrc)",
-      "tools": ["latexmk_rconly"]
+      "tools": [
+        "latexmk_rconly"
+      ]
     },
     {
       "name": "latexmk (lualatex)",
-      "tools": ["lualatexmk"]
+      "tools": [
+        "lualatexmk"
+      ]
     },
     {
       "name": "latexmk (xelatex)",
-      "tools": ["xelatexmk"]
+      "tools": [
+        "xelatexmk"
+      ]
     },
     {
       "name": "pdflatex -> bibtex -> pdflatex * 2",
-      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+      "tools": [
+        "pdflatex",
+        "bibtex",
+        "pdflatex",
+        "pdflatex"
+      ]
     },
     {
       "name": "Compile Rnw files",
-      "tools": ["rnw2tex", "latexmk"]
+      "tools": [
+        "rnw2tex",
+        "latexmk"
+      ]
     },
     {
       "name": "Compile Jnw files",
-      "tools": ["jnw2tex", "latexmk"]
+      "tools": [
+        "jnw2tex",
+        "latexmk"
+      ]
     },
     {
       "name": "Compile Pnw files",
-      "tools": ["pnw2tex", "latexmk"]
+      "tools": [
+        "pnw2tex",
+        "latexmk"
+      ]
     },
     {
       "name": "tectonic",
-      "tools": ["tectonic"]
+      "tools": [
+        "tectonic"
+      ]
     }
   ],
   "latex-workshop.latex.tools": [
@@ -1428,7 +1508,9 @@
       "name": "xelatexmk"
     },
     {
-      "args": ["%DOC%"],
+      "args": [
+        "%DOC%"
+      ],
       "command": "latexmk",
       "env": {},
       "name": "latexmk_rconly"
@@ -1445,7 +1527,9 @@
       "name": "pdflatex"
     },
     {
-      "args": ["%DOCFILE%"],
+      "args": [
+        "%DOCFILE%"
+      ],
       "command": "bibtex",
       "env": {},
       "name": "bibtex"
@@ -1460,7 +1544,10 @@
       "name": "rnw2tex"
     },
     {
-      "args": ["-e", "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"],
+      "args": [
+        "-e",
+        "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"
+      ],
       "command": "julia",
       "env": {},
       "name": "jnw2tex"
@@ -1475,19 +1562,31 @@
       "name": "jnw2texminted"
     },
     {
-      "args": ["-f", "tex", "%DOC_EXT%"],
+      "args": [
+        "-f",
+        "tex",
+        "%DOC_EXT%"
+      ],
       "command": "pweave",
       "env": {},
       "name": "pnw2tex"
     },
     {
-      "args": ["-f", "texminted", "%DOC_EXT%"],
+      "args": [
+        "-f",
+        "texminted",
+        "%DOC_EXT%"
+      ],
       "command": "pweave",
       "env": {},
       "name": "pnw2texminted"
     },
     {
-      "args": ["--synctex", "--keep-logs", "%DOC%.tex"],
+      "args": [
+        "--synctex",
+        "--keep-logs",
+        "%DOC%.tex"
+      ],
       "command": "tectonic",
       "env": {},
       "name": "tectonic"
@@ -1504,21 +1603,16 @@
   "redhat.telemetry.enabled": false,
   "remote.SSH.connectTimeout": 30,
   "remote.SSH.remotePlatform": {
-    "146.169.133.141": "linux",
-    "146.169.141.10": "linux",
-    "lab-machine": "linux",
-    "vertex49.doc.ic.ac.uk": "linux",
-    "gpu33.doc.ic.ac.uk": "linux",
+    "lab-alt-gpu-machine": "linux",
     "lab-gpu-machine": "linux",
-    "lab-alt-gpu-machine": "linux"
+    "lab-machine": "linux"
   },
   "remote.SSH.useLocalServer": false,
   "rust-analyzer.check.command": "clippy",
   "security.workspace.trust.untrustedFiles": "open",
-  "terminal.external.osxExec": "kitty.app",
   "terminal.integrated.fontSize": 14,
   "theme-by-language.themes": {
-    "*": "Tokyo Night Frameless",
+    "*": "Tokyo Night",
     "bibtex": "Solarized Light",
     "latex": "Solarized Light"
   },
@@ -1533,13 +1627,8 @@
     // Python typehints
     "editorInlayHint.foreground": "#444b6a"
   },
-  "workbench.colorTheme": "Tokyo Night Frameless",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.sideBar.location": "right",
   "zenMode.fullScreen": false,
-  "zenMode.hideLineNumbers": false,
-  "editor.autoClosingBrackets": "beforeWhitespace",
-  "editor.autoClosingQuotes": "beforeWhitespace",
-  "editor.renderWhitespace": "none"
-  // "rust-analyzer.check.extraArgs": ["--", "-W", "clippy::pedantic"],
+  "zenMode.hideLineNumbers": false
 }
