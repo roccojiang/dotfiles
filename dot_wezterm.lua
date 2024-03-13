@@ -52,7 +52,11 @@ config.keys = {
     mods = 'SUPER',
     action = act.SendKey { key = 'e', mods = 'CTRL' },
   },
-
+  {
+    key = 'Backspace',
+    mods = 'SUPER',
+    action = act.SendKey { key = 'u', mods = 'CTRL' },
+  },
   -- Opening panes
   {
     key = 'LeftArrow',
