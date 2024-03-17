@@ -69,7 +69,7 @@ export EDITOR="$VISUAL"
 export CDPATH=".:Desktop:Desktop/Programming/Code:Desktop/Imperial"
 
 ## ghcup-env
-[ -f "/Users/roccojiang/.ghcup/env" ] && source "/Users/roccojiang/.ghcup/env"
+[ -f "/Users/roccojiang/.ghcup/env" ] && . "/Users/roccojiang/.ghcup/env"
 
 # Source additional local files if they exist.
 z4h source ~/.env.zsh
@@ -99,6 +99,16 @@ autoload -Uz zmv
 function md() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd -- "$1" }
 compdef _directories md
 
+## yazi shell wrapper to change cwd after exiting yazi
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
 # Define named directories: ~w <=> Windows home directory on WSL.
 [[ -z $z4h_win_home ]] || hash -d w=$z4h_win_home
 
@@ -121,6 +131,9 @@ alias vim='nvim'
 setopt glob_dots     # no special treatment for file names with a leading dot
 setopt no_auto_menu  # require an extra TAB press to open the completion menu
 
-# SDKMAN! initialisation snippet, must be at the end of the file
+## zoxide
+eval "$(zoxide init zsh)"
+
+## SDKMAN! initialisation snippet, must be at the end of the file
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
