@@ -11,7 +11,7 @@
 @import url(firefox-csshacks/chrome/floating_findbar_on_top.css);
 
 /* Sidebery */
-@import url(hacks/sidebery_mods.css);
+/* @import url(hacks/sidebery_mods.css); */
 
 #sidebar-header {
   display: none;

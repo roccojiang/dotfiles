@@ -20,12 +20,10 @@
 /* --- Styles for collapsed sidebar (complements behaviour enabled in sidebery_mods.css) --- */
 
 /* Collapse tab indentation when Sidebery is collapsed */
-.ScrollBox:not(:hover) {--tabs-indent: 0px;}
-
-/* .ScrollBox:not(:hover) {display: none;} */
+/* .ScrollBox:not(:hover) {--tabs-indent: 0px;} */
 
 /* Remove tree level marks when Sidebery is collapsed */
-#root[data-tabs-tree-lvl-marks=true] .ScrollBox:not(:hover) .Tab[data-pin=false]:not([data-lvl="0"]) .body:after { display:none; }
+/* #root[data-tabs-tree-lvl-marks=true] .ScrollBox:not(:hover) .Tab[data-pin=false]:not([data-lvl="0"]) .body:after { display:none; } */
 
 /* Don't let pinned tabs flow when Sidebery is collapsed */
-.PinnedTabsBar { flex-wrap: nowrap !important; }
+/* .PinnedTabsBar { flex-wrap: nowrap !important; } */
