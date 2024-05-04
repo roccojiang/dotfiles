@@ -64,12 +64,6 @@
   // Dance ...............................................................
   // Adapted from https://github.com/imawizard/dotfiles/tree/windows/scoop/persist/vscode/data/user-data/User
   // Also see https://github.com/71/dance/issues/299
-  // NOTE: Setting the selectionBehavior to `character` renders selections
-  // being off for some commands. There are keybindings that try to mitigate
-  // that and thus probably won't work with `caret`, examples are:
-  // - w, b, e in select-mode with a reversed selection
-  // - l in normal-mode with a reversed selection
-  // - m m/s/r/d
   "dance.menus": {
     "command-f-hx": {
       "items": {
@@ -123,6 +117,15 @@
           "command": "dance.openMenu",
           "text": ":fmt"
         },
+        "q": {
+          "args": [
+            {
+              "menu": "command-q-hx"
+            }
+          ],
+          "command": "dance.openMenu",
+          "text": ":q :qa"
+        },
         "w": {
           "args": [
             {
@@ -131,6 +134,42 @@
           ],
           "command": "dance.openMenu",
           "text": ":w :wa :wq"
+        },
+        "x": {
+          "args": [
+            {
+              "menu": "command-x-hx"
+            }
+          ],
+          "command": "dance.openMenu",
+          "text": ":x :xa"
+        }
+      },
+      "title": "Command mode"
+    },
+    "command-q-hx": {
+      "items": {
+        "<CR>": {
+          "command": "workbench.action.closeEditorsAndGroup",
+          "text": "Close the current view"
+        },
+        "a": {
+          "args": [
+            {
+              "menu": "command-qa-hx"
+            }
+          ],
+          "command": "dance.openMenu",
+          "text": ":qa"
+        }
+      },
+      "title": "Command mode"
+    },
+    "command-qa-hx": {
+      "items": {
+        "<CR>": {
+          "command": "workbench.action.closeWindow",
+          "text": "Close all views"
         }
       },
       "title": "Command mode"
@@ -188,6 +227,49 @@
       },
       "title": "Command mode"
     },
+    "command-x-hx": {
+      "items": {
+        "<CR>": {
+          "args": [
+            {
+              "commands": [
+                "workbench.action.files.save",
+                "workbench.action.closeEditorsAndGroup"
+              ]
+            }
+          ],
+          "command": "dance.run",
+          "text": "Write changes to disk and close the current view"
+        },
+        "a": {
+          "args": [
+            {
+              "menu": "command-xa-hx"
+            }
+          ],
+          "command": "dance.openMenu",
+          "text": ":xa"
+        }
+      },
+      "title": "Command mode"
+    },
+    "command-xa-hx": {
+      "items": {
+        "<CR>": {
+          "args": [
+            {
+              "commands": [
+                "workbench.action.files.save",
+                "workbench.action.closeWindow"
+              ]
+            }
+          ],
+          "command": "dance.run",
+          "text": "Write changes to disk and close all views"
+        }
+      },
+      "title": "Command mode"
+    },
     "debug-hx": {
       "items": {
         "b": {
@@ -198,13 +280,13 @@
           "command": "workbench.action.debug.continue",
           "text": "Continue program execution"
         },
-        "e": {
-          "command": "???",
-          "text": "Enable exception breakpoints"
-        },
         "E": {
           "command": "???",
           "text": "Disable exception breakpoints"
+        },
+        "e": {
+          "command": "???",
+          "text": "Enable exception breakpoints"
         },
         "h": {
           "command": "workbench.action.debug.pause",
@@ -231,9 +313,9 @@
           "text": "Restart debug session"
         },
         /*
-              "C-c": { "text": "Edit breakpoint condition on current line",   "command": "???" },
-              "C-l": { "text": "Edit breakpoint log message on current line", "command": "???" },
-              */
+            "C-c": { "text": "Edit breakpoint condition on current line",   "command": "???" },
+            "C-l": { "text": "Edit breakpoint log message on current line", "command": "???" },
+            */
         "s": {
           "args": [
             {
@@ -413,10 +495,6 @@
           "command": "???",
           "text": "last modified file"
         },
-        "n": {
-          "command": "workbench.action.nextEditor",
-          "text": "next buffer"
-        },
         "p": {
           "command": "workbench.action.previousEditor",
           "text": "previous buffer"
@@ -467,21 +545,21 @@
           "command": "workbench.action.showAllEditors",
           "text": "Open buffer picker"
         },
-        "d": {
-          "command": "workbench.actions.view.problems",
-          "text": "Open diagnostic picker"
-        },
         "D": {
           "command": "???",
           "text": "Open workspace diagnostic picker"
         },
-        "f": {
-          "command": "workbench.action.quickOpen",
-          "text": "Open file picker"
+        "d": {
+          "command": "workbench.actions.view.problems",
+          "text": "Open diagnostic picker"
         },
         "F": {
           "command": "???",
           "text": "Open file picker at current working directory"
+        },
+        "f": {
+          "command": "workbench.action.quickOpen",
+          "text": "Open file picker"
         },
         "g": {
           "args": [
@@ -518,16 +596,6 @@
           "command": "editor.action.showHover",
           "text": "Show docs for item under cursor"
         },
-        "p": {
-          "args": [
-            {
-              "handleNewLine": true,
-              "where": "end"
-            }
-          ],
-          "command": "dance.edit.insert",
-          "text": "Paste clipboard after selections"
-        },
         "P": {
           "args": [
             {
@@ -538,6 +606,20 @@
           "command": "dance.edit.insert",
           "text": "Paste clipboard before selections"
         },
+        "p": {
+          "args": [
+            {
+              "handleNewLine": true,
+              "where": "end"
+            }
+          ],
+          "command": "dance.edit.insert",
+          "text": "Paste clipboard after selections"
+        },
+        "r": {
+          "command": "editor.action.rename",
+          "text": "Rename symbol"
+        },
         "R": {
           "args": [
             {
@@ -547,17 +629,13 @@
           "command": "dance.edit.insert",
           "text": "Replace selections by clipboard content"
         },
-        "r": {
-          "command": "editor.action.rename",
-          "text": "Rename symbol"
+        "S": {
+          "command": "workbench.action.showAllSymbols",
+          "text": "Open workspace symbol picker"
         },
         "s": {
           "command": "workbench.action.gotoSymbol",
           "text": "Open symbol picker"
-        },
-        "S": {
-          "command": "workbench.action.showAllSymbols",
-          "text": "Open workspace symbol picker"
         },
         "w": {
           "args": [
@@ -567,23 +645,6 @@
           ],
           "command": "dance.openMenu",
           "text": "Window"
-        },
-        "y": {
-          "args": [
-            {
-              "commands": [
-                [
-                  "dance.selections.saveText",
-                  {
-                    "register": "dquote"
-                  }
-                ],
-                ".modes.set.normal"
-              ]
-            }
-          ],
-          "command": "dance.run",
-          "text": "Join and yank selections to clipboard"
         },
         "Y": {
           "args": [
@@ -601,6 +662,23 @@
           ],
           "command": "dance.run",
           "text": "Yank main selection to clipboard"
+        },
+        "y": {
+          "args": [
+            {
+              "commands": [
+                [
+                  "dance.selections.saveText",
+                  {
+                    "register": "dquote"
+                  }
+                ],
+                ".modes.set.normal"
+              ]
+            }
+          ],
+          "command": "dance.run",
+          "text": "Join and yank selections to clipboard"
         }
       },
       "title": "Space"
@@ -630,13 +708,13 @@
           "command": "???",
           "text": "Goto previous comment"
         },
-        "d": {
-          "command": "editor.action.marker.prevInFiles",
-          "text": "Goto previous diagnostic"
-        },
         "D": {
           "command": "???",
           "text": "Goto first diagnostic"
+        },
+        "d": {
+          "command": "editor.action.marker.prevInFiles",
+          "text": "Goto previous diagnostic"
         },
         "f": {
           "args": [
@@ -651,13 +729,13 @@
           "command": "dance.run",
           "text": "Goto previous function"
         },
-        "g": {
-          "command": "workbench.action.editor.previousChange",
-          "text": "Goto previous change"
-        },
         "G": {
           "command": "???",
           "text": "Goto first change"
+        },
+        "g": {
+          "command": "workbench.action.editor.previousChange",
+          "text": "Goto previous change"
         },
         "p": {
           "args": [
@@ -674,13 +752,13 @@
           "command": "dance.run",
           "text": "Goto previous paragraph"
         },
-        "t": {
-          "command": "???",
-          "text": "Goto previous type definition"
-        },
         "T": {
           "command": "???",
           "text": "Goto previous test"
+        },
+        "t": {
+          "command": "???",
+          "text": "Goto previous type definition"
         }
       },
       "title": "Left bracket"
@@ -929,16 +1007,21 @@
         "a": {
           "args": [
             {
-              "input": "(?#predefined=argument)"
+              "code": [
+                "let x = vscode.commands.executeCommand;",
+                "let _ = Context.current;",
+                "let ts = _.extension.treeSitter;",
+                "await x('dance.seek.object', { input: ts?.determineLanguage(_.document) ? '(?#textobject=parameter)' : '(?#predefined=argument)' });"
+              ]
             }
           ],
-          "command": "dance.seek.object",
+          "command": "dance.run",
           "text": "Argument/parameter"
         },
         "c": {
           "args": [
             {
-              "input": "???"
+              "input": "(?#textobject=comment)"
             }
           ],
           "command": "dance.seek.object",
@@ -947,7 +1030,7 @@
         "f": {
           "args": [
             {
-              "input": "???"
+              "input": "(?#textobject=function)"
             }
           ],
           "command": "dance.seek.object",
@@ -966,32 +1049,23 @@
           "command": "dance.seek.object",
           "text": "Paragraph"
         },
-        "t": {
-          "args": [
-            {
-              "input": "???"
-            }
-          ],
-          "command": "dance.seek.object",
-          "text": "Type definition"
-        },
         "T": {
           "args": [
             {
-              "input": "???"
+              "input": "(?#textobject=test)"
             }
           ],
           "command": "dance.seek.object",
           "text": "Test"
         },
-        "w": {
+        "t": {
           "args": [
             {
-              "input": "[\\p{L}_\\d]+(?<after>[^\\S\\n]+)"
+              "input": "(?#textobject=class)"
             }
           ],
           "command": "dance.seek.object",
-          "text": "Word"
+          "text": "Type definition"
         },
         "W": {
           "args": [
@@ -1001,6 +1075,15 @@
           ],
           "command": "dance.seek.object",
           "text": "WORD"
+        },
+        "w": {
+          "args": [
+            {
+              "input": "[\\p{L}_\\d]+(?<after>[^\\S\\n]+)"
+            }
+          ],
+          "command": "dance.seek.object",
+          "text": "Word"
         },
         "{}": {
           "args": [
@@ -1038,13 +1121,13 @@
           "command": "???",
           "text": "Goto next comment"
         },
-        "d": {
-          "command": "editor.action.marker.nextInFiles",
-          "text": "Goto next diagnostic"
-        },
         "D": {
           "command": "???",
           "text": "Goto last diagnostic"
+        },
+        "d": {
+          "command": "editor.action.marker.nextInFiles",
+          "text": "Goto next diagnostic"
         },
         "f": {
           "args": [
@@ -1059,13 +1142,13 @@
           "command": "dance.run",
           "text": "Goto next function"
         },
-        "g": {
-          "command": "workbench.action.editor.nextChange",
-          "text": "Goto next change"
-        },
         "G": {
           "command": "???",
           "text": "Goto last change"
+        },
+        "g": {
+          "command": "workbench.action.editor.nextChange",
+          "text": "Goto next change"
         },
         "p": {
           "args": [
@@ -1082,13 +1165,13 @@
           "command": "dance.run",
           "text": "Goto next paragraph"
         },
-        "t": {
-          "command": "???",
-          "text": "Goto next type definition"
-        },
         "T": {
           "command": "???",
           "text": "Goto next test"
+        },
+        "t": {
+          "command": "???",
+          "text": "Goto next type definition"
         }
       },
       "title": "Right bracket"
@@ -1096,11 +1179,11 @@
     "view-hx": {
       "items": {
         /*
-              "C-b": { "text": "Move page up",        "command": "dance.select.vertically", "args": [{ "direction": -1, "by": "page"     }] },
-              "C-f": { "text": "Move page down",      "command": "dance.select.vertically", "args": [{ "direction":  1, "by": "page"     }] },
-              "C-u": { "text": "Move half page up",   "command": "dance.select.vertically", "args": [{ "direction": -1, "by": "halfPage" }] },
-              "C-d": { "text": "Move half page down", "command": "dance.select.vertically", "args": [{ "direction":  1, "by": "halfPage" }] },
-              */
+            "C-b": { "text": "Move page up",        "command": "dance.select.vertically", "args": [{ "direction": -1, "by": "page"     }] },
+            "C-f": { "text": "Move page down",      "command": "dance.select.vertically", "args": [{ "direction":  1, "by": "page"     }] },
+            "C-u": { "text": "Move half page up",   "command": "dance.select.vertically", "args": [{ "direction": -1, "by": "halfPage" }] },
+            "C-d": { "text": "Move half page down", "command": "dance.select.vertically", "args": [{ "direction":  1, "by": "halfPage" }] },
+            */
         "/": {
           "command": "dance.search",
           "text": "Search for regex pattern"
@@ -1153,13 +1236,13 @@
           "command": "???",
           "text": "Align view middle"
         },
-        "n": {
-          "command": "dance.search.next",
-          "text": "Select next search match"
-        },
         "N": {
           "command": "dance.search.previous",
           "text": "Select previous search match"
+        },
+        "n": {
+          "command": "dance.search.next",
+          "text": "Select next search match"
         },
         "t": {
           "args": [
@@ -1175,45 +1258,45 @@
     },
     "window-hx": {
       "items": {
-        "f": {
-          "command": "???",
-          "text": "Goto files in selection (hsplit)"
-        },
         "F": {
           "command": "???",
           "text": "Goto files in selection (vsplit)"
         },
-        "h": {
-          "command": "workbench.action.focusLeftGroup",
-          "text": "Jump to the split on the left"
+        "f": {
+          "command": "???",
+          "text": "Goto files in selection (hsplit)"
         },
         "H": {
           "command": "workbench.action.moveActiveEditorGroupLeft",
           "text": "Swap with the split to the left"
         },
-        "j": {
-          "command": "workbench.action.focusBelowGroup",
-          "text": "Jump to the split below"
+        "h": {
+          "command": "workbench.action.focusLeftGroup",
+          "text": "Jump to the split on the left"
         },
         "J": {
           "command": "workbench.action.moveActiveEditorGroupDown",
           "text": "Swap with the split below"
         },
-        "k": {
-          "command": "workbench.action.focusAboveGroup",
-          "text": "Jump to the split above"
+        "j": {
+          "command": "workbench.action.focusBelowGroup",
+          "text": "Jump to the split below"
         },
         "K": {
           "command": "workbench.action.moveActiveEditorGroupUp",
           "text": "Swap with the split above"
         },
-        "l": {
-          "command": "workbench.action.focusRightGroup",
-          "text": "Jump to the split to the right"
+        "k": {
+          "command": "workbench.action.focusAboveGroup",
+          "text": "Jump to the split above"
         },
         "L": {
           "command": "workbench.action.moveActiveEditorGroupRight",
           "text": "Swap with the split to the right"
+        },
+        "l": {
+          "command": "workbench.action.focusRightGroup",
+          "text": "Jump to the split to the right"
         },
         "n": {
           "args": [
@@ -1308,7 +1391,7 @@
     }
   },
   "editor.autoClosingBrackets": "beforeWhitespace",
-  "editor.autoClosingQuotes": "beforeWhitespace",
+  "editor.autoClosingQuotes": "never",
   "editor.fontFamily": "Iosevka, MesloLGS NF", // MesloLGS NF for p10k symbols
   "editor.fontLigatures": true,
   "editor.fontSize": 14,
@@ -1397,6 +1480,7 @@
     "plaintext": false,
     "yaml": false
   },
+  "gitlens.graph.layout": "editor",
   "gitlens.plusFeatures.enabled": false,
   "grammarly.config.documentDialect": "british",
   "grammarly.config.suggestionCategories.conjugationAtStartOfSentence": "on",
