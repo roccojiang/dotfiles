@@ -1,29 +1,98 @@
 /* ---------- Copy this into Sidebery styles editor settings ---------- */
 
-/* ----- Some content adapted from https://github.com/Redundakitties/colorful-minimalist ----- */
+.Bookmarks.panel {
+  padding-top: 35px;
+}
 
-#root.root {--tabs-font: 1rem Iosevka;}
-#root.root {--frame-bg: #222128;}
-#root.root {--toolbar-bg: #1e1d24;}
-#root.root {--tabs-activated-bg: #403f46;}
+.Bookmarks.panel::before {
+  content: 'Bookmarks';
+  display: block;
+  height: 35px;
+  line-height: 35px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-transform: uppercase;
+  color: var(--tabs-activated-fg);
+  padding: 0 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
 
-/* --- Tab styles --- */
+.Bookmarks {
+  font-weight: 500;
+}
+
+.Tab .ctx {
+  display: none;
+}
+
+.Tab .title {
+	font-size: 0.9rem;
+  font-weight: 500 !important;
+}
+
+.Tab .close > svg {
+  fill: var(--tabs-activated-fg);
+}
+
+.Tab .close:hover > svg {
+  fill: var(--tabs-activated-fg);
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+
+.Tab[data-discarded="true"] {
+  color: var(--tabs-fg) !important;
+}
+
+.Tab[data-discarded="true"] .t-box {
+  opacity: 0.5 !important;
+}
 
 .Tab[data-discarded="true"] .title {
-    opacity: 100%;  /* not sure what other setting is making this not actually 100% opaque */
+  font-style: italic;
 }
 
-.Tab[data-unread="true"] .title {
-	font-style: italic;
+.panel-btn {
+  border-left: 0 solid transparent;
+  border-width: 0 2px;
 }
 
-/* --- Styles for collapsed sidebar (complements behaviour enabled in sidebery_mods.css) --- */
+.panel-btn > svg {
+ --container-fg: #6272a4;
+ --nav-btn-fg:  #6272a4;
+ width: 24px !important;
+ height: 24px !important;
+}
 
-/* Collapse tab indentation when Sidebery is collapsed */
-/* .ScrollBox:not(:hover) {--tabs-indent: 0px;} */
+/*
+.panel-btn:hover {
+  background-color: var(--tabs-bg-hover) !important;
+}
+*/
 
-/* Remove tree level marks when Sidebery is collapsed */
-/* #root[data-tabs-tree-lvl-marks=true] .ScrollBox:not(:hover) .Tab[data-pin=false]:not([data-lvl="0"]) .body:after { display:none; } */
+.panel-btn:hover > svg {
+ --container-fg: var(--tabs-fg-hover);
+ --nav-btn-fg:  var(--tabs-fg-hover);
+}
 
-/* Don't let pinned tabs flow when Sidebery is collapsed */
-/* .PinnedTabsBar { flex-wrap: nowrap !important; } */
+.panel-btn[data-active="true"] {
+  background-color: #43465a !important;
+  border-left-color: #a86595;
+}
+
+.panel-btn[data-active="true"] > svg {
+ --container-fg: var(--tabs-activated-fg);
+ --nav-btn-fg:  var(--tabs-activated-fg);
+}
+
+.NavigationBar {
+  background-color: #3a3f4e;
+  box-shadow: none !important;
+}
+
+.TabsPanel .container, .PinnedDock {
+  box-shadow: none !important;
+}

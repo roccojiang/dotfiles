@@ -17,8 +17,18 @@
   display: none;
 }
 
+#sidebar-box {
+  --uc-sidebar-width: 220px;
+  position: relative;
+  width: var(--uc-sidebar-width) !important;
+  z-index:1;
+}
+
 /* General */
+/*
 #urlbar, #searchbar .searchbar-textbox {
   font-family: Iosevka !important;
   font-size: 1rem;
 }
+*/
+
