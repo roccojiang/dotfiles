@@ -1,34 +1,11 @@
 {
-  "[c]": {
-    "editor.suggest.insertMode": "replace",
-    "editor.wordBasedSuggestions": "off"
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "[haskell]": {
     "editor.defaultFormatter": "haskell.haskell",
-    "editor.rulers": [
-      80
-    ]
-  },
-  "[html]": {
-    "editor.defaultFormatter": "vscode.html-language-features"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.rulers": [80]
   },
   "[latex]": {
-    "editor.fontFamily": "iA Writer Duo S, monospace",
+    "editor.fontFamily": "Lato, sans-serif",
+    "editor.fontSize": 16,
     "editor.lineHeight": 25,
     "editor.quickSuggestions": {
       "comments": false,
@@ -41,29 +18,18 @@
   "[makefile]": {
     "editor.insertSpaces": false
   },
-  "[markdown]": {
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
-  },
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.rulers": [
-      100
-    ],
+    "editor.rulers": [100],
     "editor.tabSize": 4
   },
   "[scala]": {
     "editor.defaultFormatter": "scalameta.metals"
   },
-  "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "cSpell.language": "en-GB",
-  // Dance ...............................................................
+  // .................... HELIX KEYBINDINGS FOR DANCE ....................
   // Adapted from https://github.com/imawizard/dotfiles/tree/windows/scoop/persist/vscode/data/user-data/User
-  // Also see https://github.com/71/dance/issues/299
+  // See https://github.com/71/dance/issues/299
+  // Also keep track of https://github.com/71/dance/issues/323
   "dance.menus": {
     "command-f-hx": {
       "items": {
@@ -313,9 +279,9 @@
           "text": "Restart debug session"
         },
         /*
-            "C-c": { "text": "Edit breakpoint condition on current line",   "command": "???" },
-            "C-l": { "text": "Edit breakpoint log message on current line", "command": "???" },
-            */
+              "C-c": { "text": "Edit breakpoint condition on current line",   "command": "???" },
+              "C-l": { "text": "Edit breakpoint log message on current line", "command": "???" },
+              */
         "s": {
           "args": [
             {
@@ -1179,11 +1145,11 @@
     "view-hx": {
       "items": {
         /*
-            "C-b": { "text": "Move page up",        "command": "dance.select.vertically", "args": [{ "direction": -1, "by": "page"     }] },
-            "C-f": { "text": "Move page down",      "command": "dance.select.vertically", "args": [{ "direction":  1, "by": "page"     }] },
-            "C-u": { "text": "Move half page up",   "command": "dance.select.vertically", "args": [{ "direction": -1, "by": "halfPage" }] },
-            "C-d": { "text": "Move half page down", "command": "dance.select.vertically", "args": [{ "direction":  1, "by": "halfPage" }] },
-            */
+              "C-b": { "text": "Move page up",        "command": "dance.select.vertically", "args": [{ "direction": -1, "by": "page"     }] },
+              "C-f": { "text": "Move page down",      "command": "dance.select.vertically", "args": [{ "direction":  1, "by": "page"     }] },
+              "C-u": { "text": "Move half page up",   "command": "dance.select.vertically", "args": [{ "direction": -1, "by": "halfPage" }] },
+              "C-d": { "text": "Move half page down", "command": "dance.select.vertically", "args": [{ "direction":  1, "by": "halfPage" }] },
+              */
         "/": {
           "command": "dance.search",
           "text": "Search for regex pattern"
@@ -1375,15 +1341,10 @@
               [
                 "mode-did-change",
                 {
-                  "include": [
-                    "normal",
-                    "select"
-                  ]
+                  "include": ["normal", "select"]
                 }
               ],
-              [
-                "selections-did-change"
-              ]
+              ["selections-did-change"]
             ]
           }
         ]
@@ -1398,12 +1359,7 @@
   "editor.inlineSuggest.enabled": true,
   "editor.lineNumbers": "relative",
   "editor.minimap.enabled": false,
-  "editor.minimap.renderCharacters": false,
-  "editor.minimap.side": "left",
-  "editor.renderWhitespace": "none",
-  "editor.rulers": [
-    120
-  ],
+  "editor.rulers": [120],
   "editor.semanticTokenColorCustomizations": {
     // Extra semantic highlighting configuration, similar to the version used in Helix editor:
     // https://github.com/helix-editor/helix/blob/master/runtime/themes/tokyonight.toml
@@ -1450,10 +1406,7 @@
   // "rust-analyzer.check.extraArgs": ["--", "-W", "clippy::pedantic"],
   "editor.suggestSelection": "first",
   "editor.tabSize": 2,
-  "errorLens.enabledDiagnosticLevels": [
-    "error",
-    "warning"
-  ],
+  "errorLens.enabledDiagnosticLevels": ["error", "warning"],
   "errorLens.replaceLinebreaksSymbol": " ⏎",
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
@@ -1474,12 +1427,7 @@
     "**/.metals": true
   },
   "git.autofetch": true,
-  "github.copilot.enable": {
-    "*": true,
-    "markdown": true,
-    "plaintext": false,
-    "yaml": false
-  },
+  "gitlens.codeLens.enabled": false,
   "gitlens.graph.layout": "editor",
   "gitlens.plusFeatures.enabled": false,
   "grammarly.config.documentDialect": "british",
@@ -1487,196 +1435,8 @@
   "grammarly.config.suggestionCategories.informalPronounsAcademic": "on",
   "grammarly.config.suggestionCategories.oxfordComma": "on",
   "haskell.manageHLS": "GHCup",
-  "latex-workshop.latex.build.forceRecipeUsage": false,
-  "latex-workshop.latex.recipes": [
-    {
-      "name": "latexmk",
-      "tools": [
-        "latexmk"
-      ]
-    },
-    {
-      "name": "latexmk (latexmkrc)",
-      "tools": [
-        "latexmk_rconly"
-      ]
-    },
-    {
-      "name": "latexmk (lualatex)",
-      "tools": [
-        "lualatexmk"
-      ]
-    },
-    {
-      "name": "latexmk (xelatex)",
-      "tools": [
-        "xelatexmk"
-      ]
-    },
-    {
-      "name": "pdflatex -> bibtex -> pdflatex * 2",
-      "tools": [
-        "pdflatex",
-        "bibtex",
-        "pdflatex",
-        "pdflatex"
-      ]
-    },
-    {
-      "name": "Compile Rnw files",
-      "tools": [
-        "rnw2tex",
-        "latexmk"
-      ]
-    },
-    {
-      "name": "Compile Jnw files",
-      "tools": [
-        "jnw2tex",
-        "latexmk"
-      ]
-    },
-    {
-      "name": "Compile Pnw files",
-      "tools": [
-        "pnw2tex",
-        "latexmk"
-      ]
-    },
-    {
-      "name": "tectonic",
-      "tools": [
-        "tectonic"
-      ]
-    }
-  ],
-  "latex-workshop.latex.tools": [
-    {
-      "args": [
-        "-shell-escape",
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-pdf",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "command": "latexmk",
-      "env": {},
-      "name": "latexmk"
-    },
-    {
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-lualatex",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "command": "latexmk",
-      "env": {},
-      "name": "lualatexmk"
-    },
-    {
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-xelatex",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "command": "latexmk",
-      "env": {},
-      "name": "xelatexmk"
-    },
-    {
-      "args": [
-        "%DOC%"
-      ],
-      "command": "latexmk",
-      "env": {},
-      "name": "latexmk_rconly"
-    },
-    {
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOC%"
-      ],
-      "command": "pdflatex",
-      "env": {},
-      "name": "pdflatex"
-    },
-    {
-      "args": [
-        "%DOCFILE%"
-      ],
-      "command": "bibtex",
-      "env": {},
-      "name": "bibtex"
-    },
-    {
-      "args": [
-        "-e",
-        "knitr::opts_knit$set(concordance = TRUE); knitr::knit('%DOCFILE_EXT%')"
-      ],
-      "command": "Rscript",
-      "env": {},
-      "name": "rnw2tex"
-    },
-    {
-      "args": [
-        "-e",
-        "using Weave; weave(\"%DOC_EXT%\", doctype=\"tex\")"
-      ],
-      "command": "julia",
-      "env": {},
-      "name": "jnw2tex"
-    },
-    {
-      "args": [
-        "-e",
-        "using Weave; weave(\"%DOC_EXT%\", doctype=\"texminted\")"
-      ],
-      "command": "julia",
-      "env": {},
-      "name": "jnw2texminted"
-    },
-    {
-      "args": [
-        "-f",
-        "tex",
-        "%DOC_EXT%"
-      ],
-      "command": "pweave",
-      "env": {},
-      "name": "pnw2tex"
-    },
-    {
-      "args": [
-        "-f",
-        "texminted",
-        "%DOC_EXT%"
-      ],
-      "command": "pweave",
-      "env": {},
-      "name": "pnw2texminted"
-    },
-    {
-      "args": [
-        "--synctex",
-        "--keep-logs",
-        "%DOC%.tex"
-      ],
-      "command": "tectonic",
-      "env": {},
-      "name": "tectonic"
-    }
-  ],
-  "liveshare.languages.allowGuestCommandControl": true,
+  "latex-workshop.latex.autoBuild.run": "never",
+  "latex-workshop.latex.recipe.default": "lastUsed",
   "pylint.args": [
     "--disable=missing-module-docstring,missing-class-docstring,missing-function-docstring"
   ],
@@ -1684,33 +1444,14 @@
   "python.analysis.inlayHints.variableTypes": true,
   "python.analysis.typeCheckingMode": "basic",
   "python.defaultInterpreterPath": "/usr/local/bin/python3",
-  "redhat.telemetry.enabled": false,
-  "remote.SSH.connectTimeout": 30,
-  "remote.SSH.remotePlatform": {
-    "lab-alt-gpu-machine": "linux",
-    "lab-gpu-machine": "linux",
-    "lab-machine": "linux"
-  },
-  "remote.SSH.useLocalServer": false,
   "rust-analyzer.check.command": "clippy",
   "security.workspace.trust.untrustedFiles": "open",
   "terminal.integrated.fontSize": 14,
-  "theme-by-language.themes": {
-    "*": "Tokyo Night",
-    "bibtex": "Solarized Light",
-    "latex": "Solarized Light"
-  },
-  "vim.easymotion": true,
-  "vim.highlightedyank.enable": true,
-  "vim.hlsearch": true,
-  "vim.leader": " ",
-  "vim.sneak": true,
-  "vim.useSystemClipboard": true,
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "workbench.colorCustomizations": {
     // Python typehints
     "editorInlayHint.foreground": "#444b6a"
   },
+  "workbench.colorTheme": "Tokyo Night",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.sideBar.location": "right",
   "zenMode.fullScreen": false,
