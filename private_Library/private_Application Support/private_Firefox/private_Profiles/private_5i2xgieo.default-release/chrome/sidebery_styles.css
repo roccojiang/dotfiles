@@ -1,8 +1,63 @@
 /* ---------- Copy this into Sidebery styles editor settings ---------- */
 
 #root.root {
-  --frame-bg: #2b2a32;
+  --frame-bg: rgb(22, 23, 23);
 }
+
+.NavigationBar {
+  background-color: rgb(28, 28, 28);
+  box-shadow: none !important;
+}
+
+.TabsPanel .container, .PinnedDock {
+  box-shadow: none !important;
+}
+
+/***** Tabs *****/
+
+.Tab .ctx {
+  display: none;
+}
+
+.Tab .close > svg {
+  fill: var(--tabs-activated-fg);
+}
+
+.Tab .close:hover > svg {
+  fill: var(--tabs-activated-fg);
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+
+/* Adjust colourisation of tabs */
+.Tab {
+  --tabs-color-layer-opacity: 0.1;
+  --tabs-activated-color-layer-opacity: 0.6;
+}
+
+.Tab[data-discarded="true"] {
+  --tabs-color-layer-opacity: 0;
+}
+
+/* Make active tab stand out more */
+.Tab[data-active="true"] .title {
+  font-weight: 800 !important;
+}
+
+/* Make unloaded tabs less visible */
+.Tab[data-discarded="true"] {
+  color: var(--tabs-fg) !important;
+}
+
+.Tab[data-discarded="true"] .t-box {
+  opacity: 0.25 !important;
+}
+
+.Tab[data-discarded="true"] .title {
+  font-style: italic;
+}
+
+/***** Other stuff that I'm afraid to touch *****/
 
 .Bookmarks.panel {
   padding-top: 35px;
@@ -28,37 +83,6 @@
   font-weight: 500;
 }
 
-.Tab .ctx {
-  display: none;
-}
-
-.Tab .title {
-  font-size: 0.9rem;
-  font-weight: 500 !important;
-}
-
-.Tab .close > svg {
-  fill: var(--tabs-activated-fg);
-}
-
-.Tab .close:hover > svg {
-  fill: var(--tabs-activated-fg);
-  background-color: rgba(255,255,255,0.1);
-  border-radius: 2px;
-}
-
-.Tab[data-discarded="true"] {
-  color: var(--tabs-fg) !important;
-}
-
-.Tab[data-discarded="true"] .t-box {
-  opacity: 0.5 !important;
-}
-
-.Tab[data-discarded="true"] .title {
-  font-style: italic;
-}
-
 .panel-btn {
   border-left: 0 solid transparent;
   border-width: 0 2px;
@@ -66,7 +90,7 @@
 
 .panel-btn > svg {
  --container-fg: #6272a4;
- --nav-btn-fg:  #6272a4;
+ --nav-btn-fg: #6272a4;
  width: 24px !important;
  height: 24px !important;
 }
@@ -90,13 +114,4 @@
 .panel-btn[data-active="true"] > svg {
  --container-fg: var(--tabs-activated-fg);
  --nav-btn-fg:  var(--tabs-activated-fg);
-}
-
-.NavigationBar {
-  background-color: #3a3f4e;
-  box-shadow: none !important;
-}
-
-.TabsPanel .container, .PinnedDock {
-  box-shadow: none !important;
 }
