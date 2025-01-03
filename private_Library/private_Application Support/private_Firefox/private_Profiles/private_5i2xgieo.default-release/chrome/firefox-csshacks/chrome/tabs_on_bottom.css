@@ -24,9 +24,6 @@ have menubar permanently enabled and want it on top
        (-moz-platform: macos){
   .titlebar-buttonbox-container{ left:0; right: unset !important; }
 }
-@supports -moz-bool-pref("userchrome.force-window-controls-on-left.enabled"){
-  .titlebar-buttonbox-container{ left:0; right: unset !important; }
-}
 
 :root[uidensity="compact"] #TabsToolbar > .titlebar-buttonbox-container{ height: 32px }
 
@@ -69,7 +66,7 @@ have menubar permanently enabled and want it on top
 toolbox#navigator-toolbox > toolbar#nav-bar.browser-toolbar{ animation: none; }
 #navigator-toolbox:hover #TabsToolbar{ animation: slidein ease-out 48ms 1 }
 #TabsToolbar > .titlebar-buttonbox-container{ visibility: visible }
-#navigator-toolbox:not(:-moz-lwtheme){ background-color: -moz-dialog }
+:root:not([lwtheme]) #navigator-toolbox{ background-color: -moz-dialog }
 
 /* Uncomment the following if you want bookmarks toolbar to be below tabs */
 /*

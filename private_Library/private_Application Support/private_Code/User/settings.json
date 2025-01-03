@@ -16,6 +16,7 @@
     "editor.wordWrap": "on"
   },
   "[makefile]": {
+    "editor.detectIndentation": false,
     "editor.insertSpaces": false
   },
   "[python]": {
@@ -1455,5 +1456,5 @@
   "workbench.iconTheme": "material-icon-theme",
   "workbench.sideBar.location": "right",
   "zenMode.fullScreen": false,
-  "zenMode.hideLineNumbers": false
+  "zenMode.hideLineNumbers": false,
 }

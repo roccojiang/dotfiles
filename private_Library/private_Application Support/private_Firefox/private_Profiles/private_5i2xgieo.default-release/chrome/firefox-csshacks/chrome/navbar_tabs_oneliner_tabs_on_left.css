@@ -36,7 +36,7 @@ Window controls will be all wrong without it
   padding-block: 0 !important;
 }
 :root[uidensity="compact"] #urlbar{
-  --urlbar-toolbar-height: var(--uc-toolbar-height) !important;
+  --urlbar-container-height: var(--uc-toolbar-height) !important;
 }
 
 /* prevent urlbar overflow on narrow windows */
@@ -89,15 +89,6 @@ Window controls will be all wrong without it
 @media (-moz-bool-pref: "userchrome.force-window-controls-on-left.enabled"),
        (-moz-platform: macos),
        (-moz-gtk-csd-reversed-placement){
-  :root:not([inFullscreen]) #TabsToolbar-customization-target > .titlebar-spacer[type="pre-tabs"]{
-    width: var(--uc-window-drag-space-post) !important;
-    display: flex !important; 
-  }
-  #TabsToolbar > .titlebar-buttonbox-container{
-    display: flex;
-  }
-}
-@supports -moz-bool-pref("userchrome.force-window-controls-on-left.enabled"){
   :root:not([inFullscreen]) #TabsToolbar-customization-target > .titlebar-spacer[type="pre-tabs"]{
     width: var(--uc-window-drag-space-post) !important;
     display: flex !important; 
