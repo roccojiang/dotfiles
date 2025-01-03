@@ -87,7 +87,7 @@ compdef _directories md
 [[ -z $z4h_win_home ]] || hash -d w=$z4h_win_home
 
 # GPG configuration.
-export GPG_TTY=$(tty)
+export GPG_TTY=$TTY
 gpgconf --launch gpg-agent
 
 # Define aliases.
