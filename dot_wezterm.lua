@@ -13,7 +13,6 @@ local act = wezterm.action
 ------- Configuration -------
 
 -- General appearance
-config.front_end = 'WebGpu'
 config.color_scheme = 'Tokyo Night'
 config.window_background_opacity = 0.98
 
@@ -120,6 +119,15 @@ config.tab_bar_at_bottom = true
 
 -- Miscellaneous config
 config.skip_close_confirmation_for_processes_named = {} -- always ask for confirm
+
+-- Session persistence by local unix domain multiplexer
+config.unix_domains = {
+  {
+    name = 'unix',
+  },
+}
+
+config.default_gui_startup_args = { 'connect', 'unix' }
 
 -----------------------------
 
