@@ -2,3 +2,7 @@
 node = "20"
 python = "3.12"
 java = "temurin-21"
+
+[settings]
+# Interferes with the z4h command_not_found_handler
+not_found_auto_install = false

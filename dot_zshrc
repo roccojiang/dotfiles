@@ -6,7 +6,7 @@
 
 # Periodic auto-update on Zsh startup: 'ask' or 'no'.
 # You can manually run `z4h update` to update everything.
-zstyle ':z4h:' auto-update      'no'
+zstyle ':z4h:' auto-update      'ask'
 # Ask whether to auto-update this often; has no effect if auto-update is 'no'.
 zstyle ':z4h:' auto-update-days '28'
 
@@ -14,7 +14,11 @@ zstyle ':z4h:' auto-update-days '28'
 zstyle ':z4h:bindkey' keyboard  'mac'
 
 # Don't start tmux.
-zstyle ':z4h:' start-tmux       no
+zstyle ':z4h:' start-tmux       'no'
+
+# Move prompt to the bottom when zsh starts and on Ctrl+L.
+zstyle ':z4h:' prompt-at-bottom 'yes'
+alias clear=z4h-clear-screen-soft-bottom
 
 # Mark up shell's output with semantic information.
 zstyle ':z4h:' term-shell-integration 'yes'
@@ -41,6 +45,9 @@ zstyle ':z4h:ssh:*'                   enable 'no'
 # Send these files over to the remote host when connecting over SSH to the
 # enabled hosts.
 zstyle ':z4h:ssh:*' send-extra-files '~/.nanorc' '~/.env.zsh'
+
+# Prompt configuration.
+POSTEDIT=$'\n\n\e[2A'
 
 # Clone additional Git repositories from GitHub.
 #
@@ -96,9 +103,9 @@ alias tree='tree -a -I .git'
 ## Alias for `nvim`
 alias v='nvim'
 
-## Default editor as `hx`
+## Default editor as `hx`, otherwise `vim`
 export VISUAL='hx'
-export EDITOR='$VISUAL'
+export EDITOR='vim'
 
 ## Homebrew
 export HOMEBREW_NO_ENV_HINTS=true
@@ -122,7 +129,7 @@ setopt no_auto_menu  # require an extra TAB press to open the completion menu
 eval "$(/opt/homebrew/bin/mise activate zsh)"
 
 # Haskell managed by `ghcup`
-[ -f "/Users/roccojiang/.ghcup/env" ] && . "/Users/roccojiang/.ghcup/env"
+[ -f "/Users/rocco/.ghcup/env" ] && . "/Users/rocco/.ghcup/env"
 
 ### Functions ###
 function cl() {
