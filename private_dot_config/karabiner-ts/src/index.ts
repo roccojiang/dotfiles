@@ -1,24 +1,18 @@
 import {
-  hyperLayer,
-  layer,
-  map,
-  NumberKeyValue,
-  rule,
-  withMapper,
-  writeToProfile,
+  ifDevice, map, rule, writeToProfile
 } from 'karabiner.ts'
-
-import {
-  raycastExtension,
-} from './utils'
 
 writeToProfile('Default', [
 
-  rule('Tab → Hyper').manipulators([
-    map('tab').toHyper({ lazy: true }).toIfAlone('tab'),
+  rule('Caps Lock → Control/Escape').manipulators([
+    map('caps_lock', { optional: 'any' }).to('left_control', undefined, { lazy: true }).toIfAlone('escape'),
   ]),
 
-  rule('Caps Lock → Control/Escape').manipulators([
-    map('caps_lock', { optional: 'any'}).to('left_control', undefined, { lazy: true }).toIfAlone('escape'),
+  rule('HHKB Control -> Control/Escape', ifDevice({ vendor_id: 1278, product_id: 33 }, 'HHKB-Hybrid_1')).manipulators([
+    map('left_control', { optional: 'any' }).to('left_control', undefined, { lazy: true }).toIfAlone('escape'),
   ]),
+
+  rule('Left Control → Hyper').manipulators([
+    map('left_control').toHyper(),
+  ])
 ])
