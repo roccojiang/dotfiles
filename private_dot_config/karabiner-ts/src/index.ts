@@ -14,5 +14,10 @@ writeToProfile('Default', [
 
   rule('Left Control → Hyper').manipulators([
     map('left_control').toHyper(),
-  ])
+  ]),
+
+  rule('Space Cadet shift').manipulators([
+    map('left_shift', { optional: 'any' }).to('left_shift').toIfAlone('9', 'shift'),
+    map('right_shift', { optional: 'any' }).to('right_shift').toIfAlone('0', 'shift')
+  ]),
 ])
