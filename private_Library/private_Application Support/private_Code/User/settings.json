@@ -26,7 +26,7 @@
   "[scala]": {
     "editor.defaultFormatter": "scalameta.metals"
   },
-  "cSpell.language": "en-GB",
+
   // .................... HELIX KEYBINDINGS FOR DANCE ....................
   // Adapted from https://github.com/imawizard/dotfiles/tree/windows/scoop/persist/vscode/data/user-data/User
   // See https://github.com/71/dance/issues/299
@@ -1352,11 +1352,12 @@
       ]
     }
   },
+
   "editor.autoClosingBrackets": "beforeWhitespace",
   "editor.autoClosingQuotes": "never",
   "editor.fontFamily": "Iosevka, MesloLGS NF", // MesloLGS NF for p10k symbols
   "editor.fontLigatures": true,
-  "editor.fontSize": 14,
+  "editor.fontSize": 15,
   "editor.inlineSuggest.enabled": true,
   "editor.lineNumbers": "relative",
   "editor.minimap.enabled": false,
@@ -1404,18 +1405,12 @@
       }
     }
   },
-  // "rust-analyzer.check.extraArgs": ["--", "-W", "clippy::pedantic"],
   "editor.suggestSelection": "first",
   "editor.tabSize": 2,
+
   "errorLens.enabledDiagnosticLevels": ["error", "warning"],
   "errorLens.replaceLinebreaksSymbol": " ⏎",
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
-  },
-  "files.associations": {
-    "*.hs": "haskell",
-    "*.pacc": "wacc"
-  },
+
   "files.exclude": {
     "**/.classpath": true,
     "**/.factorypath": true,
@@ -1427,34 +1422,39 @@
     "**/.bloop": true,
     "**/.metals": true
   },
+
   "git.autofetch": true,
-  "gitlens.codeLens.enabled": false,
-  "gitlens.graph.layout": "editor",
-  "gitlens.plusFeatures.enabled": false,
-  "grammarly.config.documentDialect": "british",
-  "grammarly.config.suggestionCategories.conjugationAtStartOfSentence": "on",
-  "grammarly.config.suggestionCategories.informalPronounsAcademic": "on",
-  "grammarly.config.suggestionCategories.oxfordComma": "on",
+
   "haskell.manageHLS": "GHCup",
+
   "latex-workshop.latex.autoBuild.run": "never",
   "latex-workshop.latex.recipe.default": "lastUsed",
-  "pylint.args": [
-    "--disable=missing-module-docstring,missing-class-docstring,missing-function-docstring"
-  ],
+
+  "leetcode.workspaceFolder": "/Users/rocco/.leetcode",
+  "leetcode.hint.commandShortcut": false,
+  "leetcode.hint.configWebviewMarkdown": false,
+
+  "makefile.configureOnOpen": true,
+
   "python.analysis.inlayHints.functionReturnTypes": true,
   "python.analysis.inlayHints.variableTypes": true,
   "python.analysis.typeCheckingMode": "basic",
   "python.defaultInterpreterPath": "/usr/local/bin/python3",
+
   "rust-analyzer.check.command": "clippy",
+
   "security.workspace.trust.untrustedFiles": "open",
-  "terminal.integrated.fontSize": 14,
+
+  "terminal.integrated.fontSize": 15,
+
   "workbench.colorCustomizations": {
-    // Python typehints
+    // For Python typehints
     "editorInlayHint.foreground": "#444b6a"
   },
   "workbench.colorTheme": "Tokyo Night",
   "workbench.iconTheme": "material-icon-theme",
   "workbench.sideBar.location": "right",
+
   "zenMode.fullScreen": false,
   "zenMode.hideLineNumbers": false,
 }
