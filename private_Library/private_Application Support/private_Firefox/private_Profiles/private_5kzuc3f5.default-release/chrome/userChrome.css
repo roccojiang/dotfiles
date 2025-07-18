@@ -8,6 +8,8 @@
 @import url("firefox-csshacks/chrome/floating_findbar_on_top.css");
 
 /* ========== CUSTOM CSS THEME ========== */
+/* Source: https://github.com/datguypiko/Firefox-Mod-Blur */
+
 @import url("Firefox-Mod-Blur/userChrome.css");
 
 @import url("Firefox-Mod-Blur/EXTRA MODS/Search Bar Mods/Search box - text aligned left side/searchbox_text_align_left.css");
