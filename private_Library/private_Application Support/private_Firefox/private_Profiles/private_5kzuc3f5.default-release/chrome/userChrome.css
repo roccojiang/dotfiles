@@ -7,16 +7,7 @@
 /* Find bar on top, instead of bottom */
 @import url("firefox-csshacks/chrome/floating_findbar_on_top.css");
 
-/* ========== SIDEBERY ========== */
-
-/* @import url(hacks/sidebery_mods.css); */
-
-#sidebar-header {
-    display: none;
-}
-
 /* ========== CUSTOM CSS THEME ========== */
-
 @import url("Firefox-Mod-Blur/userChrome.css");
 
 @import url("Firefox-Mod-Blur/EXTRA MODS/Search Bar Mods/Search box - text aligned left side/searchbox_text_align_left.css");
@@ -26,4 +17,12 @@
 #urlbar,
 #searchbar {
     font-size: 1.25rem !important;
+}
+
+/* ========== SIDEBERY ========== */
+
+/* @import url(hacks/sidebery_mods.css); */
+
+#sidebar-header {
+    display: none;
 }
