@@ -1,24 +1,29 @@
-/** 
- * If the firefox-csshacks/ directory does not exist,
- * clone https://github.com/MrOtherGuy/firefox-csshacks/ in order to import the firefox-csshacks/ stylesheets
- **/
+/* ========== FUNCTIONALITY-SPECIFIC CSS HACKS ========== */
+/* Source: https://github.com/MrOtherGuy/firefox-csshacks/ */
 
 /* Hide native tabs strip */
-@import url(firefox-csshacks/chrome/hide_tabs_toolbar_v2.css);
+@import url("firefox-csshacks/chrome/hide_tabs_toolbar_v2.css");
 
 /* Find bar on top, instead of bottom */
-@import url(firefox-csshacks/chrome/floating_findbar_on_top.css);
+@import url("firefox-csshacks/chrome/floating_findbar_on_top.css");
 
-/* Sidebery */
+/* ========== SIDEBERY ========== */
+
 /* @import url(hacks/sidebery_mods.css); */
 
 #sidebar-header {
-  display: none;
+    display: none;
 }
 
-#sidebar-box {
-  --uc-sidebar-width: 220px;
-  position: relative;
-  width: var(--uc-sidebar-width) !important;
-  z-index:1;
+/* ========== CUSTOM CSS THEME ========== */
+
+@import url("Firefox-Mod-Blur/userChrome.css");
+
+@import url("Firefox-Mod-Blur/EXTRA MODS/Search Bar Mods/Search box - text aligned left side/searchbox_text_align_left.css");
+@import url("Firefox-Mod-Blur/EXTRA MODS/Icon and Button Mods/Icons in main menu/icons_in_main_menu.css");
+
+/* Increase the theme's default searchbar font size slightly*/
+#urlbar,
+#searchbar {
+    font-size: 1.25rem !important;
 }
