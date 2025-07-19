@@ -102,11 +102,13 @@ compinit
 export GPG_TTY=$TTY
 gpgconf --launch gpg-agent
 
-# Define aliases.
+## Define aliases
+# General purpose aliases
 alias tree='tree -a -I .git'
+alias g='git'
 
-## Alias for `nvim`
-alias v='nvim'
+# Common directories
+alias dev='cd ~/Developer'
 
 ## Default editor as `hx`, otherwise `vim`
 export VISUAL='hx'
@@ -135,6 +137,9 @@ eval "$(/opt/homebrew/bin/mise activate zsh)"
 
 # Haskell managed by `ghcup`
 [ -f "/Users/rocco/.ghcup/env" ] && . "/Users/rocco/.ghcup/env"
+
+# Zoxide
+eval "$(zoxide init zsh)"
 
 ### Functions ###
 function cl() {
