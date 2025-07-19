@@ -1445,6 +1445,9 @@
 
   "security.workspace.trust.untrustedFiles": "open",
 
+  "telemetry.feedback.enabled": false,
+  "telemetry.telemetryLevel": "off",
+
   "terminal.integrated.fontSize": 15,
 
   "workbench.colorCustomizations": {
