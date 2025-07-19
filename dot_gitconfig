@@ -5,3 +5,10 @@
 	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore
+[alias]
+	st = status
+	ci = commit
+	cm = commit -m
+	cam = commit -a -m
+	l = log --oneline
+	lg = log --oneline --graph
