@@ -142,6 +142,9 @@ function cl() {
   cd "$@" && l
 }
 
+# dotfiles
+alias config="git --git-dir=$HOME/.myconf/ --work-tree=$HOME"
+
 ### zsh completions ###
 # Remove homebrew's git completions, so that we use zsh's (better) git completions instead
 # See https://github.com/Homebrew/homebrew-core/issues/32081
