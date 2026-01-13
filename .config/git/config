@@ -2,6 +2,21 @@
   name = Rocco Jiang
   email = 10642716+roccojiang@users.noreply.github.com
 
+[core]
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  hyperlinks = true
+  hyperlinks-file-link-format = "vscode://file/{path}:{line}"
+  line-numbers = true
+  navigate = true  # use n and N to move between diff sections
+
+[merge]
+  conflictStyle = zdiff3
+
 [commit]
   gpgsign = true
 	verbose = true
@@ -19,4 +34,9 @@
 
   l = log --oneline
   lg = log --oneline --graph
+
+  # difftastic
+  dlog = -c diff.external=difft log --ext-diff
+  dshow = -c diff.external=difft show --ext-diff
+  ddiff = -c diff.external=difft diff
 
