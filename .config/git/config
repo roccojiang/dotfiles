@@ -1,0 +1,22 @@
+[user]
+  name = Rocco Jiang
+  email = 10642716+roccojiang@users.noreply.github.com
+
+[commit]
+  gpgsign = true
+	verbose = true
+
+[rebase]
+  autosquash = true
+
+[alias]
+  st = status
+  a = add
+  aa = add -A
+  ci = commit
+  cm = commit -m
+  cam = commit -am
+
+  l = log --oneline
+  lg = log --oneline --graph
+
