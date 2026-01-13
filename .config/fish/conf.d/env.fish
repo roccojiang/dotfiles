@@ -4,8 +4,11 @@ status is-interactive; or exit
 set -gx VISUAL nvim
 set -gx EDITOR vi
 
+# pager
+set -gx MANPAGER 'nvim +Man!'
+
 # eza
-set -gx EZA_ICONS_AUTO
+set -gx EZA_ICONS_AUTO 1
 
 # gpg-agent
 set -gx GPG_TTY (tty)
