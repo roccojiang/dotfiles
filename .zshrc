@@ -97,7 +97,7 @@ alias tree='tree -a -I .git'
 alias g='git'
 
 # Common directories
-alias dev='cd ~/Developer'
+alias d='cd ~/Developer'
 
 ## Default editor as `nvim`, otherwise `vim`
 alias vi='nvim'
@@ -109,13 +109,14 @@ export EDITOR='vim'
 export HOMEBREW_NO_ENV_HINTS=true
 export HOMEBREW_AUTO_UPDATE_SECS=604800
 
-## Use `lsd` instead of `ls`
-alias ls='lsd'
-alias l='ls -l'
-alias ll='ls -l'
-alias la='ls -lA'
-alias lt='ls --tree --depth=3 --long'
-alias ltt='ls --tree --long'
+## Use `eza` instead of `ls`
+export EZA_ICONS_AUTO=1
+alias ls='eza'
+alias ll='eza --group-directories-first --long'
+alias la='eza --group-directories-first --long --all'
+alias l=ll
+alias lt='ll --tree --level=3'
+alias ltt='ll --tree'
 
 ### Tool version management ###
 # Most tools managed with `mise`
@@ -143,7 +144,7 @@ function cl() {
 }
 
 # dotfiles
-alias config="git --git-dir=$HOME/.myconf/ --work-tree=$HOME"
+alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 ### zsh completions ###
 # Remove homebrew's git completions, so that we use zsh's (better) git completions instead
