@@ -1,6 +1,6 @@
 status is-interactive; or exit
 
-# Files & directories
+# files & directories
 alias ls eza
 alias ll "eza --group-directories-first --long"
 alias la "eza --group-directories-first --long --all"
@@ -10,24 +10,26 @@ abbr ltt "ll --tree"
 
 abbr cl --set-cursor "cd % && ll"
 
-# Editor
+# editor
 abbr vim nvim
 abbr vi nvim
 
-# Git
+# git
 abbr g git
-abbr gst "git status"
-abbr ga "git add -A"
-abbr gcm "git commit -m"
-abbr gl "git log --oneline"
-abbr gll "git log --oneline --graph"
 
-abbr --command={git,config} st status
-abbr --command={git,config} a add
-abbr --command={git,config} cm "commit -m"
+# dynamically generate abbreviations for all git aliases defined in ~/.config/git/config
+# inspired by https://github.com/timomeh/dotfiles/blob/1500c4bbfc4d524a71fc7242b2a4acf6fdedf16c/.config/fish/config.fish#L30-L33
+for line in (git config -l | rg alias | cut -c 7-)
+    set parts (string split -m 1 '=' $line)
+    set alias $parts[1]
+    set cmd $parts[2]
 
-# Dev
+    abbr "g$alias" "git $cmd"
+    abbr --command={git,dotfiles} $alias $cmd
+end
+
+# dev
 abbr d --set-cursor "cd ~/Developer/%"
 
-# Dotfiles
-alias config "git --git-dir=$HOME/.myconf/ --work-tree=$HOME"
+# dotfiles
+alias dotfiles "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
