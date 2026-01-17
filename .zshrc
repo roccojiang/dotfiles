@@ -165,3 +165,6 @@ export PATH="$PATH:/Users/rocco/.lmstudio/bin"
 # END opam configuration
 
 . "$HOME/.local/bin/env"
+
+# Added by Antigravity
+export PATH="/Users/rocco/.antigravity/antigravity/bin:$PATH"
