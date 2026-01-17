@@ -21,6 +21,9 @@
   gpgsign = true
 	verbose = true
 
+[push]
+	autoSetupRemote = true
+
 [rebase]
   autosquash = true
 

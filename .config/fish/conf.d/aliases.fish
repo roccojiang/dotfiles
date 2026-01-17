@@ -10,6 +10,10 @@ abbr ltt "ll --tree"
 
 abbr cl --set-cursor "cd % && ll"
 
+# common directories
+abbr d --set-cursor "cd ~/Developer/% && ll"
+abbr notes --set-cursor "cd ~/Documents/obsidian-vault/%"
+
 # editor
 abbr vim nvim
 abbr vi nvim
@@ -34,9 +38,6 @@ for line in (git config -l | rg alias | cut -c 7-)
     abbr "g$alias" "git $cmd"
     abbr --command={git,dotfiles} $alias $cmd
 end
-
-# dev
-abbr d --set-cursor "cd ~/Developer/%"
 
 # dotfiles
 alias dotfiles "git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
