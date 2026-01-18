@@ -22,18 +22,26 @@ function _tide_add_custom_string_segment -a name value
 end
 
 # Prompt configuration
+# left prompt items (hacky custom segments in order to control spacing between segments)
 _tide_add_custom_string_segment space ' ' --bg-color normal
 _tide_add_custom_string_segment colon ':' --color white --bg-color normal
-
 set -gx tide_left_prompt_separator_same_color ''
 
+# always show "user@hostname" segment
 set -gx tide_context_always_display true
 
+# remove icons from pwd segment
 set -gx tide_pwd_icon
 set -gx tide_pwd_icon_home
 set -gx tide_pwd_icon_unwritable
 
+# better git icon
 set -gx tide_git_icon ''
+
+# custom zmx session segment (see ../functions/_tide_item_zmx_session.fish)
+set -gx tide_zmx_session_color yellow
+set -gx tide_zmx_session_bg_color normal
+set -gx tide_zmx_session_icon ''
 
 # Configure Tide if it's been installed, but not set up yet
 if not set -q tide_left_prompt_items; and type -q tide
@@ -44,6 +52,7 @@ if not set -q tide_left_prompt_items; and type -q tide
     set -U tide_left_prompt_items context colon pwd space git newline character
 
     _tide_find_and_remove context tide_right_prompt_items
+    set --append tide_right_prompt_items zmx_session
 
     tide reload
 end
