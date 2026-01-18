@@ -9,6 +9,10 @@ status is-interactive; or exit
 # Use eza instead of ls for directory previews
 set -gx fzf_preview_dir_cmd eza --oneline --all --group-directories-first --color=always
 
+# Show hidden files during "search directory" command
+# Respects fd's ~/.config/fd/ignore and global ~/.config/git/ignore
+set -gx fzf_fd_opts --hidden --max-depth 5
+
 # Unbind "search directory" command in favour of a more complex setup
 fzf_configure_bindings --directory=
 
