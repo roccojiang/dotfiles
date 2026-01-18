@@ -58,8 +58,9 @@
   l = log --oneline
   lg = log --oneline --graph
 
-  # special usage
-  uncommit = reset --soft HEAD^
+  # semantic aliases (i.e. https://landongrindheim.com/2018/12/13/semantic-git-aliases.html)
+  unstage = restore --staged
+  uncommit = reset --soft @~  # @~ is short for HEAD~1
 
   # difftastic
   dlog = -c diff.external=difft log --ext-diff
