@@ -1,0 +1,12 @@
+# using lsd installed from source (by cargo) on https://github.com/manno/lsd/commit/487d959ffa72ee86d7052924324c6e6248ddecbd
+# which allows different custom formatting for old files (>6 months, following ls's spec), and recent files
+# hopefully this gets merged into main some day, so I can go back to using brew's installation of lsd
+# +date-time-format: "<old files>\n<new files>"
+date: "+%d %b %Y\n%d %b %H:%M"
+
+icons:
+  when: always
+  separator: "  "
+
+sorting:
+  dir-grouping: first

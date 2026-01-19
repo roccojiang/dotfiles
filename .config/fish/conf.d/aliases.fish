@@ -1,11 +1,11 @@
 status is-interactive; or exit
 
 # files & directories
-alias ls eza
-alias ll "eza --group-directories-first --long"
-alias la "eza --group-directories-first --long --all"
+alias ls lsd
+alias ll "ls -lF"
+alias la "ls -lAF"
 abbr l ll
-abbr lt "ll --tree --level=3"
+abbr lt "ll --tree --depth=3"
 abbr ltt "ll --tree"
 
 abbr cl --set-cursor "cd % && ll"

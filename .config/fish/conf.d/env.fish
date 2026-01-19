@@ -7,9 +7,6 @@ set -gx EDITOR vi
 # pager
 set -gx MANPAGER 'nvim +Man!'
 
-# eza
-set -gx EZA_ICONS_AUTO 1
-
 # gpg-agent
 set -gx GPG_TTY (tty)
 gpgconf --launch gpg-agent

@@ -6,8 +6,8 @@ status is-interactive; or exit
 # NOTE: Always use -x flag when setting fzf_* shell variables,
 # since fzf.fish executes its commands in child processes
 
-# Use eza instead of ls for directory previews
-set -gx fzf_preview_dir_cmd eza --oneline --all --group-directories-first --color=always
+# Use lsd instead of ls for directory previews
+set -gx fzf_preview_dir_cmd lsd --oneline --almost-all --group-directories-first --icon=always --color=always
 
 # Show hidden files during "search directory" command
 # Respects fd's ~/.config/fd/ignore and global ~/.config/git/ignore

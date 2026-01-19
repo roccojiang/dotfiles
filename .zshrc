@@ -109,13 +109,12 @@ export EDITOR='vim'
 export HOMEBREW_NO_ENV_HINTS=true
 export HOMEBREW_AUTO_UPDATE_SECS=604800
 
-## Use `eza` instead of `ls`
-export EZA_ICONS_AUTO=1
-alias ls='eza'
-alias ll='eza --group-directories-first --long'
-alias la='eza --group-directories-first --long --all'
-alias l=ll
-alias lt='ll --tree --level=3'
+## Use `lsd` instead of `ls`
+alias ls='lsd'
+alias l='ls -lF'
+alias ll='ls -lF'
+alias la='ls -lAF'
+alias lt='ll --tree --depth=3'
 alias ltt='ll --tree'
 
 ### Tool version management ###
