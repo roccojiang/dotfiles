@@ -1,0 +1,24 @@
+theme = tokyonight
+background-opacity = 0.98
+
+font-family = "Iosevka Rounded Term"
+font-size = 16
+font-thicken = true
+
+# open a randomly named zmx session
+# command = /opt/homebrew/bin/fish -C "zmx attach (od -An -N3 -tx1 /dev/urandom | tr -d ' \n')"
+
+window-save-state = always
+
+macos-icon = custom-style
+macos-icon-frame = beige
+macos-icon-ghost-color = #7aa2f7
+macos-icon-screen-color = #24283b
+
+keybind = global:cmd+ctrl+grave_accent=toggle_quick_terminal
+
+macos-option-as-alt = left
+
+# pulls in the wip searchbar feature on macOS
+# see https://github.com/ghostty-org/ghostty/pull/9709
+auto-update-channel = tip
