@@ -15,6 +15,7 @@ gpgconf --launch gpg-agent
 set -gx HOMEBREW_NO_ENV_HINTS true
 set -gx HOMEBREW_AUTO_UPDATE_SECS 604800
 fish_add_path /opt/homebrew/bin
+fish_add_path /opt/homebrew/sbin
 
 # coursier
 fish_add_path "$HOME/Library/Application Support/Coursier/bin"
