@@ -15,7 +15,7 @@ dotfiles remote add origin git@github.com:roccojiang/dotfiles.git
 Untested, but something like this should work.
 
 ```sh
-git clone --separate-git-dir=$HOME/.dotfiles git@github.com:roccojiang/dotfiles.git dotfiles-tmp
+git clone --separate-git-dir=$HOME/.dotfiles https://github.com/roccojiang/dotfiles.git dotfiles-tmp
 cp ~/dotfiles-tmp/.gitmodules ~  # for git submodules
 rsync --recursive --verbose --exclude '.git' dotfiles-tmp/ $HOME/
 rm -r dotfiles-tmp
