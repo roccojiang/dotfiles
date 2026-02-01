@@ -1,6 +1,13 @@
 [user]
   name = Rocco Jiang
-  email = 10642716+roccojiang@users.noreply.github.com
+  email = git-noreply@roccojiang.com
+  useConfigOnly = true
+
+[includeIf "hasconfig:remote.*.url:**/*github.com*/**"]
+  path = config-github
+
+[includeIf "hasconfig:remote.*.url:**/*codeberg.org*/**"]
+  path = config-codeberg
 
 [core]
   pager = delta
