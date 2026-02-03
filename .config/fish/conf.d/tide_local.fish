@@ -42,17 +42,3 @@ set -gx tide_git_icon ''
 set -gx tide_zmx_session_color yellow
 set -gx tide_zmx_session_bg_color normal
 set -gx tide_zmx_session_icon ''
-
-# Configure Tide if it's been installed, but not set up yet
-if not set -q tide_left_prompt_items; and type -q tide
-    # 16 colors forces tide to use fish theme colours
-    tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Sparse --icons='Many icons' --transient=Yes
-
-    # hacky af to remove spacing around the colon, but fuck it
-    set -U tide_left_prompt_items context colon pwd space git newline character
-
-    _tide_find_and_remove context tide_right_prompt_items
-    set --append tide_right_prompt_items zmx_session
-
-    tide reload
-end
