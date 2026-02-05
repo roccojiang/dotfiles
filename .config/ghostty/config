@@ -5,6 +5,8 @@ font-family = "Iosepta Mono Term"
 font-size = 16
 font-thicken = true
 
+shell-integration-features = ssh-env, ssh-terminfo
+
 # open a randomly named zmx session
 # command = /opt/homebrew/bin/fish -C "zmx attach (od -An -N3 -tx1 /dev/urandom | tr -d ' \n')"
 

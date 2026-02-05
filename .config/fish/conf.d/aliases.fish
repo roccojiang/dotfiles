@@ -14,6 +14,8 @@ abbr cl --set-cursor "cd % && ll"
 abbr d --set-cursor "cd ~/Developer/% && ll"
 abbr notes --set-cursor "cd ~/Documents/obsidian-vault/%"
 
+abbr sd --set-cursor "cd /Users/Shared/sandbox/% && ll" # shared sandbox directory
+
 # editor
 abbr vim nvim
 abbr vi nvim
