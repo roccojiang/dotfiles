@@ -12,19 +12,35 @@ cp ~/dotfiles-tmp/.gitmodules ~  # for git submodules
 rsync --recursive --verbose --exclude '.git' dotfiles-tmp/ $HOME/
 rm -r dotfiles-tmp
 
-# Unified bootstrap entrypoint (safe to re-run)
+# Bootstrap entrypoint (safe to re-run)
 ./install.sh
 ```
 
-Bootstrap is consolidated in [`install.sh`](install.sh).
+## Bootstrap architecture
+
+- `~/install.sh` is a thin shim/orchestrator.
+- Real implementation is under `~/.bootstrap/`:
+  - `~/.bootstrap/lib/*` shared helpers
+  - `~/.bootstrap/steps/*` ordered executable steps
+- Step runner contract:
+  - `0` success
+  - `10` skipped/no-op
+  - other non-zero failure
 
 ### `install.sh` highlights
+- Preserves existing flags:
+  - `--skip-homebrew`
+  - `--skip-shell`
+  - `--skip-pi-agent`
+  - `--pi-agent-only`
+  - `--yes` (auto-confirm prompts)
 - Installs Homebrew/fish dependencies where possible.
-- Attempts to set fish as the default shell, but **does not fail the install** if `chsh` fails. It prints manual recovery commands instead.
-- Bootstraps `~/.pi/agent` symlinks while preserving runtime-local files (for example `auth.json` and `sessions/`).
-- Uses host-aware pi-agent config sources:
-  - `korora` → shared config at `/Users/Shared/sandbox/pi-agent-config`
-  - non-`korora` → per-user config path (`$HOME/dotfiles/pi-agent` if present, else `$HOME/.local/share/pi-agent-config`)
+- Attempts to set fish as default shell; `chsh` failure is non-fatal and prints manual recovery commands.
+- Bootstraps `~/.pi/agent` config symlinks while preserving runtime-local files (`auth.json`, `sessions/`).
+- Uses host-aware pi-agent source selection:
+  - `korora` → `/Users/Shared/sandbox/pi-agent-config`
+  - non-`korora` → `$HOME/dotfiles/pi-agent` if present, else `$HOME/.local/share/pi-agent-config`
+- Backs up replaced non-symlink files with a timestamp suffix (`.bak.<timestamp>`).
 
 ## Notes
 ### Git submodules
