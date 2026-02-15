@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# STEP_NAME="Install fish"
+# STEP_GROUP="shell"
+# STEP_POLICY="soft"
+# STEP_PROMPT_BEFORE="1"
 set -euo pipefail
 
 STEP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

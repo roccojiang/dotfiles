@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# STEP_NAME="Homebrew"
+# STEP_GROUP="homebrew"
+# STEP_POLICY="soft"
+# STEP_PROMPT_BEFORE="1"
+# STEP_POST_ACTION="load_brew_env"
 set -euo pipefail
 
 STEP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
