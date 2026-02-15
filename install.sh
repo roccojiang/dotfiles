@@ -9,9 +9,6 @@ BOOTSTRAP_STEPS_DIR="${BOOTSTRAP_DIR}/steps"
 required_libs=(
   "ui.bash"
   "cli.bash"
-  "system.bash"
-  "fs.bash"
-  "pi_agent.bash"
   "runner.bash"
 )
 
@@ -24,6 +21,10 @@ for lib_file in "${required_libs[@]}"; do
   # shellcheck disable=SC1090
   source "${BOOTSTRAP_LIB_DIR}/${lib_file}"
 done
+
+hostname_short() {
+  hostname -s 2>/dev/null || hostname 2>/dev/null || echo "unknown"
+}
 
 parse_status=0
 parse_args "$@" || parse_status=$?
