@@ -57,6 +57,19 @@ if [[ "$AUTO_YES" -eq 1 ]]; then
   ui_note "Auto-confirm enabled (--yes)"
 fi
 
+STEP_PLAN_TOTAL=0
+STEP_PLAN_INDEX=0
+NEXT_STEP_PROGRESS=""
+
+plan_step() {
+  STEP_PLAN_TOTAL=$((STEP_PLAN_TOTAL + 1))
+}
+
+next_step_progress() {
+  STEP_PLAN_INDEX=$((STEP_PLAN_INDEX + 1))
+  NEXT_STEP_PROGRESS="Step ${STEP_PLAN_INDEX}/${STEP_PLAN_TOTAL}"
+}
+
 find_brew_bin() {
   if command -v brew >/dev/null 2>&1; then
     command -v brew
@@ -92,15 +105,21 @@ run_step_file() {
   local prompt_before="$3"
   local step_file="$4"
   local step_label="${step_name}"
+  local step_progress=""
   local rc=0
   local cmd=()
 
+  next_step_progress
+  step_progress="$NEXT_STEP_PROGRESS"
+
   if [[ "$BOOTSTRAP_ABORTED" -eq 1 ]]; then
+    ui_info "${step_progress}: ${step_name}"
     runner_record_skipped "$step_label" "blocked by earlier hard-fail"
     return 0
   fi
 
   if [[ ! -f "$step_file" ]]; then
+    ui_info "${step_progress}: ${step_name}"
     runner_record_failure "$step_label" "missing step file: ${step_file}"
     BOOTSTRAP_EXIT_CODE=1
     BOOTSTRAP_ABORTED=1
@@ -119,12 +138,37 @@ run_step_file() {
       ;;
   esac
 
-  run_step "$step_name" "$step_policy" "$prompt_before" "${cmd[@]}" || rc=$?
+  run_step "$step_name" "$step_policy" "$prompt_before" "$step_progress" "${cmd[@]}" || rc=$?
   if [[ "$rc" -ne 0 ]]; then
     BOOTSTRAP_EXIT_CODE="$rc"
     BOOTSTRAP_ABORTED=1
   fi
 }
+
+skip_planned_step() {
+  local step_name="$1"
+  local reason="$2"
+  local step_progress
+
+  next_step_progress
+  step_progress="$NEXT_STEP_PROGRESS"
+  ui_info "${step_progress}: ${step_name}"
+  runner_record_skipped "$step_name" "$reason"
+}
+
+if [[ "$RUN_HOME_BREW" -eq 1 ]]; then
+  plan_step
+fi
+
+if [[ "$RUN_SHELL_BOOTSTRAP" -eq 1 ]]; then
+  plan_step
+  plan_step
+  plan_step
+fi
+
+if [[ "$RUN_PI_AGENT_BOOTSTRAP" -eq 1 ]]; then
+  plan_step
+fi
 
 if [[ "$RUN_HOME_BREW" -eq 1 ]]; then
   run_step_file "Homebrew" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/10-homebrew.bash"
@@ -143,7 +187,7 @@ if [[ "$RUN_SHELL_BOOTSTRAP" -eq 1 ]]; then
   if command -v fish >/dev/null 2>&1; then
     run_step_file "Bootstrap fish plugins/prompt" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/40-fish-config.fish"
   else
-    runner_record_skipped "Bootstrap fish plugins/prompt" "fish unavailable"
+    skip_planned_step "Bootstrap fish plugins/prompt" "fish unavailable"
   fi
 else
   runner_record_skipped "Install fish" "--skip-shell"

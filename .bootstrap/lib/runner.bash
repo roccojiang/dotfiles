@@ -78,16 +78,22 @@ run_step() {
   local step_name="$1"
   local policy="$2"
   local prompt_before="$3"
-  shift 3
+  local step_progress="$4"
+  shift 4
 
   local step_label="${step_name}"
+  local step_header="$step_name"
   local status=0
 
-  ui_info "$step_label"
-  printf "\n----- %s (policy=%s) -----\n" "$step_label" "$policy" >> "$BOOTSTRAP_LOG_FILE"
+  if [[ -n "$step_progress" ]]; then
+    step_header="${step_progress}: ${step_name}"
+  fi
+
+  ui_info "$step_header"
+  printf "\n----- %s (policy=%s) -----\n" "$step_header" "$policy" >> "$BOOTSTRAP_LOG_FILE"
 
   if [[ "$prompt_before" -eq 1 ]]; then
-    if ! runner_confirm_step "Proceed with ${step_label}?"; then
+    if ! runner_confirm_step "Proceed with ${step_header}?"; then
       runner_record_skipped "$step_label" "user choice"
       return 0
     fi
