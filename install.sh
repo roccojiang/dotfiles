@@ -101,6 +101,10 @@ run_step_file() {
 
 if [[ "$RUN_HOME_BREW" -eq 1 ]]; then
   run_step_file "10" "Homebrew" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/10-homebrew.bash"
+
+  # Step scripts run in child shells; refresh brew env in this parent shell
+  # so downstream steps inherit PATH/HOMEBREW_* variables.
+  load_brew_env || true
 else
   runner_record_skipped "[10] Homebrew" "--skip-homebrew"
 fi
