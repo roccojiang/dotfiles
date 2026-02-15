@@ -57,35 +57,21 @@ EOF
 
 upsert_brew_shellenv_block() {
   local file_path="$1"
-  local block_content
 
-  block_content="$(brew_shellenv_block)"
+  touch "$file_path"
 
-  python3 - "$file_path" "$block_content" <<'PY'
-import pathlib
-import re
-import sys
+  # If Homebrew shellenv is already managed by another snippet, don't duplicate it.
+  if grep -Fq 'brew shellenv' "$file_path"; then
+    return 10
+  fi
 
-path = pathlib.Path(sys.argv[1])
-block = sys.argv[2]
-start = "# >>> dotfiles bootstrap: homebrew shellenv >>>"
-end = "# <<< dotfiles bootstrap: homebrew shellenv <<<"
+  {
+    printf "\n"
+    brew_shellenv_block
+    printf "\n"
+  } >> "$file_path"
 
-original = path.read_text() if path.exists() else ""
-pattern = re.compile(r"\n*" + re.escape(start) + r"\n.*?\n" + re.escape(end) + r"\n*", re.S)
-stripped = re.sub(pattern, "\n", original).rstrip()
-if stripped:
-    updated = stripped + "\n\n" + block + "\n"
-else:
-    updated = block + "\n"
-
-if updated == original:
-    sys.exit(10)
-
-path.parent.mkdir(parents=True, exist_ok=True)
-path.write_text(updated)
-sys.exit(0)
-PY
+  return 0
 }
 
 ensure_brew_shellenv_persisted() {
