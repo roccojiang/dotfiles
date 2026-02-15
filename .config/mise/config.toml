@@ -1,0 +1,14 @@
+[tools]
+node = "lts"
+"npm:typescript" = "latest"
+"npm:eslint" = "latest"
+"npm:prettier" = "latest"
+"npm:@mariozechner/pi-coding-agent" = "latest"
+
+python = "latest"
+uv = "latest"
+
+java = "temurin-21"
+
+[settings]
+not_found_auto_install = false  # zsh: interferes with z4h command_not_found_handler
