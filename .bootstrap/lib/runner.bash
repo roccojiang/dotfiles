@@ -75,13 +75,12 @@ runner_record_failure() {
 }
 
 run_step() {
-  local step_id="$1"
-  local step_name="$2"
-  local policy="$3"
-  local prompt_before="$4"
-  shift 4
+  local step_name="$1"
+  local policy="$2"
+  local prompt_before="$3"
+  shift 3
 
-  local step_label="[${step_id}] ${step_name}"
+  local step_label="${step_name}"
   local status=0
 
   ui_info "$step_label"

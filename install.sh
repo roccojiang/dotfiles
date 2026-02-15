@@ -59,12 +59,11 @@ if [[ "$AUTO_YES" -eq 1 ]]; then
 fi
 
 run_step_file() {
-  local step_id="$1"
-  local step_name="$2"
-  local step_policy="$3"
-  local prompt_before="$4"
-  local step_file="$5"
-  local step_label="[${step_id}] ${step_name}"
+  local step_name="$1"
+  local step_policy="$2"
+  local prompt_before="$3"
+  local step_file="$4"
+  local step_label="${step_name}"
   local rc=0
   local cmd=()
 
@@ -92,7 +91,7 @@ run_step_file() {
       ;;
   esac
 
-  run_step "$step_id" "$step_name" "$step_policy" "$prompt_before" "${cmd[@]}" || rc=$?
+  run_step "$step_name" "$step_policy" "$prompt_before" "${cmd[@]}" || rc=$?
   if [[ "$rc" -ne 0 ]]; then
     BOOTSTRAP_EXIT_CODE="$rc"
     BOOTSTRAP_ABORTED=1
@@ -100,34 +99,34 @@ run_step_file() {
 }
 
 if [[ "$RUN_HOME_BREW" -eq 1 ]]; then
-  run_step_file "10" "Homebrew" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/10-homebrew.bash"
+  run_step_file "Homebrew" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/10-homebrew.bash"
 
   # Step scripts run in child shells; refresh brew env in this parent shell
   # so downstream steps inherit PATH/HOMEBREW_* variables.
   load_brew_env || true
 else
-  runner_record_skipped "[10] Homebrew" "--skip-homebrew"
+  runner_record_skipped "Homebrew" "--skip-homebrew"
 fi
 
 if [[ "$RUN_SHELL_BOOTSTRAP" -eq 1 ]]; then
-  run_step_file "20" "Install fish" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/20-fish-install.bash"
-  run_step_file "30" "Set default shell to fish" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/30-default-shell.bash"
+  run_step_file "Install fish" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/20-fish-install.bash"
+  run_step_file "Set default shell to fish" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/30-default-shell.bash"
 
   if command -v fish >/dev/null 2>&1; then
-    run_step_file "40" "Bootstrap fish plugins/prompt" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/40-fish-config.fish"
+    run_step_file "Bootstrap fish plugins/prompt" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/40-fish-config.fish"
   else
-    runner_record_skipped "[40] Bootstrap fish plugins/prompt" "fish unavailable"
+    runner_record_skipped "Bootstrap fish plugins/prompt" "fish unavailable"
   fi
 else
-  runner_record_skipped "[20] Install fish" "--skip-shell"
-  runner_record_skipped "[30] Set default shell to fish" "--skip-shell"
-  runner_record_skipped "[40] Bootstrap fish plugins/prompt" "--skip-shell"
+  runner_record_skipped "Install fish" "--skip-shell"
+  runner_record_skipped "Set default shell to fish" "--skip-shell"
+  runner_record_skipped "Bootstrap fish plugins/prompt" "--skip-shell"
 fi
 
 if [[ "$RUN_PI_AGENT_BOOTSTRAP" -eq 1 ]]; then
-  run_step_file "50" "Bootstrap pi-agent symlinks" "hard" "1" "${BOOTSTRAP_STEPS_DIR}/50-pi-agent.bash"
+  run_step_file "Bootstrap pi-agent symlinks" "hard" "1" "${BOOTSTRAP_STEPS_DIR}/50-pi-agent.bash"
 else
-  runner_record_skipped "[50] Bootstrap pi-agent symlinks" "--skip-pi-agent"
+  runner_record_skipped "Bootstrap pi-agent symlinks" "--skip-pi-agent"
 fi
 
 runner_print_summary
