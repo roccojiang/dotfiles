@@ -29,7 +29,8 @@ runner_confirm_step() {
   fi
 
   while true; do
-    read -r -p "$message [Y/n] " answer
+    printf "%s  -> %s [Y/n] (Enter defaults to Y): %s" "$UI_COLOR_NOTE" "$message" "$UI_COLOR_RESET"
+    read -r answer
     answer="${answer:-Y}"
     case "$answer" in
       [Yy]|[Yy][Ee][Ss])
@@ -39,7 +40,7 @@ runner_confirm_step() {
         return 1
         ;;
       *)
-        printf "Please answer y or n.\n"
+        ui_warn "Please answer y or n."
         ;;
     esac
   done
@@ -87,6 +88,7 @@ run_step() {
 
   if [[ -n "$step_progress" ]]; then
     step_header="${step_progress}: ${step_name}"
+    step_label="$step_header"
   fi
 
   ui_info "$step_header"
