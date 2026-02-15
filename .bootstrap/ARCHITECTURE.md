@@ -35,9 +35,63 @@ Design rule:
 ## Execution Model
 
 - `install.sh` is the top-level orchestrator.
-- It validates and sources `lib/*` helpers, parses flags, and runs ordered steps.
+- It validates and sources `lib/*` helpers, parses flags, and discovers steps from `./.bootstrap/steps`.
+- Step files are the source of truth for display name, policy, grouping, prompts, and optional requirements.
 - Steps execute in child processes (`bash`/`fish`) via `runner.bash`.
 - Output is streamed to terminal and appended to a timestamped log file.
+
+## Step File Format (Required Metadata Header)
+
+Each executable step file must include metadata comments near the top of the file.
+
+Expected keys:
+
+- `STEP_NAME` (required): human-readable name shown in output/summary
+- `STEP_GROUP` (optional, default `default`): used by CLI skip flags
+- `STEP_POLICY` (optional, default `soft`): `soft` or `hard`
+- `STEP_PROMPT_BEFORE` (optional, default `1`): `1` prompts before execution, `0` runs directly
+- `STEP_REQUIRES_COMMAND` (optional): if command is missing, step is skipped with reason
+- `STEP_POST_ACTION` (optional): install-level post-step hook (currently `load_brew_env`)
+
+Example:
+
+```bash
+#!/usr/bin/env bash
+# STEP_NAME="Homebrew"
+# STEP_GROUP="homebrew"
+# STEP_POLICY="soft"
+# STEP_PROMPT_BEFORE="1"
+# STEP_POST_ACTION="load_brew_env"
+set -euo pipefail
+```
+
+```fish
+#!/usr/bin/env fish
+# STEP_NAME="Bootstrap fish plugins/prompt"
+# STEP_GROUP="shell"
+# STEP_POLICY="soft"
+# STEP_PROMPT_BEFORE="1"
+# STEP_REQUIRES_COMMAND="fish"
+```
+
+### Parsing rules
+
+- Metadata is read from `# KEY="value"` comment lines.
+- Unknown keys are ignored.
+- Invalid `STEP_POLICY` falls back to `soft` with warning.
+- Invalid `STEP_PROMPT_BEFORE` falls back to `1` with warning.
+
+## Step Discovery, Ordering, and Group Semantics
+
+- Steps are discovered by scanning `./.bootstrap/steps` for `*.bash` and `*.fish` files.
+- Execution order is lexical sort of filenames (use numeric prefixes like `10-`, `20-`, ...).
+- Progress labels (`Step X/Y`) are derived from discovered step count and run index.
+- Current groups mapped to CLI flags:
+  - `homebrew` ↔ `--skip-homebrew`
+  - `shell` ↔ `--skip-shell`
+  - `pi-agent` ↔ `--skip-pi-agent`
+
+For new groups, add matching skip-policy handling in `install.sh` if needed.
 
 ## Runner Contract
 
@@ -56,7 +110,7 @@ Runner policies per step:
 
 Each step should clearly show:
 
-1. Step name
+1. Step name (with `Step X/Y` progress)
 2. Optional confirmation prompt
 3. Live command output
 4. Final outcome (completed/skipped/failed)
@@ -66,6 +120,19 @@ Non-interactive behavior:
 - `--yes` auto-confirms prompts
 - non-TTY mode auto-confirms prompts
 - `NO_COLOR` disables color formatting
+
+Prompt behavior:
+
+- prompt format is `[Y/n]`
+- pressing Enter defaults to `Y`
+
+## Additional Architectural Decisions
+
+- **Step files are authoritative** for step metadata. Avoid duplicating step definitions in `install.sh`.
+- **`lib/` stays meta-only** (UI, CLI parsing, runner mechanics), while domain behavior remains in steps.
+- **Child-shell color output is preserved** for step scripts by setting `PI_BOOTSTRAP_FORCE_COLOR=1` when spawning step processes.
+- **Parent-shell environment refresh** is explicit and post-step (for example Homebrew shellenv), since child-shell exports do not propagate upward.
+- **Summary entries include progress labels** so users can map outcomes back to the exact step index shown during execution.
 
 ## Idempotency Rules
 
