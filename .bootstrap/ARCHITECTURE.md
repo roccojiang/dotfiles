@@ -147,10 +147,10 @@ Steps must be safe to re-run:
 
 Current step policy intent:
 
-- Homebrew: soft-fail
+- Homebrew: hard-fail
 - fish install: soft-fail
 - default shell (`chsh`): soft-fail (print manual remediation)
-- fish plugin/prompt bootstrap: soft-fail
+- fish plugin/prompt bootstrap: soft-fail (gated by `STEP_REQUIRES_COMMAND="fish"`)
 - pi-agent symlink bootstrap: hard-fail
 
 ## Logging
