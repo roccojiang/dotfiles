@@ -198,3 +198,7 @@ At end of run, print path to log file.
 If complexity grows (stateful flows, more branching, richer prompt logic), consider migrating only the orchestrator to Python while keeping step scripts and contracts unchanged.
 
 Because step execution is already standardised, this migration becomes mechanical rather than architectural.
+
+## TODO
+
+- Add a lightweight bootstrap smoke-test script and run it in CI / before release (at minimum: `--help`, all-skip run, and `--pi-agent-only --yes` safety path).
