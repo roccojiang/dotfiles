@@ -94,6 +94,23 @@ ensure_brew_shellenv_persisted() {
   return 10
 }
 
+print_current_shell_brew_refresh_hint() {
+  local brew_bin="$1"
+  local shell_name
+
+  shell_name="$(basename "${SHELL:-}")"
+
+  ui_note "To use Homebrew immediately in your current shell session, run:"
+  case "$shell_name" in
+    fish)
+      ui_note "  eval ($brew_bin shellenv fish)"
+      ;;
+    *)
+      ui_note "  eval \"\$($brew_bin shellenv bash)\""
+      ;;
+  esac
+}
+
 ensure_homebrew() {
   local brew_bin
   local brew_was_installed=0
@@ -123,6 +140,10 @@ ensure_homebrew() {
   ensure_brew_shellenv_persisted || env_persist_status=$?
   if [[ "$env_persist_status" -ne 0 && "$env_persist_status" -ne 10 ]]; then
     ui_warn "Could not persist Homebrew shellenv to all shell profiles"
+  fi
+
+  if [[ "$brew_was_installed" -eq 1 ]]; then
+    print_current_shell_brew_refresh_hint "$brew_bin"
   fi
 
   if [[ "$brew_was_installed" -eq 1 || "$env_persist_status" -eq 0 ]]; then
