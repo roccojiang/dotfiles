@@ -11,7 +11,6 @@ required_libs=(
   "cli.bash"
   "system.bash"
   "fs.bash"
-  "brew.bash"
   "shell.bash"
   "pi_agent.bash"
   "runner.bash"
@@ -57,6 +56,35 @@ ui_note "Host detected: ${BOOTSTRAP_HOSTNAME_SHORT}"
 if [[ "$AUTO_YES" -eq 1 ]]; then
   ui_note "Auto-confirm enabled (--yes)"
 fi
+
+find_brew_bin() {
+  if command -v brew >/dev/null 2>&1; then
+    command -v brew
+    return 0
+  fi
+
+  local candidate
+  for candidate in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+    if [[ -x "$candidate" ]]; then
+      printf "%s\n" "$candidate"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+load_brew_env() {
+  local brew_bin
+  brew_bin="$(find_brew_bin || true)"
+
+  if [[ -z "$brew_bin" ]]; then
+    return 1
+  fi
+
+  eval "$("$brew_bin" shellenv bash)"
+  return 0
+}
 
 run_step_file() {
   local step_name="$1"
