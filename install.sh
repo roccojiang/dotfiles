@@ -11,7 +11,6 @@ required_libs=(
   "cli.bash"
   "system.bash"
   "fs.bash"
-  "shell.bash"
   "pi_agent.bash"
   "runner.bash"
 )
