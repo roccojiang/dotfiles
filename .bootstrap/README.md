@@ -25,4 +25,6 @@ Bootstrap implementation for `~/install.sh`.
   - soft-fail steps continue
   - hard-fail steps abort subsequent steps
 
-For detailed rationale and conventions, see `./ARCHITECTURE.md`.
+Step files in `steps/` are expected to include metadata headers (for example `STEP_NAME`, `STEP_GROUP`, `STEP_POLICY`).
+
+For detailed rationale and full conventions, see `./ARCHITECTURE.md`.
