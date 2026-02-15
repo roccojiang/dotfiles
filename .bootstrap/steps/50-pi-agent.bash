@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# STEP_NAME="Bootstrap pi-agent symlinks"
+# STEP_GROUP="pi-agent"
+# STEP_POLICY="hard"
+# STEP_PROMPT_BEFORE="1"
 set -euo pipefail
 
 STEP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

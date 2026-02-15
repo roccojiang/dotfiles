@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ -t 1 && -z "${NO_COLOR:-}" ]]; then
+if [[ -z "${NO_COLOR:-}" && ( -t 1 || "${PI_BOOTSTRAP_FORCE_COLOR:-0}" == "1" ) ]]; then
   UI_COLOR_INFO=$'\033[1;34m'
   UI_COLOR_NOTE=$'\033[0;36m'
   UI_COLOR_WARN=$'\033[0;33m'

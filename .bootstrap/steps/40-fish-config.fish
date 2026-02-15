@@ -1,4 +1,9 @@
 #!/usr/bin/env fish
+# STEP_NAME="Bootstrap fish plugins/prompt"
+# STEP_GROUP="shell"
+# STEP_POLICY="soft"
+# STEP_PROMPT_BEFORE="1"
+# STEP_REQUIRES_COMMAND="fish"
 
 function note
     echo "  -> $argv"
@@ -49,7 +54,7 @@ end
 
 if type -q tide
     echo "==> Configuring tide..."
-    tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Sparse --icons='Many icons' --transient=Yes
+    tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time=No --lean_prompt_height='Two lines' --prompt_connection=Disconnected --prompt_spacing=Sparse --icons='Many icons' --transient=Yes >/dev/null 2>&1
     if test $status -ne 0
         echo "WARNING: tide configure failed."
         exit 1

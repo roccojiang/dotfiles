@@ -57,16 +57,16 @@ if [[ "$AUTO_YES" -eq 1 ]]; then
   ui_note "Auto-confirm enabled (--yes)"
 fi
 
-STEP_SEQUENCE=(
-  "Homebrew"
-  "Install fish"
-  "Set default shell to fish"
-  "Bootstrap fish plugins/prompt"
-  "Bootstrap pi-agent symlinks"
-)
-STEP_PLAN_TOTAL="${#STEP_SEQUENCE[@]}"
+STEP_PLAN_TOTAL=0
 STEP_PLAN_INDEX=0
 NEXT_STEP_PROGRESS=""
+STEP_FILES=()
+STEP_NAMES=()
+STEP_POLICIES=()
+STEP_PROMPTS=()
+STEP_GROUPS=()
+STEP_REQUIRES_COMMANDS=()
+STEP_POST_ACTIONS=()
 
 next_step_progress() {
   STEP_PLAN_INDEX=$((STEP_PLAN_INDEX + 1))
@@ -100,6 +100,80 @@ load_brew_env() {
 
   eval "$("$brew_bin" shellenv bash)"
   return 0
+}
+
+humanize_step_filename() {
+  local file_name="$1"
+  local stem
+
+  stem="${file_name%.*}"
+  stem="${stem#[0-9][0-9]-}"
+  stem="${stem//-/ }"
+
+  printf "%s\n" "$stem"
+}
+
+step_meta() {
+  local step_file="$1"
+  local key="$2"
+  local default_value="${3:-}"
+  local value
+
+  value="$(awk -v key="$key" '
+    {
+      pattern = "^#[[:space:]]*" key "=\""
+      if ($0 ~ pattern) {
+        line = $0
+        sub(pattern, "", line)
+        sub("\"[[:space:]]*$", "", line)
+        print line
+        exit
+      }
+    }
+  ' "$step_file")"
+
+  if [[ -n "$value" ]]; then
+    printf "%s\n" "$value"
+    return 0
+  fi
+
+  printf "%s\n" "$default_value"
+}
+
+discover_step_plan() {
+  local step_file base_name
+  local step_name step_policy step_prompt step_group step_requires step_post_action
+
+  while IFS= read -r step_file; do
+    base_name="$(basename "$step_file")"
+
+    step_name="$(step_meta "$step_file" "STEP_NAME" "$(humanize_step_filename "$base_name")")"
+    step_policy="$(step_meta "$step_file" "STEP_POLICY" "soft")"
+    step_prompt="$(step_meta "$step_file" "STEP_PROMPT_BEFORE" "1")"
+    step_group="$(step_meta "$step_file" "STEP_GROUP" "default")"
+    step_requires="$(step_meta "$step_file" "STEP_REQUIRES_COMMAND" "")"
+    step_post_action="$(step_meta "$step_file" "STEP_POST_ACTION" "")"
+
+    if [[ "$step_policy" != "soft" && "$step_policy" != "hard" ]]; then
+      ui_warn "${base_name}: unsupported STEP_POLICY='${step_policy}', defaulting to soft"
+      step_policy="soft"
+    fi
+
+    if [[ "$step_prompt" != "0" && "$step_prompt" != "1" ]]; then
+      ui_warn "${base_name}: unsupported STEP_PROMPT_BEFORE='${step_prompt}', defaulting to 1"
+      step_prompt="1"
+    fi
+
+    STEP_FILES+=("$step_file")
+    STEP_NAMES+=("$step_name")
+    STEP_POLICIES+=("$step_policy")
+    STEP_PROMPTS+=("$step_prompt")
+    STEP_GROUPS+=("$step_group")
+    STEP_REQUIRES_COMMANDS+=("$step_requires")
+    STEP_POST_ACTIONS+=("$step_post_action")
+  done < <(find "$BOOTSTRAP_STEPS_DIR" -maxdepth 1 -type f \( -name "*.bash" -o -name "*.fish" \) | sort)
+
+  STEP_PLAN_TOTAL="${#STEP_FILES[@]}"
 }
 
 run_step_file() {
@@ -159,41 +233,68 @@ skip_planned_step() {
   runner_record_skipped "${step_progress}: ${step_name}" "$reason"
 }
 
-if [[ "$RUN_HOME_BREW" -eq 1 ]]; then
-  run_step_file "Homebrew" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/10-homebrew.bash"
+discover_step_plan
 
-  # Step scripts run in child shells; refresh brew env in this parent shell
-  # so downstream steps inherit PATH/HOMEBREW_* variables.
-  load_brew_env || true
-else
-  skip_planned_step "Homebrew" "--skip-homebrew"
+if [[ "$STEP_PLAN_TOTAL" -eq 0 ]]; then
+  ui_warn "No bootstrap step files found in ${BOOTSTRAP_STEPS_DIR}"
 fi
 
-if [[ "$RUN_SHELL_BOOTSTRAP" -eq 1 ]]; then
-  run_step_file "Install fish" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/20-fish-install.bash"
-  run_step_file "Set default shell to fish" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/30-default-shell.bash"
+HAS_SHELL_STEPS=0
 
-  if command -v fish >/dev/null 2>&1; then
-    run_step_file "Bootstrap fish plugins/prompt" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/40-fish-config.fish"
-  else
-    skip_planned_step "Bootstrap fish plugins/prompt" "fish unavailable"
+for i in "${!STEP_FILES[@]}"; do
+  step_file="${STEP_FILES[$i]}"
+  step_name="${STEP_NAMES[$i]}"
+  step_policy="${STEP_POLICIES[$i]}"
+  step_prompt="${STEP_PROMPTS[$i]}"
+  step_group="${STEP_GROUPS[$i]}"
+  step_requires="${STEP_REQUIRES_COMMANDS[$i]}"
+  step_post_action="${STEP_POST_ACTIONS[$i]}"
+
+  if [[ "$step_group" == "shell" ]]; then
+    HAS_SHELL_STEPS=1
   fi
-else
-  skip_planned_step "Install fish" "--skip-shell"
-  skip_planned_step "Set default shell to fish" "--skip-shell"
-  skip_planned_step "Bootstrap fish plugins/prompt" "--skip-shell"
-fi
 
-if [[ "$RUN_PI_AGENT_BOOTSTRAP" -eq 1 ]]; then
-  run_step_file "Bootstrap pi-agent symlinks" "hard" "1" "${BOOTSTRAP_STEPS_DIR}/50-pi-agent.bash"
-else
-  skip_planned_step "Bootstrap pi-agent symlinks" "--skip-pi-agent"
-fi
+  case "$step_group" in
+    homebrew)
+      if [[ "$RUN_HOME_BREW" -eq 0 ]]; then
+        skip_planned_step "$step_name" "--skip-homebrew"
+        continue
+      fi
+      ;;
+    shell)
+      if [[ "$RUN_SHELL_BOOTSTRAP" -eq 0 ]]; then
+        skip_planned_step "$step_name" "--skip-shell"
+        continue
+      fi
+      ;;
+    pi-agent)
+      if [[ "$RUN_PI_AGENT_BOOTSTRAP" -eq 0 ]]; then
+        skip_planned_step "$step_name" "--skip-pi-agent"
+        continue
+      fi
+      ;;
+  esac
+
+  if [[ -n "$step_requires" ]] && ! command -v "$step_requires" >/dev/null 2>&1; then
+    skip_planned_step "$step_name" "${step_requires} unavailable"
+    continue
+  fi
+
+  run_step_file "$step_name" "$step_policy" "$step_prompt" "$step_file"
+
+  case "$step_post_action" in
+    load_brew_env)
+      # Step scripts run in child shells; refresh brew env in this parent shell
+      # so downstream steps inherit PATH/HOMEBREW_* variables.
+      load_brew_env || true
+      ;;
+  esac
+done
 
 runner_print_summary
 ui_note "Detailed log: ${BOOTSTRAP_LOG_FILE}"
 
-if [[ "$RUN_SHELL_BOOTSTRAP" -eq 1 ]]; then
+if [[ "$RUN_SHELL_BOOTSTRAP" -eq 1 && "$HAS_SHELL_STEPS" -eq 1 ]]; then
   ui_note "Restart your shell to pick up shell changes"
 fi
 
