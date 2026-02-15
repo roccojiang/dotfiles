@@ -57,13 +57,16 @@ if [[ "$AUTO_YES" -eq 1 ]]; then
   ui_note "Auto-confirm enabled (--yes)"
 fi
 
-STEP_PLAN_TOTAL=0
+STEP_SEQUENCE=(
+  "Homebrew"
+  "Install fish"
+  "Set default shell to fish"
+  "Bootstrap fish plugins/prompt"
+  "Bootstrap pi-agent symlinks"
+)
+STEP_PLAN_TOTAL="${#STEP_SEQUENCE[@]}"
 STEP_PLAN_INDEX=0
 NEXT_STEP_PROGRESS=""
-
-plan_step() {
-  STEP_PLAN_TOTAL=$((STEP_PLAN_TOTAL + 1))
-}
 
 next_step_progress() {
   STEP_PLAN_INDEX=$((STEP_PLAN_INDEX + 1))
@@ -114,13 +117,13 @@ run_step_file() {
 
   if [[ "$BOOTSTRAP_ABORTED" -eq 1 ]]; then
     ui_info "${step_progress}: ${step_name}"
-    runner_record_skipped "$step_label" "blocked by earlier hard-fail"
+    runner_record_skipped "${step_progress}: ${step_label}" "blocked by earlier hard-fail"
     return 0
   fi
 
   if [[ ! -f "$step_file" ]]; then
     ui_info "${step_progress}: ${step_name}"
-    runner_record_failure "$step_label" "missing step file: ${step_file}"
+    runner_record_failure "${step_progress}: ${step_label}" "missing step file: ${step_file}"
     BOOTSTRAP_EXIT_CODE=1
     BOOTSTRAP_ABORTED=1
     return 0
@@ -128,10 +131,10 @@ run_step_file() {
 
   case "$step_file" in
     *.bash)
-      cmd=(bash "$step_file")
+      cmd=(env PI_BOOTSTRAP_FORCE_COLOR=1 bash "$step_file")
       ;;
     *.fish)
-      cmd=(fish "$step_file")
+      cmd=(env PI_BOOTSTRAP_FORCE_COLOR=1 fish "$step_file")
       ;;
     *)
       cmd=("$step_file")
@@ -153,22 +156,8 @@ skip_planned_step() {
   next_step_progress
   step_progress="$NEXT_STEP_PROGRESS"
   ui_info "${step_progress}: ${step_name}"
-  runner_record_skipped "$step_name" "$reason"
+  runner_record_skipped "${step_progress}: ${step_name}" "$reason"
 }
-
-if [[ "$RUN_HOME_BREW" -eq 1 ]]; then
-  plan_step
-fi
-
-if [[ "$RUN_SHELL_BOOTSTRAP" -eq 1 ]]; then
-  plan_step
-  plan_step
-  plan_step
-fi
-
-if [[ "$RUN_PI_AGENT_BOOTSTRAP" -eq 1 ]]; then
-  plan_step
-fi
 
 if [[ "$RUN_HOME_BREW" -eq 1 ]]; then
   run_step_file "Homebrew" "soft" "1" "${BOOTSTRAP_STEPS_DIR}/10-homebrew.bash"
@@ -177,7 +166,7 @@ if [[ "$RUN_HOME_BREW" -eq 1 ]]; then
   # so downstream steps inherit PATH/HOMEBREW_* variables.
   load_brew_env || true
 else
-  runner_record_skipped "Homebrew" "--skip-homebrew"
+  skip_planned_step "Homebrew" "--skip-homebrew"
 fi
 
 if [[ "$RUN_SHELL_BOOTSTRAP" -eq 1 ]]; then
@@ -190,15 +179,15 @@ if [[ "$RUN_SHELL_BOOTSTRAP" -eq 1 ]]; then
     skip_planned_step "Bootstrap fish plugins/prompt" "fish unavailable"
   fi
 else
-  runner_record_skipped "Install fish" "--skip-shell"
-  runner_record_skipped "Set default shell to fish" "--skip-shell"
-  runner_record_skipped "Bootstrap fish plugins/prompt" "--skip-shell"
+  skip_planned_step "Install fish" "--skip-shell"
+  skip_planned_step "Set default shell to fish" "--skip-shell"
+  skip_planned_step "Bootstrap fish plugins/prompt" "--skip-shell"
 fi
 
 if [[ "$RUN_PI_AGENT_BOOTSTRAP" -eq 1 ]]; then
   run_step_file "Bootstrap pi-agent symlinks" "hard" "1" "${BOOTSTRAP_STEPS_DIR}/50-pi-agent.bash"
 else
-  runner_record_skipped "Bootstrap pi-agent symlinks" "--skip-pi-agent"
+  skip_planned_step "Bootstrap pi-agent symlinks" "--skip-pi-agent"
 fi
 
 runner_print_summary
