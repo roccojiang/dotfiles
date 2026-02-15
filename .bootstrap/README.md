@@ -1,15 +1,28 @@
-# `.bootstrap` implementation
+# `.bootstrap`
 
-`~/install.sh` is the top-level bootstrap entrypoint.
+Bootstrap implementation for `~/install.sh`.
 
-The real implementation lives under this directory:
+## Layout
 
-- `lib/` shared helpers (CLI parsing, UI/logging, system/fs helpers, Homebrew/shell/pi-agent logic)
-- `steps/` executable, ordered bootstrap steps (`bash` and `fish`)
+- `lib/` meta-level shared helpers only:
+  - `ui.bash` (output formatting)
+  - `cli.bash` (flag parsing)
+  - `runner.bash` (step execution, prompting, logging, status mapping)
+- `steps/` domain logic, one executable step per concern:
+  - `10-homebrew.bash`
+  - `20-fish-install.bash`
+  - `30-default-shell.bash`
+  - `40-fish-config.fish`
+  - `50-pi-agent.bash`
 
-Design goals:
+## Contracts
 
-- tiny root `install.sh` shim/orchestrator
-- modular, testable step scripts
-- consistent runner contract (`0=success`, `10=skipped/no-op`, non-zero=failure)
-- safe re-runs (idempotent checks, backup-on-replace symlink behavior)
+- Step exit codes:
+  - `0` success
+  - `10` skipped/no-op
+  - any other non-zero failure
+- Runner policies:
+  - soft-fail steps continue
+  - hard-fail steps abort subsequent steps
+
+For detailed rationale and conventions, see `./ARCHITECTURE.md`.
