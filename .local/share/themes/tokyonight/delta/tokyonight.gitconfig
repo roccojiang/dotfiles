@@ -1,0 +1,15 @@
+# Tokyo Night Moon
+# Adapted from https://github.com/folke/tokyonight.nvim/blob/5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd/extras/delta/tokyonight_moon.gitconfig
+[delta "tokyonight"]
+  dark = true
+  minus-style                   = syntax "#4b2a3d"
+  minus-non-emph-style          = syntax "#4b2a3d"
+  minus-emph-style              = syntax "#6b2e43"
+  minus-empty-line-marker-style = syntax "#4b2a3d"
+  line-numbers-minus-style      = "#e26a75"
+  plus-style                    = syntax "#2a4556"
+  plus-non-emph-style           = syntax "#2a4556"
+  plus-emph-style               = syntax "#305f6f"
+  plus-empty-line-marker-style  = syntax "#2a4556"
+  line-numbers-plus-style       = "#b8db87"
+  line-numbers-zero-style       = "#3b4261"
