@@ -9,7 +9,7 @@ alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 dotfiles config status.showUntrackedFiles no
 
 cp ~/dotfiles-tmp/.gitmodules ~  # for git submodules
-rsync --recursive --verbose --exclude '.git' dotfiles-tmp/ $HOME/
+rsync --recursive --verbose --links --exclude '.git' dotfiles-tmp/ $HOME/
 rm -r dotfiles-tmp
 ```
 
