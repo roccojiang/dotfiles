@@ -1,4 +1,4 @@
-# Tokyo Night
+# Tokyo Night theme for fish
 
 Adapted from https://github.com/folke/tokyonight.nvim/tree/main/extras/fish_themes.
 
