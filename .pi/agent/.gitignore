@@ -1,0 +1,11 @@
+# Runtime-only (not tracked)
+auth.json
+sessions/
+git/
+.pi/
+
+# Local dependency installs (if any extension/skill needs npm)
+node_modules/
+
+# Backup files from setup migrations
+*.bak

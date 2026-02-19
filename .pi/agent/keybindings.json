@@ -1,0 +1,7 @@
+{
+  "_comment": "Pi built-in keybindings. Extension shortcuts (like modes.ts) must be changed in the extension source.",
+  "submit": ["enter"],
+  "newLine": ["shift+enter"],
+  "expandTools": ["ctrl+o"],
+  "toggleThinking": ["ctrl+t"]
+}
