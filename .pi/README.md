@@ -1,24 +1,30 @@
-# Pi configuration in dotfiles
+# `.pi` layout and provenance (dotfiles repo)
 
-This repo tracks Pi configuration in a split layout:
+TODO: rewrite this AI slop lol
 
-## Runtime/config (Pi-native)
+This README documents repo-managed `~/.pi/**` layout and provenance.
 
-These stay under `~/.pi/agent` because Pi expects them there:
+Operational guardrails and maintenance policy live in `~/.pi/AGENTS.md`.
+
+## Layout
+
+### Pi-native runtime/config (`~/.pi/agent/`)
+
+Keep Pi-native runtime/config here:
 
 - `settings.json`, `modes.json`, `keybindings.json`
 - `extensions/`, `skills/`
-- runtime/state files (not typically edited here), e.g. `sessions/`, `auth.json`
+- runtime/state files (usually not edited directly), e.g. `sessions/`, `auth.json`
 
-## Dotfiles-owned support assets
+### Dotfiles-owned support assets (`~/.pi/`)
 
-These live one level up under `~/.pi`:
+Keep dotfiles-owned support assets here:
 
 - `~/.pi/shims/`
 - `~/.pi/licenses/`
 - docs (`~/.pi/README.md`, `~/.pi/AGENTS.md`)
 
-## Shim naming convention
+## Shim naming
 
 Use explicit prefixes:
 
@@ -29,7 +35,7 @@ Current shim:
 
 - `shims/skill-web-search` → `~/.pi/agent/skills/web-search/search.py`
 
-## Third-party provenance summary
+## Provenance and licensing
 
 Some extensions/skills were copied from [`pasky/pi-amplike`](https://github.com/pasky/pi-amplike), commit:
 
@@ -44,7 +50,7 @@ Copied files include:
 - `skills/web-search/{SKILL.md,search.py}`
 - `skills/visit-webpage/{SKILL.md,visit.py}`
 
-Local adaptations include attribution headers/comments and shim command naming (`skill-web-search`).
+Local adaptations include preserved attribution headers/comments and shim command naming (`skill-web-search`).
 
 License copy:
 
