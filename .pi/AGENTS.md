@@ -1,37 +1,23 @@
-# AGENTS.md — `.pi` maintenance policy (dotfiles repo)
+# AGENTS.md: notes for maintaining `~/.pi` in dotfiles
 
-This file governs repo-managed `~/.pi/**` content only.
+This file applies only to repo-managed `~/.pi/**`.
 
-## Scope and placement
+Read `~/.pi/README.md` first for layout/context and subtree workflow.
 
-- Keep this policy in `~/.pi/AGENTS.md`.
-- Do **not** duplicate it in `~/.pi/agent/AGENTS.md` (avoid affecting global Pi runtime context unexpectedly).
+## Maintained packages
 
-## Layout policy
+- For maintained extensions/skills, load via `~/.pi/agent/settings.json` `packages` entries
+  (local paths like `../packages/...`).
 
-- Keep Pi-native runtime/config under `~/.pi/agent`:
-  - `settings.json`, `modes.json`, `keybindings.json`
-  - runtime files like `sessions/`, `auth.json`
-  - `extensions/`, `skills/` only for short-lived local experiments
-- Keep dotfiles-owned maintained assets under `~/.pi`:
-  - `~/.pi/packages/` (all maintained forked/upstream-mirrored and first-party Pi packages)
-  - `~/.pi/shims/`
-  - `~/.pi/README.md`, `~/.pi/AGENTS.md`
+## Short-lived experiments
 
-Prefer loading maintained extensions/skills through `~/.pi/agent/settings.json` `packages` entries pointing to `../packages/...`.
+- Temporary experiments may live in `~/.pi/agent/extensions` or `~/.pi/agent/skills`.
+- Once stable, consolidate them into a package under `~/.pi/packages`.
 
-## Important guardrail
+## Local scripts and shims
 
-Do **not** set `PI_CODING_AGENT_DIR=~/.pi`.
-
-Use Pi’s default runtime directory (`~/.pi/agent`) to preserve expected semantics.
-
-## Provenance and licensing
-
-- Keep attribution headers/comments in adapted third-party files.
-- Keep upstream `LICENSE`/`NOTICE` files within each package under `~/.pi/packages/<source>/`.
-
-## Shim naming
-
-- `skill-*` for skill helpers
-- `extension-*` for extension helpers
+- If a skill or extension invokes a local script (e.g. `*.py`), a shim should be used so
+  transcripts stay readable. If it looks like a shim was forgotten, call it out to remind the user.
+- When naming shims, use explicit prefixes:
+  - `skill-*` for skill helpers
+  - `extension-*` for extension helpers

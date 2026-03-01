@@ -10,13 +10,13 @@
 
 ## Tracked packages
 
-These are locally maintained package sources for bundled skills and extensions.
+These are locally maintained [package](https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/packages.md) sources for bundled skills and extensions.
 I usually make small tweaks to other people's packages for my own setup, so I keep them here as local forks and load them as local-path `packages` instead of via git/npm.
 I'll probably add my own first-party packages here too.
 
 | Name | Origin | Local path |
 | ------ | ---------- | ------------ |
-| `pi-amplike` | <https://github.com/pasky/pi-amplike> | `~/.pi/packages/pi-amplike` |
+| `pi-amplike` | <https://github.com/pasky/pi-amplike> | [`.pi/packages/pi-amplike`](packages/pi-amplike/) |
 
 ### Upstream sync workflow (using `git subtree`)
 
