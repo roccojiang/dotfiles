@@ -26,11 +26,17 @@
       "extensions": [
         "pi-extensions/answer.ts",
         "pi-extensions/notify.ts",
-        "pi-extensions/todos.ts",
-        "pi-extensions/whimsical.ts"
+        "pi-extensions/todos.ts"
       ],
       "skills": [],
       "themes": []
+    },
+    {
+      "source": "../packages/hjanuschka-shitty-extensions",
+      "extensions": [
+        "extensions/usage-bar.ts"
+      ],
+      "skills": []
     }
   ]
 }

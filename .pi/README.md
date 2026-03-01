@@ -17,6 +17,8 @@ I'll probably add my own first-party packages here too.
 | Name | Origin | Local path |
 | ------ | ---------- | ------------ |
 | `pasky-pi-amplike` | <https://github.com/pasky/pi-amplike> | [`.pi/packages/pasky-pi-amplike`](packages/pasky-pi-amplike/) |
+| `mitsuhiko-agent-stuff` | <https://github.com/mitsuhiko/agent-stuff> | [`.pi/packages/mitsuhiko-agent-stuff`](packages/mitsuhiko-agent-stuff/) |
+| `hjanuschka-shitty-extensions` | <https://github.com/hjanuschka/shitty-extensions> | [`.pi/packages/hjanuschka-shitty-extensions`](packages/hjanuschka-shitty-extensions/) |
 
 ### Upstream sync workflow (using `git subtree`)
 
