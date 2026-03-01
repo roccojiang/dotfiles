@@ -3,6 +3,8 @@ name: visit-webpage
 description: Visit a webpage and extract its content as markdown, or fetch images. Use for reading articles, documentation, or any web page content. Handles both HTML pages (via Jina Reader) and image URLs (downloads and saves locally).
 ---
 
+<!-- Modified from upstream to use `skill-visit-webpage` shim command instead of `{baseDir}/visit.py`. -->
+
 # Visit Webpage
 
 Fetch and extract readable content from web pages as markdown, or download images. Handles JavaScript-rendered content via Jina Reader service.
@@ -22,20 +24,20 @@ Without an API key, the service works with rate limits.
 ## Usage
 
 ```bash
-{baseDir}/visit.py <url>
+skill-visit-webpage <url>
 ```
 
 ## Examples
 
 ```bash
 # Read an article (returns markdown)
-{baseDir}/visit.py https://example.com/article
+skill-visit-webpage https://example.com/article
 
 # Fetch documentation
-{baseDir}/visit.py https://docs.python.org/3/library/asyncio.html
+skill-visit-webpage https://docs.python.org/3/library/asyncio.html
 
 # Download an image (auto-detected by content-type)
-{baseDir}/visit.py https://example.com/image.png
+skill-visit-webpage https://example.com/image.png
 # Then use read tool to view: read /tmp/visit-image-xxx.png
 ```
 

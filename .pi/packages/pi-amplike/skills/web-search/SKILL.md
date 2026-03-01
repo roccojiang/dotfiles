@@ -3,6 +3,8 @@ name: web-search
 description: Web search using Jina Search API. Returns search results with titles, URLs, and descriptions. Use for finding documentation, facts, current information, or any web content. Lightweight, no browser required.
 ---
 
+<!-- Modified from upstream to use `skill-web-search` shim command instead of `{baseDir}/search.py`. -->
+
 # Web Search
 
 Perform web searches using the Jina Search API. Returns formatted search results with titles, URLs, and descriptions.
@@ -22,20 +24,20 @@ Without an API key, the service works with rate limits.
 ## Usage
 
 ```bash
-{baseDir}/search.py "your search query"
+skill-web-search "your search query"
 ```
 
 ## Examples
 
 ```bash
 # Basic search
-{baseDir}/search.py "python async await tutorial"
+skill-web-search "python async await tutorial"
 
 # Search for recent news
-{baseDir}/search.py "latest AI developments 2024"
+skill-web-search "latest AI developments 2024"
 
 # Find documentation
-{baseDir}/search.py "nodejs fs promises API"
+skill-web-search "nodejs fs promises API"
 ```
 
 ## Output Format

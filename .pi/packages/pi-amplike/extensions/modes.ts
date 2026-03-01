@@ -1,3 +1,9 @@
+/**
+ * Changes:
+ * - Shortcut remap: mode selector ctrl+shift+s -> ctrl+shift+m
+ * - Shortcut remap: mode cycle ctrl+space -> ctrl+.
+ */
+
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { CustomEditor, ModelSelectorComponent, SettingsManager } from "@mariozechner/pi-coding-agent";
 import path from "node:path";
@@ -1145,7 +1151,7 @@ export default function (pi: ExtensionAPI) {
 		},
 	});
 
-	pi.registerShortcut("ctrl+shift+s", {
+	pi.registerShortcut("ctrl+shift+m", {
 		description: "Select prompt mode",
 		handler: async (ctx) => {
 			await ensureRuntime(pi, ctx);
@@ -1154,7 +1160,7 @@ export default function (pi: ExtensionAPI) {
 		},
 	});
 
-	pi.registerShortcut("ctrl+space", {
+	pi.registerShortcut("ctrl+.", {
 		description: "Cycle prompt mode",
 		handler: async (ctx) => {
 			await ensureRuntime(pi, ctx);

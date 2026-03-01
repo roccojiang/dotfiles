@@ -6,14 +6,20 @@
   "compaction": {
     "enabled": false
   },
-  "extensions": [
-    "./extensions/pi-amplike/"
-  ],
-  "skills": [
-    "./skills"
-  ],
   "lastChangelogVersion": "0.55.3",
   "hideThinkingBlock": false,
   "shellCommandPrefix": "export PATH=\"$HOME/.pi/shims:$PATH\"",
-  "packages": []
+  "packages": [
+    {
+      "source": "../packages/pi-amplike",
+      "extensions": [
+        "extensions/handoff.ts",
+        "extensions/modes.ts",
+        "extensions/session-query.ts"
+      ],
+      "skills": [
+        "skills/**/SKILL.md"
+      ]
+    }
+  ]
 }
