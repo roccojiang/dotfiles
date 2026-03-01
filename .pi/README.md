@@ -16,7 +16,7 @@ I'll probably add my own first-party packages here too.
 
 | Name | Origin | Local path |
 | ------ | ---------- | ------------ |
-| `pi-amplike` | <https://github.com/pasky/pi-amplike> | [`.pi/packages/pi-amplike`](packages/pi-amplike/) |
+| `pasky-pi-amplike` | <https://github.com/pasky/pi-amplike> | [`.pi/packages/pasky-pi-amplike`](packages/pasky-pi-amplike/) |
 
 ### Upstream sync workflow (using `git subtree`)
 
