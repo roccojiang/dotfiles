@@ -1,7 +1,7 @@
 {
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.3-codex",
-  "defaultThinkingLevel": "medium",
+  "defaultThinkingLevel": "low",
   "editorPaddingX": 1,
   "compaction": {
     "enabled": false

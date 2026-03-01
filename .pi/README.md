@@ -1,86 +1,38 @@
-# `.pi` layout and provenance (dotfiles repo)
-
-This repo tracks Pi configuration in a split layout.
-
-This README documents repo-managed `~/.pi/**` layout and provenance.
-
-Operational guardrails and maintenance policy live in `~/.pi/AGENTS.md`.
+# Pi coding agent configuration
 
 ## Layout
 
-### Pi-native runtime/config (`~/.pi/agent/`)
+| Path | Purpose |
+| ------ | --------- |
+| [`.pi/agent/`](agent/) | Standard pi config path (includes [`settings.json`](agent/settings.json), extension config files) |
+| [`.pi/packages/`](packages/) | Maintained package sources (loaded via [`.pi/agent/settings.json`](agent/settings.json) `packages` entries) |
+| [`.pi/shims/`](shims/) | Wrapper commands that replace long package-internal script paths with readable aliases (`skill-*`, `extension-*`), keeping tool invocations concise in pi transcripts |
 
-Keep Pi-native runtime/config here:
+## Tracked packages
 
-- `settings.json`, `modes.json`, `keybindings.json`
-- runtime/state files (not typically edited here), e.g. `sessions/`, `auth.json`
+These are locally maintained package sources for bundled skills and extensions.
+I usually make small tweaks to other people's packages for my own setup, so I keep them here as local forks and load them as local-path `packages` instead of via git/npm.
+I'll probably add my own first-party packages here too.
 
-`~/.pi/agent/extensions/` and `~/.pi/agent/skills/` are reserved for quick local experiments.
-Long-lived extensions/skills should be loaded from `~/.pi/packages` via `settings.json` `packages` entries.
+| Name | Origin | Local path |
+| ------ | ---------- | ------------ |
+| `pi-amplike` | <https://github.com/pasky/pi-amplike> | `~/.pi/packages/pi-amplike` |
 
-## Dotfiles-owned assets
+### Upstream sync workflow (using `git subtree`)
 
-These live under `~/.pi`:
-
-- `~/.pi/packages/` (all maintained Pi sources: upstream mirrors/forks + first-party packages)
-- `~/.pi/shims/`
-- docs (`~/.pi/README.md`, `~/.pi/AGENTS.md`)
-
-## Package loading model
-
-Pi loads package sources from `~/.pi/agent/settings.json` using `packages`.
-
-Because paths in that file resolve relative to `~/.pi/agent`, use `../packages/...` for local package directories.
-
-Example:
-
-```json
-{
-  "packages": [
-    {
-      "source": "../packages/pi-amplike",
-      "extensions": ["extensions/*.ts"],
-      "skills": ["skills/web-search/**", "skills/visit-webpage/**"]
-    },
-    {
-      "source": "../packages/rocco-pi"
-    }
-  ]
-}
-```
-
-## Upstream mirror workflow (git subtree)
-
-Upstream repositories are mirrored into `~/.pi/packages/<name>` using `dotfiles subtree`.
-This preserves upstream layout and keeps hand-merging upstream changes straightforward.
-
-### Add a new upstream mirror (example: pi-amplike)
+Add a new mirror:
 
 ```sh
 cd ~
-dotfiles remote add pi-amplike-upstream git@github.com:pasky/pi-amplike.git
-dotfiles fetch pi-amplike-upstream
-dotfiles subtree add --prefix=.pi/packages/pi-amplike pi-amplike-upstream main --squash
+dotfiles remote add <name>-upstream <upstream-url>
+dotfiles fetch <name>-upstream
+dotfiles subtree add --prefix=.pi/packages/<name> <name>-upstream <branch> --squash
 ```
 
-### Pull upstream updates later
+Pull updates later:
 
 ```sh
 cd ~
-dotfiles fetch pi-amplike-upstream
-dotfiles subtree pull --prefix=.pi/packages/pi-amplike pi-amplike-upstream main --squash
+dotfiles fetch <name>-upstream
+dotfiles subtree pull --prefix=.pi/packages/<name> <name>-upstream <branch> --squash
 ```
-
-Resolve conflicts if needed, then commit.
-
-## Provenance and licensing
-
-- Keep attribution headers/comments when adapting upstream files.
-- Keep upstream `LICENSE`/`NOTICE` files within each package directory under `~/.pi/packages/<source>/`.
-
-## Shim naming convention
-
-Use explicit prefixes:
-
-- `skill-*` for skill helpers
-- `extension-*` for extension helpers
