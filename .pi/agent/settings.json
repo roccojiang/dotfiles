@@ -7,12 +7,13 @@
     "enabled": false
   },
   "extensions": [
-    "./extensions"
+    "./extensions/pi-amplike/"
   ],
   "skills": [
     "./skills"
   ],
-  "lastChangelogVersion": "0.53.0",
+  "lastChangelogVersion": "0.55.3",
   "hideThinkingBlock": false,
-  "shellCommandPrefix": "export PATH=\"$HOME/.pi/shims:$PATH\""
+  "shellCommandPrefix": "export PATH=\"$HOME/.pi/shims:$PATH\"",
+  "packages": []
 }

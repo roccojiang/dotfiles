@@ -5,23 +5,26 @@
     "rush": {
       "provider": "anthropic",
       "modelId": "claude-haiku-4-5",
-      "thinkingLevel": "low"
+      "thinkingLevel": "low",
+      "color": "red"
     },
     "smart": {
       "provider": "anthropic",
       "modelId": "claude-opus-4-6",
-      "thinkingLevel": "low"
+      "thinkingLevel": "low",
+      "color": "cyan"
+    },
+    "balanced": {
+      "provider": "openai-codex",
+      "modelId": "gpt-5.3-codex",
+      "thinkingLevel": "medium",
+      "color": "blue"
     },
     "deep": {
       "provider": "openai-codex",
       "modelId": "gpt-5.3-codex",
-      "thinkingLevel": "high"
-    },
-    "standard": {
-      "provider": "openai-codex",
-      "modelId": "gpt-5.3-codex",
-      "thinkingLevel": "low",
-      "color": "gray"
+      "thinkingLevel": "xhigh",
+      "color": "purple"
     }
   }
 }

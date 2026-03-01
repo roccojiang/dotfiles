@@ -9,10 +9,18 @@ This file governs repo-managed `~/.pi/**` content only.
 
 ## Layout policy
 
-- Keep Pi-native runtime/config in `~/.pi/agent/` (for example `settings.json`, `modes.json`, `keybindings.json`, `extensions/`, `skills/`, `sessions/`, `auth.json`).
-- Keep dotfiles-owned support assets in `~/.pi/` (for example `shims/`, `licenses/`, `README.md`, this `AGENTS.md`).
+- Keep Pi-native runtime/config under `~/.pi/agent`:
+  - `settings.json`, `modes.json`, `keybindings.json`
+  - runtime files like `sessions/`, `auth.json`
+  - `extensions/`, `skills/` only for short-lived local experiments
+- Keep dotfiles-owned maintained assets under `~/.pi`:
+  - `~/.pi/packages/` (all maintained forked/upstream-mirrored and first-party Pi packages)
+  - `~/.pi/shims/`
+  - `~/.pi/README.md`, `~/.pi/AGENTS.md`
 
-## Guardrail
+Prefer loading maintained extensions/skills through `~/.pi/agent/settings.json` `packages` entries pointing to `../packages/...`.
+
+## Important guardrail
 
 Do **not** set `PI_CODING_AGENT_DIR=~/.pi`.
 
@@ -20,9 +28,8 @@ Use Pi’s default runtime directory (`~/.pi/agent`) to preserve expected semant
 
 ## Provenance and licensing
 
-- Preserve attribution headers/comments in copied third-party files.
-- Store third-party licenses under `~/.pi/licenses/<source>/`.
-- Keep the current copied-file inventory/provenance summary in `~/.pi/README.md`.
+- Keep attribution headers/comments in adapted third-party files.
+- Keep upstream `LICENSE`/`NOTICE` files within each package under `~/.pi/packages/<source>/`.
 
 ## Shim naming
 
