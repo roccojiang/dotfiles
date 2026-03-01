@@ -1,4 +1,9 @@
 /**
+ * Changes:
+ * - Shortcut remap: answer command ctrl+. -> ctrl+/
+ */
+
+/**
  * Q&A extraction hook - extracts questions from assistant responses
  *
  * Custom interactive TUI for answering questions.
@@ -525,7 +530,7 @@ export default function (pi: ExtensionAPI) {
 		handler: (_args, ctx) => answerHandler(ctx),
 	});
 
-	pi.registerShortcut("ctrl+.", {
+	pi.registerShortcut("ctrl+/", {
 		description: "Extract and answer questions",
 		handler: answerHandler,
 	});
