@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+exec "$HOME/.pi/packages/pi-amplike/skills/web-search/search.py" "$@"

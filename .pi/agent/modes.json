@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "currentMode": "smart",
+  "modes": {
+    "rush": {
+      "provider": "anthropic",
+      "modelId": "claude-haiku-4-5",
+      "thinkingLevel": "low",
+      "color": "red"
+    },
+    "smart": {
+      "provider": "anthropic",
+      "modelId": "claude-opus-4-6",
+      "thinkingLevel": "low",
+      "color": "cyan"
+    },
+    "balanced": {
+      "provider": "openai-codex",
+      "modelId": "gpt-5.3-codex",
+      "thinkingLevel": "medium",
+      "color": "blue"
+    },
+    "deep": {
+      "provider": "openai-codex",
+      "modelId": "gpt-5.3-codex",
+      "thinkingLevel": "xhigh",
+      "color": "purple"
+    }
+  }
+}

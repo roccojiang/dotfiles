@@ -1,0 +1,42 @@
+{
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.3-codex",
+  "defaultThinkingLevel": "medium",
+  "editorPaddingX": 1,
+  "compaction": {
+    "enabled": false
+  },
+  "lastChangelogVersion": "0.55.3",
+  "hideThinkingBlock": false,
+  "shellCommandPrefix": "export PATH=\"$HOME/.pi/shims:$PATH\"",
+  "packages": [
+    {
+      "source": "../packages/pasky-pi-amplike",
+      "extensions": [
+        "extensions/handoff.ts",
+        "extensions/session-query.ts",
+        "+extensions/modes.ts"
+      ],
+      "skills": [
+        "skills/**/SKILL.md"
+      ]
+    },
+    {
+      "source": "../packages/mitsuhiko-agent-stuff",
+      "extensions": [
+        "pi-extensions/answer.ts",
+        "pi-extensions/notify.ts",
+        "pi-extensions/todos.ts"
+      ],
+      "skills": [],
+      "themes": []
+    },
+    {
+      "source": "../packages/hjanuschka-shitty-extensions",
+      "extensions": [
+        "extensions/usage-bar.ts"
+      ],
+      "skills": []
+    }
+  ]
+}
