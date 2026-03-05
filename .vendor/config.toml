@@ -1,0 +1,49 @@
+version = 1
+
+[[source]]
+name = "pasky-pi-amplike"
+url = "https://github.com/pasky/pi-amplike.git"
+ref = "main"
+dest = ".pi/packages/pasky-pi-amplike"
+prune = true
+include = [
+  "LICENSE",
+  "README.md",
+  "package.json",
+  "package-lock.json",
+  "extensions/handoff.ts",
+  "extensions/session-query.ts",
+  "extensions/modes.ts",
+  "skills/session-query/SKILL.md",
+  "skills/visit-webpage/SKILL.md",
+  "skills/visit-webpage/visit.py",
+  "skills/web-search/SKILL.md",
+  "skills/web-search/search.py",
+]
+
+[[source]]
+name = "mitsuhiko-agent-stuff"
+url = "https://github.com/mitsuhiko/agent-stuff.git"
+ref = "main"
+dest = ".pi/packages/mitsuhiko-agent-stuff"
+prune = true
+include = [
+  "LICENSE",
+  "README.md",
+  "package.json",
+  "pi-extensions/answer.ts",
+  "pi-extensions/notify.ts",
+  "pi-extensions/todos.ts",
+]
+
+[[source]]
+name = "hjanuschka-shitty-extensions"
+url = "https://github.com/hjanuschka/shitty-extensions.git"
+ref = "main"
+dest = ".pi/packages/hjanuschka-shitty-extensions"
+prune = true
+include = [
+  "README.md",
+  "package.json",
+  "extensions/usage-bar.ts",
+]

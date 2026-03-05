@@ -2,7 +2,7 @@
 
 This file applies only to repo-managed `~/.pi/**`.
 
-Read `~/.pi/README.md` first for layout/context and subtree workflow.
+Read `~/.pi/README.md` first for layout/context and vendoring workflow (`./bin/vendor-sync`, `.vendor/config.toml`, `.vendor/lock.toml`).
 
 ## Maintained packages
 

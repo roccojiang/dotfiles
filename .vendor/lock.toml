@@ -1,0 +1,13 @@
+version = 1
+
+[[lock]]
+name = "pasky-pi-amplike"
+commit = "e16ec5c4eaa4b75597a1ae4bfb54b88e586ffeef"
+
+[[lock]]
+name = "mitsuhiko-agent-stuff"
+commit = "b502ee5a393755e857a2a5c5e8c6a507b6ad652f"
+
+[[lock]]
+name = "hjanuschka-shitty-extensions"
+commit = "1d6d9d6f2ffe2011ac4203ba42a3f1ec83437102"

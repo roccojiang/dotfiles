@@ -20,21 +20,34 @@ I'll probably add my own first-party packages here too.
 | `mitsuhiko-agent-stuff` | <https://github.com/mitsuhiko/agent-stuff> | [`.pi/packages/mitsuhiko-agent-stuff`](packages/mitsuhiko-agent-stuff/) |
 | `hjanuschka-shitty-extensions` | <https://github.com/hjanuschka/shitty-extensions> | [`.pi/packages/hjanuschka-shitty-extensions`](packages/hjanuschka-shitty-extensions/) |
 
-### Upstream sync workflow (using `git subtree`)
+### Upstream sync workflow (subset vendoring)
 
-Add a new mirror:
+Package vendoring is now managed centrally from repo-root files:
 
-```sh
-cd ~
-dotfiles remote add <name>-upstream <upstream-url>
-dotfiles fetch <name>-upstream
-dotfiles subtree add --prefix=.pi/packages/<name> <name>-upstream <branch> --squash
-```
+- [`.vendor/config.toml`](../.vendor/config.toml): source definitions + included file subset
+- [`.vendor/lock.toml`](../.vendor/lock.toml): pinned upstream commits from the last successful sync
 
-Pull updates later:
+Sync all vendored sources:
 
 ```sh
-cd ~
-dotfiles fetch <name>-upstream
-dotfiles subtree pull --prefix=.pi/packages/<name> <name>-upstream <branch> --squash
+cd ~/dotfiles
+./bin/vendor-sync sync
 ```
+
+Sync a single source:
+
+```sh
+cd ~/dotfiles
+./bin/vendor-sync sync mitsuhiko-agent-stuff
+```
+
+Preview current config + lock state:
+
+```sh
+cd ~/dotfiles
+./bin/vendor-sync list
+```
+
+For full config/CLI reference, see [`docs/vendoring.md`](../docs/vendoring.md).
+
+Rollback stays simple: each upstream update should be committed separately so any single source update can be reverted with a single `git revert`.

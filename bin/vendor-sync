@@ -1,0 +1,675 @@
+#!/usr/bin/env python3
+"""
+Subset vendoring with local-merge support.
+
+- Config is read from .vendor/config.toml (repo root)
+- Sync state is tracked in .vendor/lock.toml
+- Upstream fetches are cached outside the repo by default (~/.cache/dotfiles-vendor)
+- Each tracked file is merged with a 3-way merge:
+    base   = file at previous locked commit
+    theirs = file at current upstream commit
+    ours   = local file in this repository
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import os
+import re
+import subprocess
+import sys
+import tempfile
+from dataclasses import dataclass
+from pathlib import Path, PurePosixPath
+from typing import Dict, List, Sequence, Tuple
+
+import tomllib
+
+
+DEFAULT_CONFIG_REL = ".vendor/config.toml"
+DEFAULT_LOCK_REL = ".vendor/lock.toml"
+
+
+@dataclass(frozen=True)
+class VendorSource:
+    name: str
+    url: str
+    ref: str
+    dest: Path
+    include: List[str]
+    prune: bool
+
+
+def eprint(*args: object) -> None:
+    print(*args, file=sys.stderr)
+
+
+def run_git(
+    args: Sequence[str],
+    *,
+    cwd: Path,
+    check: bool = True,
+    input_bytes: bytes | None = None,
+) -> subprocess.CompletedProcess[bytes]:
+    proc = subprocess.run(
+        ["git", *args],
+        cwd=str(cwd),
+        input=input_bytes,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if check and proc.returncode != 0:
+        cmd = "git " + " ".join(args)
+        raise RuntimeError(
+            f"Command failed ({proc.returncode}): {cmd}\n"
+            f"stdout:\n{proc.stdout.decode(errors='replace')}\n"
+            f"stderr:\n{proc.stderr.decode(errors='replace')}"
+        )
+    return proc
+
+
+def normalize_repo_relative_path(raw: str, *, kind: str) -> str:
+    value = raw.strip()
+    if not value:
+        raise ValueError(f"{kind} cannot be empty")
+
+    p = PurePosixPath(value)
+    if p.is_absolute():
+        raise ValueError(f"{kind} must be relative: {raw}")
+    if any(part in ("", ".") for part in p.parts):
+        # allow '.' only if that's the whole path; otherwise keep strict
+        if str(p) != ".":
+            raise ValueError(f"{kind} must not contain empty or '.' segments: {raw}")
+    if ".." in p.parts:
+        raise ValueError(f"{kind} must not contain '..': {raw}")
+
+    normalized = p.as_posix()
+    if normalized == ".":
+        raise ValueError(f"{kind} cannot be '.'")
+    return normalized
+
+
+def resolve_within_repo(repo_root: Path, rel_path: str) -> Path:
+    abs_path = (repo_root / rel_path).resolve()
+    try:
+        abs_path.relative_to(repo_root.resolve())
+    except ValueError:
+        raise ValueError(f"Path escapes repository root: {rel_path}") from None
+    return abs_path
+
+
+def parse_vendor_config(config_path: Path, repo_root: Path) -> List[VendorSource]:
+    if not config_path.exists():
+        raise RuntimeError(f"Config file not found: {config_path}")
+
+    data = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    version = data.get("version")
+    if version != 1:
+        raise RuntimeError(f"Unsupported config version in {config_path}: {version!r}")
+
+    sources_raw = data.get("source")
+    if not isinstance(sources_raw, list) or not sources_raw:
+        raise RuntimeError(f"{config_path} must contain at least one [[source]] table")
+
+    sources: List[VendorSource] = []
+    seen_names: set[str] = set()
+
+    for idx, raw in enumerate(sources_raw, start=1):
+        if not isinstance(raw, dict):
+            raise RuntimeError(f"[[source]] #{idx} must be a table")
+
+        try:
+            name = str(raw["name"]).strip()
+            url = str(raw["url"]).strip()
+            ref = str(raw.get("ref", "main")).strip()
+            dest_raw = str(raw["dest"]).strip()
+            include_raw = raw["include"]
+        except KeyError as err:
+            raise RuntimeError(f"[[source]] #{idx} missing required key: {err.args[0]}") from None
+
+        if not name:
+            raise RuntimeError(f"[[source]] #{idx} has empty name")
+        if name in seen_names:
+            raise RuntimeError(f"Duplicate source name: {name}")
+        seen_names.add(name)
+
+        if not url:
+            raise RuntimeError(f"[[source]] {name} has empty url")
+        if not ref:
+            raise RuntimeError(f"[[source]] {name} has empty ref")
+
+        dest_norm = normalize_repo_relative_path(dest_raw, kind=f"source {name} dest")
+        dest_path = resolve_within_repo(repo_root, dest_norm)
+
+        if not isinstance(include_raw, list) or not include_raw:
+            raise RuntimeError(f"[[source]] {name} include must be a non-empty array")
+
+        include_paths: List[str] = []
+        include_seen: set[str] = set()
+        for item in include_raw:
+            if not isinstance(item, str):
+                raise RuntimeError(f"[[source]] {name} include entries must be strings")
+            inc = normalize_repo_relative_path(item, kind=f"source {name} include entry")
+            if any(ch in inc for ch in ["*", "?", "["]):
+                raise RuntimeError(
+                    f"[[source]] {name} include entry uses glob syntax ({inc}); only literal paths are supported"
+                )
+            if inc not in include_seen:
+                include_seen.add(inc)
+                include_paths.append(inc)
+
+        prune = bool(raw.get("prune", True))
+
+        sources.append(
+            VendorSource(
+                name=name,
+                url=url,
+                ref=ref,
+                dest=dest_path,
+                include=include_paths,
+                prune=prune,
+            )
+        )
+
+    return sources
+
+
+def parse_lock_file(lock_path: Path) -> Dict[str, str]:
+    if not lock_path.exists():
+        return {}
+
+    data = tomllib.loads(lock_path.read_text(encoding="utf-8"))
+    version = data.get("version")
+    if version != 1:
+        raise RuntimeError(f"Unsupported lock version in {lock_path}: {version!r}")
+
+    lock_entries = data.get("lock", [])
+    if not isinstance(lock_entries, list):
+        raise RuntimeError(f"Lock file {lock_path} has invalid [[lock]] format")
+
+    locks: Dict[str, str] = {}
+    for entry in lock_entries:
+        if not isinstance(entry, dict):
+            raise RuntimeError(f"Lock file {lock_path} contains invalid [[lock]] entry")
+        name = entry.get("name")
+        commit = entry.get("commit")
+        if not isinstance(name, str) or not isinstance(commit, str):
+            raise RuntimeError(f"Lock file {lock_path} [[lock]] requires string name and commit")
+        if name in locks:
+            raise RuntimeError(f"Lock file {lock_path} has duplicate lock entry for {name}")
+        if not re.fullmatch(r"[0-9a-f]{40}", commit):
+            raise RuntimeError(f"Lock file {lock_path} has invalid commit for {name}: {commit}")
+        locks[name] = commit
+    return locks
+
+
+def toml_escape(value: str) -> str:
+    return value.replace("\\", "\\\\").replace('"', '\\"')
+
+
+def write_lock_file(lock_path: Path, locks: Dict[str, str], source_order: List[str]) -> None:
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+
+    lines: List[str] = ["version = 1", ""]
+    names = [name for name in source_order if name in locks]
+    for name in names:
+        commit = locks[name]
+        lines.append("[[lock]]")
+        lines.append(f'name = "{toml_escape(name)}"')
+        lines.append(f'commit = "{commit}"')
+        lines.append("")
+
+    lock_path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+
+
+def cache_dir_default() -> Path:
+    xdg_cache = os.environ.get("XDG_CACHE_HOME")
+    if xdg_cache:
+        return Path(xdg_cache) / "dotfiles-vendor"
+    return Path.home() / ".cache" / "dotfiles-vendor"
+
+
+def source_cache_path(cache_root: Path, source: VendorSource) -> Path:
+    digest = hashlib.sha1(source.url.encode("utf-8")).hexdigest()[:10]
+    return cache_root / f"{source.name}-{digest}"
+
+
+def ensure_cache_repo(cache_repo: Path, source: VendorSource) -> None:
+    cache_repo.parent.mkdir(parents=True, exist_ok=True)
+
+    if not cache_repo.exists():
+        run_git(
+            [
+                "clone",
+                "--quiet",
+                "--no-checkout",
+                "--filter=blob:none",
+                source.url,
+                str(cache_repo),
+            ],
+            cwd=cache_repo.parent,
+        )
+    else:
+        # Ensure origin URL matches config.
+        proc = run_git(["remote", "get-url", "origin"], cwd=cache_repo)
+        current_url = proc.stdout.decode().strip()
+        if current_url != source.url:
+            run_git(["remote", "set-url", "origin", source.url], cwd=cache_repo)
+
+    run_git(["fetch", "--quiet", "--prune", "--tags", "origin"], cwd=cache_repo)
+
+
+def resolve_commit_for_ref(cache_repo: Path, ref: str) -> str:
+    candidates: List[str] = []
+
+    if re.fullmatch(r"[0-9a-fA-F]{7,40}", ref):
+        candidates.append(ref)
+
+    if ref.startswith("refs/"):
+        candidates.append(ref)
+    else:
+        candidates.append(f"origin/{ref}")
+        candidates.append(ref)
+        candidates.append(f"refs/heads/{ref}")
+        candidates.append(f"refs/tags/{ref}")
+
+    seen: set[str] = set()
+    for cand in candidates:
+        if cand in seen:
+            continue
+        seen.add(cand)
+        proc = run_git(["rev-parse", "--verify", f"{cand}^{{commit}}"], cwd=cache_repo, check=False)
+        if proc.returncode == 0:
+            return proc.stdout.decode().strip()
+
+    raise RuntimeError(f"Could not resolve ref '{ref}' in {cache_repo}")
+
+
+def git_file_bytes(cache_repo: Path, commit: str, rel_path: str) -> bytes | None:
+    spec = f"{commit}:{rel_path}"
+    exists = run_git(["cat-file", "-e", spec], cwd=cache_repo, check=False)
+    if exists.returncode != 0:
+        return None
+    proc = run_git(["show", spec], cwd=cache_repo)
+    return proc.stdout
+
+
+def merge_three_way(
+    *,
+    rel_path: str,
+    base: bytes | None,
+    theirs: bytes | None,
+    ours: bytes | None,
+) -> Tuple[bytes | None, bool]:
+    """
+    Returns (merged_content_or_none_for_delete, had_conflict)
+    """
+
+    # Fast-paths
+    if ours is None and theirs is None:
+        return None, False
+
+    if base is None:
+        if ours is None:
+            return theirs, False
+        if theirs is None:
+            return ours, False
+        if ours == theirs:
+            return ours, False
+        # both added/changed differently
+    else:
+        if ours == theirs:
+            return ours, False
+        if ours == base:
+            return theirs, False
+        if theirs == base:
+            return ours, False
+
+    base_b = base if base is not None else b""
+    theirs_b = theirs if theirs is not None else b""
+    ours_b = ours if ours is not None else b""
+
+    with tempfile.TemporaryDirectory(prefix="vendor-merge-") as tmp:
+        tmp_path = Path(tmp)
+        ours_path = tmp_path / "ours"
+        base_path = tmp_path / "base"
+        theirs_path = tmp_path / "theirs"
+
+        ours_path.write_bytes(ours_b)
+        base_path.write_bytes(base_b)
+        theirs_path.write_bytes(theirs_b)
+
+        proc = run_git(
+            [
+                "merge-file",
+                "-p",
+                "-L",
+                f"ours:{rel_path}",
+                "-L",
+                f"base:{rel_path}",
+                "-L",
+                f"theirs:{rel_path}",
+                str(ours_path),
+                str(base_path),
+                str(theirs_path),
+            ],
+            cwd=tmp_path,
+            check=False,
+        )
+
+        if proc.returncode not in (0, 1):
+            raise RuntimeError(
+                f"git merge-file failed for {rel_path}\n"
+                f"stdout:\n{proc.stdout.decode(errors='replace')}\n"
+                f"stderr:\n{proc.stderr.decode(errors='replace')}"
+            )
+
+        merged = proc.stdout
+        # If both sides resolved to deletion, keep as deletion.
+        if merged == b"" and theirs is None:
+            return None, proc.returncode == 1
+        return merged, proc.returncode == 1
+
+
+def read_local_file(path: Path) -> bytes | None:
+    if not path.exists():
+        return None
+    if path.is_dir():
+        raise RuntimeError(f"Expected file but found directory: {path}")
+    return path.read_bytes()
+
+
+def write_local_file(path: Path, content: bytes | None, *, dry_run: bool) -> None:
+    if content is None:
+        if path.exists():
+            if dry_run:
+                return
+            path.unlink()
+        return
+
+    if dry_run:
+        return
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(content)
+
+
+def remove_empty_dirs(root: Path, *, dry_run: bool) -> None:
+    if not root.exists() or not root.is_dir():
+        return
+
+    for current in sorted([p for p in root.rglob("*") if p.is_dir()], reverse=True):
+        try:
+            next(current.iterdir())
+        except StopIteration:
+            if not dry_run:
+                current.rmdir()
+
+
+def sync_source(
+    *,
+    source: VendorSource,
+    old_commit: str | None,
+    new_commit: str,
+    cache_repo: Path,
+    dry_run: bool,
+    no_prune: bool,
+) -> Tuple[int, int, bool]:
+    """
+    Returns (changed_files, pruned_files, had_conflict)
+    """
+
+    changed_files = 0
+    pruned_files = 0
+    had_conflict = False
+
+    source.dest.mkdir(parents=True, exist_ok=True)
+
+    include_set = set(source.include)
+
+    # If we don't have a lock yet, bootstrap base from current upstream commit.
+    # This preserves local modifications while enabling future 3-way merges.
+    base_commit = old_commit if old_commit is not None else new_commit
+
+    for rel_path in source.include:
+        local_path = source.dest / Path(rel_path)
+
+        base = git_file_bytes(cache_repo, base_commit, rel_path)
+        theirs = git_file_bytes(cache_repo, new_commit, rel_path)
+        ours = read_local_file(local_path)
+
+        # If no lock existed and file doesn't exist upstream, this is a config error.
+        if old_commit is None and theirs is None:
+            raise RuntimeError(
+                f"Source {source.name}: include path does not exist at {source.ref} ({new_commit[:12]}): {rel_path}"
+            )
+
+        merged, conflict = merge_three_way(
+            rel_path=rel_path,
+            base=base,
+            theirs=theirs,
+            ours=ours,
+        )
+
+        if conflict:
+            had_conflict = True
+            eprint(f"conflict: {source.name}: {rel_path}")
+
+        if merged != ours:
+            changed_files += 1
+            write_local_file(local_path, merged, dry_run=dry_run)
+
+    if source.prune and not no_prune:
+        if source.dest.exists():
+            for path in sorted(source.dest.rglob("*")):
+                if path.is_dir():
+                    continue
+                rel = path.relative_to(source.dest).as_posix()
+                if rel not in include_set:
+                    pruned_files += 1
+                    if not dry_run:
+                        path.unlink()
+
+            remove_empty_dirs(source.dest, dry_run=dry_run)
+
+    return changed_files, pruned_files, had_conflict
+
+
+def select_sources(all_sources: List[VendorSource], names: List[str]) -> List[VendorSource]:
+    if not names:
+        return all_sources
+
+    by_name = {s.name: s for s in all_sources}
+    selected: List[VendorSource] = []
+    for name in names:
+        src = by_name.get(name)
+        if src is None:
+            raise RuntimeError(f"Unknown source: {name}")
+        selected.append(src)
+    return selected
+
+
+def cmd_list(sources: List[VendorSource], locks: Dict[str, str]) -> int:
+    for src in sources:
+        commit = locks.get(src.name)
+        commit_short = commit[:12] if commit else "(unlocked)"
+        print(f"{src.name}\n  dest: {src.dest}\n  ref: {src.ref}\n  lock: {commit_short}\n")
+    return 0
+
+
+def cmd_sync(
+    *,
+    sources: List[VendorSource],
+    locks: Dict[str, str],
+    lock_path: Path,
+    cache_root: Path,
+    dry_run: bool,
+    no_prune: bool,
+) -> int:
+    any_conflicts = False
+
+    source_order = [s.name for s in sources]
+    mutable_locks = dict(locks)
+
+    for src in sources:
+        print(f"==> {src.name}")
+        cache_repo = source_cache_path(cache_root, src)
+        ensure_cache_repo(cache_repo, src)
+
+        new_commit = resolve_commit_for_ref(cache_repo, src.ref)
+        old_commit = mutable_locks.get(src.name)
+
+        if old_commit:
+            print(f"    lock:   {old_commit[:12]}")
+        else:
+            print("    lock:   (bootstrapping)")
+        print(f"    target: {new_commit[:12]}")
+
+        changed, pruned, had_conflict = sync_source(
+            source=src,
+            old_commit=old_commit,
+            new_commit=new_commit,
+            cache_repo=cache_repo,
+            dry_run=dry_run,
+            no_prune=no_prune,
+        )
+
+        print(f"    changed files: {changed}")
+        if src.prune and not no_prune:
+            print(f"    pruned files:  {pruned}")
+
+        if had_conflict:
+            any_conflicts = True
+            print("    result: conflicts (lock not advanced)")
+        else:
+            mutable_locks[src.name] = new_commit
+            print("    result: ok")
+
+    if not dry_run:
+        write_lock_file(lock_path, mutable_locks, source_order)
+
+    if any_conflicts:
+        eprint("\nOne or more files have merge conflicts. Resolve them and run sync again.")
+        return 1
+
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Subset vendoring sync for this dotfiles repo")
+    parser.add_argument(
+        "--config",
+        default=DEFAULT_CONFIG_REL,
+        help=f"Path to vendor config (default: {DEFAULT_CONFIG_REL})",
+    )
+    parser.add_argument(
+        "--lock",
+        default=DEFAULT_LOCK_REL,
+        help=f"Path to vendor lock file (default: {DEFAULT_LOCK_REL})",
+    )
+    parser.add_argument(
+        "--cache-dir",
+        default=None,
+        help="Cache directory for upstream clones (default: $XDG_CACHE_HOME/dotfiles-vendor or ~/.cache/dotfiles-vendor)",
+    )
+
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    list_parser = subparsers.add_parser("list", help="List configured vendored sources")
+    list_parser.add_argument("sources", nargs="*", help="Source names to operate on (defaults to all)")
+
+    sync_parser = subparsers.add_parser("sync", help="Sync vendored sources")
+    sync_parser.add_argument("sources", nargs="*", help="Source names to operate on (defaults to all)")
+    sync_parser.add_argument("--dry-run", action="store_true", help="Compute and report changes without writing files")
+    sync_parser.add_argument("--no-prune", action="store_true", help="Do not delete extra files under source destinations")
+
+    return parser
+
+
+def preprocess_argv(argv: Sequence[str]) -> List[str]:
+    """
+    Allow shorthand forms by defaulting to `sync` when no explicit command is present.
+
+    Supported shorthands:
+      - vendor-sync
+      - vendor-sync <source>
+      - vendor-sync --dry-run <source>
+      - vendor-sync --config custom.toml --dry-run <source>
+
+    Explicit commands still work normally:
+      - vendor-sync list
+      - vendor-sync sync --dry-run <source>
+
+    We only insert `sync` when no command token is present after global options.
+    """
+
+    args = list(argv)
+    if not args:
+        return ["sync"]
+
+    if args[0] in {"-h", "--help"}:
+        return args
+
+    global_opts_with_value = {"--config", "--lock", "--cache-dir"}
+
+    i = 0
+    while i < len(args):
+        tok = args[i]
+        if tok in {"list", "sync"}:
+            return args
+
+        if tok.startswith("--"):
+            if any(tok.startswith(opt + "=") for opt in global_opts_with_value):
+                i += 1
+                continue
+            if tok in global_opts_with_value:
+                if i + 1 >= len(args):
+                    return args
+                i += 2
+                continue
+            break
+
+        if tok.startswith("-"):
+            break
+
+        # First plain token that's not a command => shorthand source name.
+        break
+
+    return [*args[:i], "sync", *args[i:]]
+
+
+def main(argv: Sequence[str]) -> int:
+    parser = build_parser()
+    args = parser.parse_args(preprocess_argv(argv))
+
+    script_path = Path(__file__).resolve()
+    repo_root = script_path.parent.parent
+
+    config_path = (repo_root / args.config).resolve()
+    lock_path = (repo_root / args.lock).resolve()
+    cache_root = Path(args.cache_dir).expanduser().resolve() if args.cache_dir else cache_dir_default()
+
+    sources_all = parse_vendor_config(config_path, repo_root)
+    locks = parse_lock_file(lock_path)
+    sources = select_sources(sources_all, args.sources)
+
+    if args.command == "list":
+        return cmd_list(sources, locks)
+
+    return cmd_sync(
+        sources=sources,
+        locks=locks,
+        lock_path=lock_path,
+        cache_root=cache_root,
+        dry_run=getattr(args, "dry_run", False),
+        no_prune=getattr(args, "no_prune", False),
+    )
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main(sys.argv[1:]))
+    except RuntimeError as err:
+        eprint(f"error: {err}")
+        raise SystemExit(1)
