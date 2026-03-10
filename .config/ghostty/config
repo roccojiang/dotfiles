@@ -12,15 +12,6 @@ shell-integration-features = ssh-env, ssh-terminfo
 
 window-save-state = always
 
-macos-icon = custom-style
-macos-icon-frame = beige
-macos-icon-ghost-color = #7aa2f7
-macos-icon-screen-color = #24283b
-
 keybind = global:cmd+ctrl+grave_accent=toggle_quick_terminal
 
 macos-option-as-alt = left
-
-# pulls in the wip searchbar feature on macOS
-# see https://github.com/ghostty-org/ghostty/pull/9709
-auto-update-channel = tip
