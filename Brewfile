@@ -24,6 +24,8 @@ brew "lsd"
 brew "mise"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Capability-based sandbox shell for AI agents with OS-enforced isolation
+brew "nono"
 # Utility that provides fast incremental file transfer
 brew "rsync"
 # Search tool like grep and The Silver Searcher
