@@ -63,3 +63,8 @@
   dshow = -c diff.external=difft show --ext-diff
   ddiff = -c diff.external=difft diff
 
+# Work-specific git config
+# Placed at the end, for any potential settings overrides
+[includeIf "gitdir:~/Developer/codespeak/"]
+  path = config-work
+
