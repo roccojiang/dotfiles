@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "name": "pi",
+    "version": "1.0.0"
+  },
+  "interactive": true,
+  "workdir": {
+    "access": "readwrite"
+  },
+  "security": {
+    "groups": [
+      "node_runtime",
+      "rust_runtime",
+      "python_runtime"
+    ]
+  },
+  "filesystem": {
+    "allow": [
+      "$HOME/.pi",
+      "$HOME/.cache",
+      "$HOME/.local/share/nvim",
+      "$TMPDIR"
+    ],
+    "read": [
+      "$HOME/.local",
+      "$HOME/.agents",
+      "$HOME/.config/gh",
+      "$HOME/.config/git",
+      "$HOME/.config/nvim",
+      "$HOME/Library/Application Support/cmux"
+    ],
+    "write": [],
+    "allow_file": [],
+    "read_file": [],
+    "write_file": []
+  }
+}

@@ -10,9 +10,14 @@
   "policy": {
     "add_allow_read": [
       "$HOME/.config/git",
+      "$HOME/.config/nvim",
       "$HOME/.local/share/themes",
       "$HOME/.local/share/mise",
       "$HOME/Library/Application Support/cmux"
+    ],
+    "add_allow_readwrite": [
+      "$HOME/.local/share/nvim",
+      "$HOME/.cache/nvim"
     ]
   }
 }
