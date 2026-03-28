@@ -15,6 +15,11 @@ const QK75_DEVICE = [
 
 writeToProfile('Default', [
 
+  // Needs to be here for precedence
+  rule('HHKB Control -> Control/Escape', ifDevice(HHKB_DEVICE, 'HHKB-Hybrid_1')).manipulators([
+    map('left_control', { optional: 'any' }).to('left_control', undefined, { lazy: true }).toIfAlone('escape'),
+  ]),
+
   rule('Caps Lock → Control/Escape').manipulators([
     map('caps_lock', { optional: 'any' }).to('left_control', undefined, { lazy: true }).toIfAlone('escape'),
   ]),
@@ -22,10 +27,6 @@ writeToProfile('Default', [
   rule('Left Control → Hyper').manipulators([
     map('left_control').toHyper()
       .condition(ifApp('Terraria').unless()), // ctrl-click in Terraria
-  ]),
-
-  rule('HHKB Control -> Control/Escape', ifDevice(HHKB_DEVICE, 'HHKB-Hybrid_1')).manipulators([
-    map('left_control', { optional: 'any' }).to('left_control', undefined, { lazy: true }).toIfAlone('escape'),
   ]),
 
   // See: https://karabiner-elements.pqrs.org/docs/help/how-to/function-keys/
