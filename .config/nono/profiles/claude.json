@@ -17,7 +17,8 @@
     ],
     "add_allow_readwrite": [
       "$HOME/.local/share/nvim",
-      "$HOME/.cache/nvim"
+      "$HOME/.cache/nvim",
+      "$HOME/.cache/uv"
     ]
   }
 }
