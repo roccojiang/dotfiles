@@ -13,7 +13,7 @@ rsync --recursive --verbose --links --exclude '.git' dotfiles-tmp/ $HOME/
 rm -r dotfiles-tmp
 ```
 
-On a fresh install, follow further instructions in [.bootstrap](.bootstrap/).
+On a fresh install, check out the `bootstrap` branch and follow further instructions in [.bootstrap](.bootstrap/).
 
 ## Notes
 ### Git submodules
