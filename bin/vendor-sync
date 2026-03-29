@@ -295,6 +295,56 @@ def git_file_bytes(cache_repo: Path, commit: str, rel_path: str) -> bytes | None
     return proc.stdout
 
 
+def detect_renames(cache_repo: Path, old_commit: str, new_commit: str) -> Dict[str, str]:
+    """
+    Best-effort rename detection between two commits.
+
+    Returns a mapping old_path -> new_path for entries Git reports as renames.
+    """
+
+    proc = run_git(
+        [
+            "diff",
+            "--name-status",
+            "-z",
+            "-M",
+            old_commit,
+            new_commit,
+            "--",
+        ],
+        cwd=cache_repo,
+    )
+
+    fields = proc.stdout.split(b"\x00")
+    if fields and fields[-1] == b"":
+        fields = fields[:-1]
+
+    renames: Dict[str, str] = {}
+    i = 0
+    while i < len(fields):
+        status = fields[i].decode("utf-8", errors="replace")
+        i += 1
+        if not status:
+            continue
+
+        code = status[0]
+        if code in {"R", "C"}:
+            if i + 1 >= len(fields):
+                break
+            old_path = fields[i].decode("utf-8", errors="replace")
+            new_path = fields[i + 1].decode("utf-8", errors="replace")
+            i += 2
+            if code == "R":
+                renames[old_path] = new_path
+        else:
+            # Single-path status entry.
+            if i >= len(fields):
+                break
+            i += 1
+
+    return renames
+
+
 def merge_three_way(
     *,
     rel_path: str,
@@ -358,18 +408,20 @@ def merge_three_way(
             check=False,
         )
 
-        if proc.returncode not in (0, 1):
+        if proc.returncode < 0:
             raise RuntimeError(
                 f"git merge-file failed for {rel_path}\n"
                 f"stdout:\n{proc.stdout.decode(errors='replace')}\n"
                 f"stderr:\n{proc.stderr.decode(errors='replace')}"
             )
 
+        had_conflict = proc.returncode != 0
+
         merged = proc.stdout
         # If both sides resolved to deletion, keep as deletion.
         if merged == b"" and theirs is None:
-            return None, proc.returncode == 1
-        return merged, proc.returncode == 1
+            return None, had_conflict
+        return merged, had_conflict
 
 
 def read_local_file(path: Path) -> bytes | None:
@@ -432,18 +484,39 @@ def sync_source(
     # This preserves local modifications while enabling future 3-way merges.
     base_commit = old_commit if old_commit is not None else new_commit
 
+    # Preflight path existence at the target commit before attempting any merges.
+    # This catches upstream deletes/moves early and avoids partially-updated source trees.
+    theirs_by_path: Dict[str, bytes | None] = {}
+    missing_paths: List[str] = []
+    for rel_path in source.include:
+        theirs = git_file_bytes(cache_repo, new_commit, rel_path)
+        theirs_by_path[rel_path] = theirs
+        if theirs is None:
+            missing_paths.append(rel_path)
+
+    if missing_paths:
+        rename_map: Dict[str, str] = {}
+        if old_commit is not None:
+            rename_map = detect_renames(cache_repo, old_commit, new_commit)
+
+        lines = [
+            f"Source {source.name}: include path(s) missing at {source.ref} ({new_commit[:12]}):"
+        ]
+        for rel_path in missing_paths:
+            renamed_to = rename_map.get(rel_path)
+            if renamed_to:
+                lines.append(f"  - {rel_path} (possible rename: {renamed_to})")
+            else:
+                lines.append(f"  - {rel_path}")
+        lines.append("Update .vendor/config.toml include paths before re-running sync.")
+        raise RuntimeError("\n".join(lines))
+
     for rel_path in source.include:
         local_path = source.dest / Path(rel_path)
 
         base = git_file_bytes(cache_repo, base_commit, rel_path)
-        theirs = git_file_bytes(cache_repo, new_commit, rel_path)
+        theirs = theirs_by_path[rel_path]
         ours = read_local_file(local_path)
-
-        # If no lock existed and file doesn't exist upstream, this is a config error.
-        if old_commit is None and theirs is None:
-            raise RuntimeError(
-                f"Source {source.name}: include path does not exist at {source.ref} ({new_commit[:12]}): {rel_path}"
-            )
 
         merged, conflict = merge_three_way(
             rel_path=rel_path,

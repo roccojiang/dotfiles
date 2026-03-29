@@ -67,6 +67,9 @@ Notes:
 
 - `include` currently supports **literal file paths only** (no globs).
 - `dest` and `include` must be relative paths and cannot contain `..`.
+- Sync fails fast if any `include` path is missing at the target upstream commit.
+  - This prevents accidental silent deletes when upstream moves/removes files.
+  - A best-effort rename hint is shown when Git can detect `old -> new` via rename detection.
 
 ## `.vendor/lock.toml`
 
