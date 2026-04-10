@@ -7,6 +7,8 @@ import {
   writeToProfile,
 } from 'karabiner.ts'
 
+import { anyOf } from './utils'
+
 const HHKB_DEVICE = { vendor_id: 1278, product_id: 33 }
 const QK75_DEVICE = [
   { vendor_id: 1452, product_id: 591 },   // BLE connection
@@ -15,8 +17,10 @@ const QK75_DEVICE = [
 
 writeToProfile('Default', [
 
-  // Needs to be here for precedence
-  rule('HHKB Control -> Control/Escape', ifDevice(HHKB_DEVICE, 'HHKB-Hybrid_1')).manipulators([
+  rule(
+    'HHKB Control -> Control/Escape',
+    ifDevice(HHKB_DEVICE)
+  ).manipulators([
     map('left_control', { optional: 'any' }).to('left_control', undefined, { lazy: true }).toIfAlone('escape'),
   ]),
 
@@ -24,7 +28,13 @@ writeToProfile('Default', [
     map('caps_lock', { optional: 'any' }).to('left_control', undefined, { lazy: true }).toIfAlone('escape'),
   ]),
 
-  rule('Left Control → Hyper').manipulators([
+  rule(
+    'Left Control → Hyper',
+    ifDevice(anyOf(
+      QK75_DEVICE,
+      { is_built_in_keyboard: true }
+    ))
+  ).manipulators([
     map('left_control').toHyper()
       .condition(ifApp('Terraria').unless()), // ctrl-click in Terraria
   ]),
