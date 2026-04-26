@@ -1,0 +1,27 @@
+/* ---------- Copy this into Sidebery styles editor settings ---------- */
+
+/* ------ CSS variables, editable in the Sidebery styles editor UI ------ */
+
+/* -- Tabs appearance -- */
+#root.root {--tabs-border-radius: 12px;}
+
+/* Make active tab more visible */
+#root.root {--tabs-activated-shadow: 0 1px 4px -1px rgba(0,0,0,0.282), inset 0 0 0 0.5px rgba(255,255,255,0.5);}
+
+/* -- Navigation bar appearance -- */
+#root.root {--nav-btn-margin: 4px;}
+#root.root {--nav-btn-len-margin: 2px;}
+#root.root {--nav-btn-border-radius: 8px;}
+
+/* Make active panel more visible */
+#root.root {--toolbar-el-overlay-hover-bg: rgba(255,255,255,0.212);}
+
+/* Remove inset border around active panel button */
+#root.root {--nav-btn-active-shadow: 0 1px 3px 0 rgba(0,0,0,0.212);}
+
+/* ------ Other CSS styling, won't show up in the styles editor UI ------ */
+
+.Tab[data-discarded="true"] .title {
+  font-style: italic;
+}
+

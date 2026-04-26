@@ -1,0 +1,32 @@
+/* ========================================================================
+ * This file was entirely vibe-coded with Claude.
+ * Based on code from https://github.com/akkva/gwfox.
+ * ======================================================================== */
+
+/* Rounded pages within window with subtle border */
+/* Creates rounded corners on the browser content area with 8px margin and border */
+/* Extracted from gwfox theme: https://github.com/AViSynth/gwfox */
+
+/* Make backgrounds transparent to show window chrome color in margin area */
+.browserContainer {
+  background: transparent !important;
+}
+
+#tabbrowser-tabpanels {
+  background-color: transparent !important;
+}
+
+/* Apply rounded corners to the main browser content area */
+:root:not([inDOMFullscreen], [chromehidden~="toolbar"])
+#tabbrowser-tabbox browser:not(.devtools-toolbox-bottom-iframe, .devtools-toolbox-side-iframe) {
+  border-radius: 8px;
+  clip-path: inset(0 round 8px);
+  -moz-window-dragging: no-drag;
+}
+
+/* Add spacing and rounded corners to browser stack container with border */
+.browserStack {
+  border-radius: 8px;
+  margin: 8px !important;
+  border: 1px solid var(--chrome-content-separator-color) !important;
+}

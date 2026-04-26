@@ -1,0 +1,72 @@
+/* ========================================================================
+ * This file was entirely vibe-coded with Claude.
+ * Based on code from https://github.com/akkva/gwfox.
+ * ======================================================================== */
+
+/* 
+/* Floating centered address bar when focused/expanded */
+/* Centers the urlbar in the viewport when in breakout mode (focused with suggestions) */
+/* Extracted from gwfox theme: https://github.com/AViSynth/gwfox */
+
+/* Center-position address bar in viewport when focused/expanded */
+#urlbar[breakout][breakout-extend] {
+  top: 20vh !important;           /* 20% from top of viewport */
+  left: 29vw !important;          /* Centered horizontally */
+  width: 45vw !important;         /* 45% of viewport width */
+  max-width: unset !important;    /* Remove width constraints */
+  margin-top: 15px !important;
+  padding: 5px !important;        /* Add padding around urlbar */
+  animation-name: panel-grow;
+  animation-duration: 250ms;
+  transition: none !important;
+}
+
+/* Keep floating position when search mode switcher is open (without padding) */
+#urlbar[breakout]:has(#urlbar-searchmode-switcher[open]) {
+  top: 20vh !important;
+  left: 29vw !important;
+  width: 45vw !important;
+  max-width: unset !important;
+  margin-top: 15px !important;
+  transition: none !important;
+}
+
+/* Style the address bar background with solid color and shadow */
+#urlbar[breakout][breakout-extend] .urlbar-background {
+  background-color: var(--toolbar-bgcolor) !important;  /* Solid background */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 0 0.5px rgba(0, 0, 0, 0.15) !important;
+  border-radius: var(--uc-menupopup-border-radius, 20px) !important;
+}
+
+/* Add padding to input container for better spacing */
+#urlbar[breakout][breakout-extend] .urlbar-input-container {
+  padding-bottom: 10px !important;
+}
+
+/* Font size for floating address bar - standard embedded address bar remains default */
+#urlbar[breakout][breakout-extend] .urlbar-input,
+#urlbar[breakout][breakout-extend] .urlbar-input::placeholder {
+  font-size: 20px !important;
+}
+
+/* Override urlbar inner border radius to match our custom radius (minus 1px per Firefox's convention) */
+/* What we want is how this affects .searchmode-switcher and .searchmode-switcher-chicklet, see https://github.com/mozilla-firefox/firefox/blob/main/browser/themes/shared/urlbar-search */
+#urlbar-container {
+  --urlbar-inner-border-radius: calc(var(--uc-menupopup-border-radius, 20px) - 1px) !important;
+}
+/* TEMPORARY FIX for bug I've filed: https://bugzilla.mozilla.org/show_bug.cgi?id=2008967 */
+.searchmode-switcher-chicklet {
+  border-start-end-radius: var(--urlbar-inner-border-radius) !important;
+}
+
+/* Smooth expansion animation when address bar enters breakout mode */
+@keyframes panel-grow {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

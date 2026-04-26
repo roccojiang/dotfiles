@@ -1,0 +1,73 @@
+/* Many CSS hacks sourced from: https://github.com/MrOtherGuy/firefox-csshacks/ */
+
+/* ========== EXTERNAL IMPORTS ========== */
+/* Imports must be placed at the top, I keep on forgetting whoops */
+/* Also, specific ordering matters in some cases */
+
+/* Rounded address bar and related UI elements */
+@import url("firefox-csshacks/chrome/rounded_menupopups.css");
+
+/* Floating address bar when focused */
+@import url("hacks/floating_centered_urlbar.css");
+
+/* Rounded webpage corners, like Floorp */
+@import url("hacks/rounded_pages_with_border.css");
+
+/* Find bar on top, instead of bottom */
+@import url("firefox-csshacks/chrome/floating_findbar_on_top.css");
+
+/* Hide native tabs strip */
+@import url("firefox-csshacks/chrome/hide_tabs_toolbar_v2.css");
+
+/* Centered text in address bar, but left-aligned when focused */
+@import url("firefox-csshacks/chrome/urlbar_centered_text.css");
+
+/* Bring the icons back in the Firefox menu */
+@import url("firefox-csshacks/chrome/iconized_main_menu.css");
+
+
+/* ========== FUNCTIONALITY ========== */
+
+/* Fix for hiding native tabs strip */
+/* Force window controls to show on macOS when tabs are hidden */
+/* Vibe-coded with Claude, I'm so surprised this works so well */
+@media (-moz-platform: macos) and (not -moz-pref("sidebar.verticalTabs")) {
+  /* Only apply when NOT customizing toolbar (to avoid jumping controls) */
+  #TabsToolbar:not([customizing]) ~ #nav-bar {
+    /* Show window controls container */
+    > .titlebar-buttonbox-container {
+      display: flex !important;
+    }
+
+    /* Show appropriate spacer based on window state */
+    :root[sizemode="normal"] & > .titlebar-spacer {
+      display: flex !important;
+    }
+
+    :root[sizemode="maximized"] & > .titlebar-spacer[type="pre-tabs"] {
+      display: flex !important;
+    }
+  }
+}
+
+/* ========== GENERAL APPEARANCE ========== */
+
+/* Increase the theme's default address bar font size slightly */
+#urlbar,
+#searchbar {
+    font-size: 1.35rem !important;
+}
+
+/* ========== SIDEBERY-RELATED ========== */
+#sidebar-header {
+    display: none;
+}
+
+#sidebar-box {
+    min-width: 285px !important;
+
+    /* Extra padding for the sidebar that Sidebery lives in, so that it's not right up against the leftmost edge of the window */
+    padding-left: 8px !important;
+    background-color: transparent !important;
+}
+
