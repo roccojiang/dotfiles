@@ -1,0 +1,15 @@
+""" See https://github.com/JetBrains/ideavim
+
+""" Map leader to space ---------------------
+let mapleader=" "
+
+""" Plugins  --------------------------------
+set anyobject
+set surround
+set which-key
+
+""" Common settings -------------------------
+set clipboard+=unnamedplus
+
+""" Mappings --------------------------------
+map <leader>r <Action>(RenameElement)
