@@ -54,10 +54,6 @@
 #urlbar-container {
   --urlbar-inner-border-radius: calc(var(--uc-menupopup-border-radius, 20px) - 1px) !important;
 }
-/* TEMPORARY FIX for bug I've filed: https://bugzilla.mozilla.org/show_bug.cgi?id=2008967 */
-.searchmode-switcher-chicklet {
-  border-start-end-radius: var(--urlbar-inner-border-radius) !important;
-}
 
 /* Smooth expansion animation when address bar enters breakout mode */
 @keyframes panel-grow {
