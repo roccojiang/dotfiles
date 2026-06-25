@@ -24,10 +24,8 @@ abbr vi nvim
 abbr g git
 
 # agent sandboxing
-abbr sclaude --set-cursor "nono run --profile claude --allow-cwd % -- claude --dangerously-skip-permissions"
-abbr srclaude --set-cursor "nono run --profile claude --read . % -- claude --dangerously-skip-permissions"
-abbr spi --set-cursor "nono run --profile pi --allow-cwd % -- pi"
-abbr srpi --set-cursor "nono run --profile pi --read . % -- pi"
+abbr sclaude --set-cursor "nono run --profile claude --allow-cwd %-- claude --dangerously-skip-permissions"
+abbr srclaude --set-cursor "nono run --profile claude --read . %-- claude --dangerously-skip-permissions"
 
 # dynamically generate abbreviations for all git aliases defined in ~/.config/git/config,
 # except for those defined in the below git_alias_exclusions list 

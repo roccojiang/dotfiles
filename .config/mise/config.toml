@@ -3,7 +3,6 @@ node = "lts"
 "npm:typescript" = "latest"
 "npm:eslint" = "latest"
 "npm:prettier" = "latest"
-"npm:@mariozechner/pi-coding-agent" = "latest"
 
 python = "latest"
 uv = "latest"
