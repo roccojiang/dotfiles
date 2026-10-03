@@ -4,15 +4,6 @@
 /* Imports must be placed at the top, I keep on forgetting whoops */
 /* Also, specific ordering matters in some cases */
 
-/* Rounded address bar and related UI elements */
-@import url("firefox-csshacks/chrome/rounded_menupopups.css");
-
-/* Floating address bar when focused */
-@import url("hacks/floating_centered_urlbar.css");
-
-/* Rounded webpage corners, like Floorp */
-@import url("hacks/rounded_pages_with_border.css");
-
 /* Find bar on top, instead of bottom */
 @import url("firefox-csshacks/chrome/floating_findbar_on_top.css");
 
@@ -24,7 +15,6 @@
 
 /* Bring the icons back in the Firefox menu */
 @import url("firefox-csshacks/chrome/iconized_main_menu.css");
-
 
 /* ========== FUNCTIONALITY ========== */
 
@@ -59,7 +49,7 @@
 }
 
 /* ========== SIDEBERY-RELATED ========== */
-#sidebar-header {
+#sidebar-panel-header {
     display: none;
 }
 
